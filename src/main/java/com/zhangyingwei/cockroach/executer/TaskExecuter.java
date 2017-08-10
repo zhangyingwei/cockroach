@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
-import com.zhangyingwei.cockroach.executer.task.ITask;
+import com.zhangyingwei.cockroach.http.HttpClient;
+import com.zhangyingwei.cockroach.store.IStore;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -8,17 +9,25 @@ import com.zhangyingwei.cockroach.executer.task.ITask;
 public class TaskExecuter implements Runnable {
 
     private TaskQueue queue;
+    private HttpClient httpClient;
+    private IStore store;
 
-    public TaskExecuter(TaskQueue queue) {
+    public TaskExecuter(TaskQueue queue, HttpClient httpClient,IStore store) {
         this.queue = queue;
+        this.httpClient = httpClient;
+        this.store = store;
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                ITask task = this.queue.pull();
+                Task task = this.queue.pull();
+                TaskResponse response = this.httpClient.doGet(task);
+                this.store.store(response);
             } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
