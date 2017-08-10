@@ -46,15 +46,17 @@ public class CockroachConfig {
         return httpClient;
     }
 
-    public void setHttpClient(HttpClient httpClient) {
+    public CockroachConfig setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
+        return this;
     }
 
     public IStore getStore() {
         return store;
     }
 
-    public void setStore(IStore store) {
+    public CockroachConfig setStore(IStore store) {
         this.store = store;
+        return this;
     }
 }

@@ -14,7 +14,6 @@ public class CockroachContext {
 
     private CockroachConfig config;
     private int thread = 5;
-    private TaskQueue queue;
 
     public CockroachContext(CockroachConfig config) {
         this.config = config;
@@ -25,11 +24,8 @@ public class CockroachContext {
         return this;
     }
 
-    public void setQueue(TaskQueue queue) {
-        this.queue = queue;
-    }
 
-    public void start(){
+    public void start(TaskQueue queue){
         ExecutorService service = Executors.newCachedThreadPool();
         this.thread = config.getThread() == 0 ? this.thread : config.getThread();
         for (int i = 0; i < thread; i++) {
