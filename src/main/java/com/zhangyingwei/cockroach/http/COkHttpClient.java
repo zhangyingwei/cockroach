@@ -5,6 +5,8 @@ import com.zhangyingwei.cockroach.executer.TaskResponse;
 import net.sf.json.JSONObject;
 import okhttp3.*;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.stream.Collectors;
 
 /**
@@ -14,7 +16,7 @@ public class COkHttpClient implements HttpClient {
     private OkHttpClient okHttpClient;
 
     public COkHttpClient() {
-        this.okHttpClient = new OkHttpClient();
+        this.okHttpClient = new OkHttpClient.Builder().build();
     }
 
     @Override
@@ -27,8 +29,12 @@ public class COkHttpClient implements HttpClient {
                 .headers(Headers.of(HttpParams.headers()))
                 .get()
                 .build();
-        System.out.println(task);
         Response response = this.okHttpClient.newCall(request).execute();
+        if(response.isSuccessful()){
+            System.out.println("INFO: 服务端错误");
+        } else if(response.isRedirect()){
+            System.out.println("INFO: 重定向");
+        }
         return TaskResponse.of(response.body().string(),task);
     }
 
@@ -44,6 +50,11 @@ public class COkHttpClient implements HttpClient {
                 .post(requestBody)
                 .build();
         Response response = this.okHttpClient.newCall(request).execute();
+        if(response.isSuccessful()){
+            System.out.println("INFO: 服务端错误");
+        } else if(response.isRedirect()){
+            System.out.println("INFO: 重定向");
+        }
         return TaskResponse.of(response.message(),task);
     }
 }

@@ -21,11 +21,23 @@ public class CockroachContextTest {
                 .setStore(new PrintStore());
         CockroachContext context = new CockroachContext(config);
         TaskQueue queue = new TaskQueue();
-        queue.push(new ArrayList<String>(){
-            {
-                add("http://zhangyingwei.com");
-            }
-        });
         context.start(queue);
+
+        new Thread(() -> {
+            while(true){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                queue.push(new ArrayList<String>(){
+                    {
+                        add("http://zhangyingwei.com");
+                    }
+                });
+            }
+        }).start();
+
+
     }
 }
