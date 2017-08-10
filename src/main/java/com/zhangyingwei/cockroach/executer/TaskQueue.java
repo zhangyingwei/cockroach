@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
 
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -19,6 +20,16 @@ public class TaskQueue {
 
     public void push(Task task) throws InterruptedException {
         this.queue.put(task);
+    }
+
+    public void push(List<String> urls) {
+        urls.stream().map(url -> new Task(url)).forEach(task -> {
+            try {
+                this.queue.put(task);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void clear(){
