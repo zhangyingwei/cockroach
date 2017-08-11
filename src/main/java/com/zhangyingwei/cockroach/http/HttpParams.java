@@ -11,9 +11,12 @@ public class HttpParams {
 
     private static Random random = new Random();
 
-    public static Map<String, String> headers() {
+    public static Map<String, String> headers(Map<String, String> httpHeader) {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("User-Agent", randouAgent());
+        if(httpHeader != null){
+            headers.putAll(httpHeader);
+        }
         return headers;
     }
 

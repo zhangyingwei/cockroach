@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import okhttp3.*;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,8 @@ public class COkHttpClient implements HttpClient {
 
     public COkHttpClient() {
         this.okHttpClient = new OkHttpClient.Builder().cookieJar(new CookieManager()).build();
+        this.httpHeader = new HashMap<String, String>();
+        this.httpHeader.put("cockroach", "hello-cockroach");
     }
 
     @Override
@@ -41,8 +44,7 @@ public class COkHttpClient implements HttpClient {
                 .collect(Collectors.toList()));
         Request request = new Request.Builder()
                 .url(String.format("%s?%s",task.getUrl(),""))
-                .headers(Headers.of(HttpParams.headers()))
-                .headers(Headers.of(this.httpHeader))
+                .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .get()
                 .build();
         Response response = this.okHttpClient.newCall(request).execute();
@@ -88,8 +90,7 @@ public class COkHttpClient implements HttpClient {
         );
         Request request = new Request.Builder()
                 .url(task.getUrl())
-                .headers(Headers.of(HttpParams.headers()))
-                .headers(Headers.of(this.httpHeader))
+                .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .post(requestBody)
                 .build();
         Response response = this.okHttpClient.newCall(request).execute();

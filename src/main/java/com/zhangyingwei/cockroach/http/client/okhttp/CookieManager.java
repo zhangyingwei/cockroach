@@ -30,10 +30,13 @@ public class CookieManager implements CookieJar {
 
     @Override
     public List<Cookie> loadForRequest(HttpUrl httpUrl) {
-        List<Cookie> list = Arrays.stream(this.cookie.split(";"))
-                .map(line -> line.split("="))
-                .filter(item -> item.length > 1)
-                .map(item -> new Cookie.Builder().name(item[0].trim()).value(item[1]).domain(httpUrl.host()).build()).collect(Collectors.toList());
+        List<Cookie> list = new ArrayList<Cookie>();
+        if (this.cookie != null) {
+            list = Arrays.stream(this.cookie.split(";"))
+                    .map(line -> line.split("="))
+                    .filter(item -> item.length > 1)
+                    .map(item -> new Cookie.Builder().name(item[0].trim()).value(item[1]).domain(httpUrl.host()).build()).collect(Collectors.toList());
+        }
         return Optional.ofNullable(cookies.get(httpUrl.host())).orElse(list);
     }
 }

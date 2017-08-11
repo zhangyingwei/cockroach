@@ -32,7 +32,7 @@ git install
 public static void main(String[] args){
     CockroachConfig config = new CockroachConfig()
                     .setAppName("我是一个小强")
-                    .setThread(2) //爬虫线程数
+                    .setThread(2); //爬虫线程数
     CockroachContext context = new CockroachContext(config);
     TaskQueue queue = new TaskQueue();
     context.start(queue);
