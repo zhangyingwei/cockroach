@@ -11,8 +11,10 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 ## 小巧
 
 > git clone https://github.com/zhangyingwei/cockroach.git
-cd cockroach
-git install
+
+> cd cockroach
+
+> git install
 
 然后新建一个 maven 项目，在 pom 文件中引入
 
