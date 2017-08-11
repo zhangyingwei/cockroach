@@ -103,7 +103,6 @@ CockroachConfig config = new CockroachConfig()
     .setAppName("我是一个小强")
     .setThread(2) //爬虫线程数
     .setHttpClient(SelfHttpClient.class)
-CockroachContext context = new CockroachContext(config);
 ```
 
 ### 自定义结果处理类
@@ -120,6 +119,16 @@ public class SelfStore implements IStore {
 ```
 
 这里简单的将结果打印了出来，在实际应用中，我们可以保存到数据库或者保存到文件中等等。值得一说的是，如果结果是 html 网页文本的话，我们还提供了 select("css选择器") 来对结果文本进行处理。
+
+应用自定义 store 客户端到爬虫
+
+```
+CockroachConfig config = new CockroachConfig()
+    .setAppName("我是一个小强")
+    .setThread(2) //爬虫线程数
+    .setHttpClient(SelfHttpClient.class)
+    .setStore(SelfStore.class);
+```
 
 ## 健壮 
 
