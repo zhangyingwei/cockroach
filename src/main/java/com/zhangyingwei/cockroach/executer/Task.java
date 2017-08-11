@@ -48,4 +48,11 @@ public class Task{
         this.selects.add(cssSelect);
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "url='" + url + '\'' +
+                '}';
+    }
 }

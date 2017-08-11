@@ -1,9 +1,19 @@
-# cockroach 爬虫
+package com.zhangyingwei.cockroach;
 
-## 实例
+import com.zhangyingwei.cockroach.config.CockroachConfig;
+import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.TaskQueue;
+import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
+import com.zhangyingwei.cockroach.store.IpStore;
 
-```
-CockroachConfig config = new CockroachConfig()
+import java.io.FileNotFoundException;
+
+/**
+ * Created by zhangyw on 2017/8/10.
+ */
+public class CockroachContextIPTest {
+    public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
+        CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
                 .setThread(2)
                 .setProxys("183.222.102.105,183.222.102.108,183.222.102.107,183.222.102.106,183.222.102.104,183.222.102.109")
@@ -30,4 +40,7 @@ CockroachConfig config = new CockroachConfig()
                 }
             }
         }).start();
-```
+
+
+    }
+}

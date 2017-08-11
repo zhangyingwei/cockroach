@@ -1,19 +1,23 @@
 package com.zhangyingwei.cockroach.config;
 
-import com.zhangyingwei.cockroach.http.HttpClient;
+import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.store.IStore;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zhangyw on 2017/8/10.
  */
 public class CockroachConfig {
+    public static final String APPNAME_KEY = "cockroach.app.name";
     private String appName;
-    private String proxys;
+    private String proxys = null;
     private int thread = 0;
-    private HttpClient httpClient;
-    private IStore store;
+    private Class<? extends HttpClient> httpClient;
+    private Class<? extends IStore> store;
+    private String cookie;
+    private Map<String, String> httpHeader;
 
     public String getProxys() {
         return proxys;
@@ -29,6 +33,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setAppName(String appName) {
+        System.setProperty(APPNAME_KEY, appName);
         this.appName = appName;
         return this;
     }
@@ -42,21 +47,42 @@ public class CockroachConfig {
         return this;
     }
 
-    public HttpClient getHttpClient() {
+    public Class<? extends HttpClient> getHttpClient() {
         return httpClient;
     }
 
-    public CockroachConfig setHttpClient(HttpClient httpClient) {
+    public CockroachConfig setHttpClient(Class<? extends HttpClient> httpClient) {
         this.httpClient = httpClient;
         return this;
     }
 
-    public IStore getStore() {
+    public Class<? extends IStore> getStore() {
         return store;
     }
 
-    public CockroachConfig setStore(IStore store) {
+    public CockroachConfig setStore(Class<? extends IStore> store) {
         this.store = store;
         return this;
+    }
+
+    public CockroachConfig setCookie(String cookid) {
+        this.cookie = cookid;
+        return this;
+    }
+
+    public String getCookie() {
+        return cookie;
+    }
+
+    public CockroachConfig addHttpHeader(String key, String value) {
+        if(this.httpHeader == null){
+            this.httpHeader = new HashMap<String, String>();
+        }
+        this.httpHeader.put(key, value);
+        return this;
+    }
+
+    public Map<String, String> getHttpHeader() {
+        return httpHeader;
     }
 }
