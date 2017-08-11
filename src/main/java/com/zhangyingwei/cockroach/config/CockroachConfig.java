@@ -1,7 +1,9 @@
 package com.zhangyingwei.cockroach.config;
 
 import com.zhangyingwei.cockroach.http.client.HttpClient;
+import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.store.IStore;
+import com.zhangyingwei.cockroach.store.PrintStore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +13,13 @@ import java.util.Map;
  */
 public class CockroachConfig {
     public static final String APPNAME_KEY = "cockroach.app.name";
+    private static final Class HTTPCLIENT_DEFAULT = COkHttpClient.class;
+    private static final Class STORE_DEFAULT = PrintStore.class;
     private String appName;
     private String proxys = null;
-    private int thread = 0;
-    private Class<? extends HttpClient> httpClient;
-    private Class<? extends IStore> store;
+    private int thread = 1;
+    private Class<? extends HttpClient> httpClient = HTTPCLIENT_DEFAULT;
+    private Class<? extends IStore> store = STORE_DEFAULT;
     private String cookie;
     private Map<String, String> httpHeader;
 
