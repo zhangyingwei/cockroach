@@ -26,7 +26,7 @@ git install
 
 在项目中新建一个测试类 App.java 并新建 main 方法。
 
-## 实例
+### 实例
 
 ```
 public static void main(String[] args){
