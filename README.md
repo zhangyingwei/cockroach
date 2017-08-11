@@ -8,7 +8,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 简单到什么程度呢，几句话就可以创建一个爬虫。
 
-## 快速开始
+## 小巧
 
 > git clone https://github.com/zhangyingwei/cockroach.git
 cd cockroach
@@ -58,10 +58,14 @@ public static void main(String[] args){
 }
 ```
 
+## 灵活
+
 那灵活又体现在什么方面呢
 
 * 我们可以自己定义 http 客户端
 * 我们可以自己定义结果的处理
+
+### 自定义 http 客户端
 
 首先我们尝试一下自定义客户端
 
@@ -102,3 +106,35 @@ CockroachConfig config = new CockroachConfig()
 CockroachContext context = new CockroachContext(config);
 ```
 
+### 自定义结果处理类
+
+自定义结果处理类
+
+```
+public class SelfStore implements IStore {
+    @Override
+    public void store(TaskResponse response) {
+        System.out.println(response.getContent());
+    }
+}
+```
+
+这里简单的将结果打印了出来，在实际应用中，我们可以保存到数据库或者保存到文件中等等。值得一说的是，如果结果是 html 网页文本的话，我们还提供了 select("css选择器") 来对结果文本进行处理。
+
+## 健壮 
+
+说到健壮，这里主要体现在应对反爬虫机制中最常见的封锁 ip 的手段。
+
+这里我们使用动态代理来解决这个问题。
+
+### 动态代理的使用
+
+```
+CockroachConfig config = new CockroachConfig()
+    .setAppName("我是一个小强")
+    .setThread(2) //爬虫线程数
+    .setHttpClient(SelfHttpClient.class)
+    .setProxys("100.100.100.100:8888,101.101.101.101:8888")
+```
+
+如上所示，我们可以设置若干个代理 ip，最终将所有代理 ip 生成一个代理池，在爬虫请求之前，我们会从代理池中随机抽取一个 ip 做代理。
