@@ -23,7 +23,7 @@ public class CockroachContextZhihuTest {
                 .addHttpHeader("authorization","")
                 .setStore(ZhihuStore.class);
         CockroachContext context = new CockroachContext(config);
-        TaskQueue queue = new TaskQueue();
+        TaskQueue queue = TaskQueue.of();
         context.start(queue);
 //        queue.push(new Task("https://www.zhihu.com/people/wmhsr/activities"));
         queue.push(new Task("https://www.zhihu.com/api/v4/members/wmhsr/followees",new HashMap(){

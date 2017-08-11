@@ -10,8 +10,21 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class TaskQueue {
     private ArrayBlockingQueue<Task> queue;
 
-    public TaskQueue() {
-        this.queue = new ArrayBlockingQueue(1024);
+    private static TaskQueue taskQueue;
+
+    public static TaskQueue of(){
+        return TaskQueue.of(1024);
+    }
+
+    public static TaskQueue of(int calacity){
+        if(taskQueue == null){
+            taskQueue = new TaskQueue(calacity);
+        }
+        return taskQueue;
+    }
+
+    private TaskQueue(int calacity) {
+        this.queue = new ArrayBlockingQueue<Task>(calacity);
     }
 
     public Task pull() throws InterruptedException {

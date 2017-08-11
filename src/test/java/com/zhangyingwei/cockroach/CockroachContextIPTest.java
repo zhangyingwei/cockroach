@@ -20,7 +20,7 @@ public class CockroachContextIPTest {
                 .setHttpClient(COkHttpClient.class)
                 .setStore(IpStore.class);
         CockroachContext context = new CockroachContext(config);
-        TaskQueue queue = new TaskQueue();
+        TaskQueue queue = TaskQueue.of();
         context.start(queue);
 
         new Thread(() -> {

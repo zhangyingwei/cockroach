@@ -20,7 +20,7 @@ public class CockroachContextTest {
 //                .setHttpClient(COkHttpClient.class)
 //                .setStore(NameStore.class);
         CockroachContext context = new CockroachContext(config);
-        TaskQueue queue = new TaskQueue();
+        TaskQueue queue = TaskQueue.of();
         queue.push(new Task("http://baidu.com"));
         context.start(queue);
 
