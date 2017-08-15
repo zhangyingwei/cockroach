@@ -15,7 +15,7 @@ public class CockroachContextIPTest {
     public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
-                .setThread(2)
+                .setThread(2,5000)
                 .setProxys("183.222.102.105,183.222.102.108,183.222.102.107,183.222.102.106,183.222.102.104,183.222.102.109")
                 .setHttpClient(COkHttpClient.class)
                 .setStore(IpStore.class);
@@ -28,7 +28,7 @@ public class CockroachContextIPTest {
             while(true){
                 i++;
                 try {
-                    Thread.sleep(1000);
+//                    Thread.sleep(1000);
                     String url = "http://www.xicidaili.com/wt/"+i;
                     System.out.println(url);
                     queue.push(new Task(url));

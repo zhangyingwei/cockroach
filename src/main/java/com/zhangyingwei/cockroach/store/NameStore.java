@@ -20,8 +20,7 @@ public class NameStore implements IStore {
 
     private String id = NameUtils.name(NameStore.class);
 
-    public NameStore() throws IOException {
-    }
+    public NameStore() throws IOException {}
 
     @Override
     public void store(TaskResponse response) throws IOException {

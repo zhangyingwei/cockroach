@@ -17,6 +17,7 @@ public class CockroachContext {
     private CockroachConfig config;
     private int thread = 5;
     private HttpProxy proxy = null;
+    private ExecutorService service = Executors.newCachedThreadPool();
 
     public CockroachContext(CockroachConfig config) {
         this.config = config;
@@ -27,13 +28,19 @@ public class CockroachContext {
         return this;
     }
 
-
     public void start(TaskQueue queue) throws IllegalAccessException, InstantiationException {
-        ExecutorService service = Executors.newCachedThreadPool();
         this.thread = config.getThread() == 0 ? this.thread : config.getThread();
         for (int i = 0; i < thread; i++) {
-            service.execute(new TaskExecuter(queue,this.bulidHttpClient(),this.config.getStore().newInstance()));
+            service.execute(new TaskExecuter(queue,this.bulidHttpClient(),this.config.getStore().newInstance(),this.config.getThreadSleep(),this.config.isAutoClose()));
         }
+        /**
+         * 不可以再继续 提交新的任务 已经提交的任务不影响
+         */
+        service.shutdown();
+    }
+
+    public void stop() {
+        service.shutdown();
     }
 
     private HttpClient bulidHttpClient() throws IllegalAccessException, InstantiationException {

@@ -18,10 +18,12 @@ public class CockroachConfig {
     private String appName;
     private String proxys = null;
     private int thread = 1;
+    private int threadSleep = 0;
     private Class<? extends HttpClient> httpClient = HTTPCLIENT_DEFAULT;
     private Class<? extends IStore> store = STORE_DEFAULT;
     private String cookie;
     private Map<String, String> httpHeader;
+    private boolean autoClose = false;
 
     public String getProxys() {
         return proxys;
@@ -29,6 +31,15 @@ public class CockroachConfig {
 
     public CockroachConfig setProxys(String proxys) {
         this.proxys = proxys;
+        return this;
+    }
+
+    public boolean isAutoClose() {
+        return autoClose;
+    }
+
+    public CockroachConfig setAutoClose(boolean autoClose) {
+        this.autoClose = autoClose;
         return this;
     }
 
@@ -49,6 +60,16 @@ public class CockroachConfig {
     public CockroachConfig setThread(int thread) {
         this.thread = thread;
         return this;
+    }
+
+    public CockroachConfig setThread(int thread, int sleep) {
+        this.thread = thread;
+        this.threadSleep = sleep;
+        return this;
+    }
+
+    public int getThreadSleep() {
+        return threadSleep;
     }
 
     public Class<? extends HttpClient> getHttpClient() {

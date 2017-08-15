@@ -8,6 +8,7 @@ import com.zhangyingwei.cockroach.executer.TaskResponse;
 public class PrintStore implements IStore {
     @Override
     public void store(TaskResponse response) {
-        System.out.println(response.getContent());
+//        System.out.println(response.getContent());
+        System.out.println("getContent");
     }
 }

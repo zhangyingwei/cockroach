@@ -75,4 +75,12 @@ public class TaskResponse {
     public Elements select(String cssSelect) {
         return this.parseDocument().select(cssSelect);
     }
+
+    public boolean isGroup(String group){
+        return task.getGroup().equals(group);
+    }
+
+    public String getGroup(){
+        return this.task.getGroup();
+    }
 }

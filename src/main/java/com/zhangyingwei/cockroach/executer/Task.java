@@ -1,12 +1,16 @@
 package com.zhangyingwei.cockroach.executer;
 
 
+import com.zhangyingwei.cockroach.utils.NameUtils;
+
 import java.util.*;
 
 /**
  * Created by zhangyw on 2017/8/10.
  */
 public class Task{
+    private String id = NameUtils.name(Task.class);
+    private String group = "default";
     private String url;
     private Map<String, Object> params;
     private List<String> selects;
@@ -14,6 +18,24 @@ public class Task{
     public Task(String url, Map<String, Object> params) {
         this.url = url;
         this.params = params;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public Task setGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Task setId(String Id) {
+        this.id = id;
+        return this;
     }
 
     public Task(String url) {

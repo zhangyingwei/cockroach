@@ -16,6 +16,7 @@ public class CockroachContextTest {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
                 .setThread(2);
+//                .setAutoClose(true);
 //                .setProxys("121.232.145.21:9000")
 //                .setHttpClient(COkHttpClient.class)
 //                .setStore(NameStore.class);

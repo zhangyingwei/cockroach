@@ -27,7 +27,11 @@ public class TaskQueue {
         this.queue = new ArrayBlockingQueue<Task>(calacity);
     }
 
-    public Task pull() throws InterruptedException {
+    public Task poll() throws InterruptedException {
+        return this.queue.poll();
+    }
+
+    public Task take() throws InterruptedException {
         return this.queue.take();
     }
 
@@ -48,5 +52,4 @@ public class TaskQueue {
     public void clear(){
         this.queue.clear();
     }
-
 }

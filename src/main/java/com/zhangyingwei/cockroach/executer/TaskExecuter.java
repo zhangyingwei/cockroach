@@ -4,6 +4,8 @@ import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.utils.NameUtils;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by zhangyw on 2017/8/10.
  */
@@ -12,19 +14,34 @@ public class TaskExecuter implements Runnable {
     private HttpClient httpClient;
     private IStore store;
     private String id;
+    private boolean autoClose;
+    private int sleep;
 
-    public TaskExecuter(TaskQueue queue, HttpClient httpClient,IStore store) {
+    public TaskExecuter(TaskQueue queue, HttpClient httpClient,IStore store,int sleep,boolean autoClose) {
         this.queue = queue;
         this.httpClient = httpClient;
         this.store = store;
         this.id = NameUtils.name(TaskExecuter.class);
+        this.autoClose = autoClose;
+        this.sleep = sleep;
     }
 
     @Override
     public void run() {
-        while (true) {
+        boolean flag = true;
+        loop:while (flag) {
             try {
-                Task task = this.queue.pull();
+                Task task = null;
+                if(autoClose){
+                    task = this.queue.poll();
+                    if(task == null){
+                        flag = false;
+                        break loop;
+                    }
+                }else{
+                    task = this.queue.take();
+                }
+                TimeUnit.MILLISECONDS.sleep(sleep);
                 TaskResponse response = this.httpClient.proxy().doGet(task);
                 this.store.store(response);
             } catch (InterruptedException e) {
@@ -33,5 +50,6 @@ public class TaskExecuter implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println(id+" : 结束");
     }
 }

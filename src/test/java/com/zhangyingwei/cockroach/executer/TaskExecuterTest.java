@@ -12,12 +12,12 @@ import java.util.concurrent.Executors;
 public class TaskExecuterTest {
 
     public static void main(String[] args) throws InterruptedException {
-        TaskQueue queue = new TaskQueue();
+        TaskQueue queue = TaskQueue.of();
 //        queue.push(new Task("http://zhangyingwei.com"));
 //        queue.push(new Task("http://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl/1.9.13"));
         ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new PrintStore()));
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new PrintStore()));
+        service.execute(new TaskExecuter(queue,new COkHttpClient(),new PrintStore(),0,true));
+        service.execute(new TaskExecuter(queue,new COkHttpClient(),new PrintStore(),0,true));
         service.execute(() -> {
             while(true){
                 try {
