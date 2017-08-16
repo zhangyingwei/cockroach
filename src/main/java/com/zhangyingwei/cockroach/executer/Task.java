@@ -74,7 +74,9 @@ public class Task{
     @Override
     public String toString() {
         return "Task{" +
-                "url='" + url + '\'' +
+                "id='" + id + '\'' +
+                ", group='" + group + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

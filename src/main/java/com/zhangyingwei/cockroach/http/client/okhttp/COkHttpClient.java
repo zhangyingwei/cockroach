@@ -6,8 +6,11 @@ import com.zhangyingwei.cockroach.http.HttpParams;
 import com.zhangyingwei.cockroach.http.HttpProxy;
 import com.zhangyingwei.cockroach.http.ProxyTuple;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
+import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import net.sf.json.JSONObject;
 import okhttp3.*;
+
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.HashMap;
@@ -24,6 +27,7 @@ public class COkHttpClient implements HttpClient {
     private Integer reTryTime = 5;
     private String cookie;
     private Map<String, String> httpHeader;
+    private ITaskErrorHandler taskErrorHandler;
 
     public COkHttpClient() {
         this.okHttpClient = new OkHttpClient.Builder().cookieJar(new CookieManager()).build();
@@ -38,7 +42,7 @@ public class COkHttpClient implements HttpClient {
     }
 
     @Override
-    public TaskResponse doGet(Task task) throws Exception {
+    public TaskResponse doGet(Task task) {
         String params = String.join("&", task.getParams().entrySet().stream()
                 .map(entity -> entity.getKey() + "=" + entity.getValue())
                 .collect(Collectors.toList()));
@@ -47,22 +51,37 @@ public class COkHttpClient implements HttpClient {
                 .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .get()
                 .build();
-        Response response = this.okHttpClient.newCall(request).execute();
-        if(!response.isSuccessful()){
-            System.out.println("INFO: 服务端错误 - "+response.body().string());
-            reTryTime--;
-            if (reTryTime > 0) {
-                System.out.println("INFO: resty - " +task);
-                if(this.proxy != null){
-                    this.proxy.disable(this.proxyTuple);
-                    this.proxy();
+        Response response = null;
+        try {
+            response = this.okHttpClient.newCall(request).execute();
+            if(!response.isSuccessful()){
+                int code = response.code();
+                System.out.println("ERROR: server error - "+code);
+                if (code != 404) {
+                    reTryTime--;
+                    if (reTryTime > 0) {
+                        System.out.println("INFO: resty - " + task);
+                        if (this.proxy != null) {
+                            this.proxy.disable(this.proxyTuple);
+                            this.proxy();
+                        }
+                        return this.doGet(task);
+                    }else{
+                        this.taskErrorHandler.error(task,"ERROR: server error - "+code+" - "+response.body().string());
+                    }
+                } else {
+                    this.taskErrorHandler.error(task, "INFO: resources is not found - " + code);
+                    System.out.println("INFO: resources is not found - " +code);
                 }
-                return this.doGet(task);
+            } else if(response.isRedirect()){
+                System.out.println("INFO: redirect");
+                this.taskErrorHandler.error(task,"INFO: redirect");
             }
-        } else if(response.isRedirect()){
-            System.out.println("INFO: 重定向");
+            return TaskResponse.of(response.body().string(), task);
+        } catch (IOException e) {
+            this.taskErrorHandler.error(task,e.getMessage());
         }
-        return TaskResponse.of(response.body().string(),task);
+        return TaskResponse.empty().setTask(task);
     }
 
     @Override
@@ -112,6 +131,12 @@ public class COkHttpClient implements HttpClient {
     @Override
     public HttpClient setHttpHeader(Map<String, String> httpHeader) {
         this.httpHeader = httpHeader;
+        return this;
+    }
+
+    @Override
+    public HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler) {
+        this.taskErrorHandler = taskErrorHandler;
         return this;
     }
 }

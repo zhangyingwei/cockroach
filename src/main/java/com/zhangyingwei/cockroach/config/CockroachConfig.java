@@ -2,11 +2,14 @@ package com.zhangyingwei.cockroach.config;
 
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
+import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
+import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -24,6 +27,7 @@ public class CockroachConfig {
     private String cookie;
     private Map<String, String> httpHeader;
     private boolean autoClose = false;
+    private Class<? extends ITaskErrorHandler> taskErrorHandler;
 
     public String getProxys() {
         return proxys;
@@ -109,5 +113,27 @@ public class CockroachConfig {
 
     public Map<String, String> getHttpHeader() {
         return httpHeader;
+    }
+
+    public Class<? extends ITaskErrorHandler> getTaskErrorHandler() {
+        return Optional.<Class>ofNullable(taskErrorHandler).orElse(DefaultTaskErrorHandler.class);
+    }
+
+    public CockroachConfig setTaskErrorHandler(Class<? extends ITaskErrorHandler> taskErrorHandler) {
+        this.taskErrorHandler = taskErrorHandler;
+        return this;
+    }
+
+    public void print() {
+        System.out.println("INFO: AppName: "+this.getAppName());
+        System.out.println("INFO: Proxys: "+this.getProxys());
+        System.out.println("INFO: Threads: "+this.getThread());
+        System.out.println("INFO: ThreadSleep: "+this.getThreadSleep());
+        System.out.println("INFO: HttpClient: "+this.getHttpClient());
+        System.out.println("INFO: Store: "+this.getStore());
+        System.out.println("INFO: Cookie: "+this.getCookie());
+        System.out.println("INFO: HttpHeaders: "+this.getHttpHeader());
+        System.out.println("INFO: AutoClose: "+this.autoClose);
+        System.out.println("INFO: TaskErrorHandler: "+this.getTaskErrorHandler());
     }
 }

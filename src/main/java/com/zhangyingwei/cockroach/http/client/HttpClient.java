@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach.http.client;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
+import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 
 import java.util.Map;
 
@@ -21,4 +22,6 @@ public interface HttpClient {
     HttpClient setCookie(String cookie);
 
     HttpClient setHttpHeader(Map<String, String> httpHeader);
+
+    HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler);
 }

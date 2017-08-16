@@ -42,6 +42,7 @@ public class TaskExecuter implements Runnable {
                     task = this.queue.take();
                 }
                 TimeUnit.MILLISECONDS.sleep(sleep);
+                System.out.println("INFO: "+this.id+" GET - "+task);
                 TaskResponse response = this.httpClient.proxy().doGet(task);
                 this.store.store(response);
             } catch (InterruptedException e) {
@@ -51,5 +52,9 @@ public class TaskExecuter implements Runnable {
             }
         }
         System.out.println(id+" : 结束");
+    }
+
+    public String getId() {
+        return id;
     }
 }
