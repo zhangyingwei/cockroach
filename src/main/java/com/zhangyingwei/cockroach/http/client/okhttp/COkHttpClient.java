@@ -42,7 +42,7 @@ public class COkHttpClient implements HttpClient {
     }
 
     @Override
-    public TaskResponse doGet(Task task) {
+    public TaskResponse doGet(Task task) throws Exception {
         String params = String.join("&", task.getParams().entrySet().stream()
                 .map(entity -> entity.getKey() + "=" + entity.getValue())
                 .collect(Collectors.toList()));
@@ -52,36 +52,27 @@ public class COkHttpClient implements HttpClient {
                 .get()
                 .build();
         Response response = null;
-        try {
-            response = this.okHttpClient.newCall(request).execute();
-            if(!response.isSuccessful()){
-                int code = response.code();
-                System.out.println("ERROR: server error - "+code);
-                if (code != 404) {
-                    reTryTime--;
-                    if (reTryTime > 0) {
-                        System.out.println("INFO: resty - " + task);
-                        if (this.proxy != null) {
-                            this.proxy.disable(this.proxyTuple);
-                            this.proxy();
-                        }
-                        return this.doGet(task);
-                    }else{
-                        this.taskErrorHandler.error(task,"ERROR: server error - "+code+" - "+response.body().string());
+        response = this.okHttpClient.newCall(request).execute();
+        if(!response.isSuccessful()){
+            int code = response.code();
+            System.out.println("ERROR: server error - " + code + " - "+ task);
+            if (code != 404) {
+                if (reTryTime-- > 0) {
+                    System.out.println("INFO: resty - " + task);
+                    if (this.proxy != null) {
+                        this.proxy.disable(this.proxyTuple);
+                        this.proxy();
                     }
-                } else {
-                    this.taskErrorHandler.error(task, "INFO: resources is not found - " + code);
-                    System.out.println("INFO: resources is not found - " +code);
+                    return this.doGet(task);
                 }
-            } else if(response.isRedirect()){
-                System.out.println("INFO: redirect");
-                this.taskErrorHandler.error(task,"INFO: redirect");
+            } else {
+                this.taskErrorHandler.error(task, "INFO: resources is not found - " + code);
             }
-            return TaskResponse.of(response.body().string(), task);
-        } catch (IOException e) {
-            this.taskErrorHandler.error(task,e.getMessage());
+        } else if(response.isRedirect()){
+            System.out.println("INFO: redirect - "+task);
+            this.taskErrorHandler.error(task,"INFO: redirect");
         }
-        return TaskResponse.empty().setTask(task);
+        return TaskResponse.of(response.body().string(), task);
     }
 
     @Override

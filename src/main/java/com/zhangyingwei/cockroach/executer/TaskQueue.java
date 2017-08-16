@@ -18,7 +18,11 @@ public class TaskQueue {
 
     public static TaskQueue of(int calacity){
         if(taskQueue == null){
-            taskQueue = new TaskQueue(calacity);
+            synchronized (TaskQueue.class){
+                if(taskQueue == null){
+                    taskQueue = new TaskQueue(calacity);
+                }
+            }
         }
         return taskQueue;
     }
@@ -28,28 +32,46 @@ public class TaskQueue {
     }
 
     public Task poll() throws InterruptedException {
-        return this.queue.poll();
+        synchronized (TaskQueue.class){
+            return this.queue.poll();
+        }
     }
 
     public Task take() throws InterruptedException {
-        return this.queue.take();
+        synchronized (TaskQueue.class){
+            return this.queue.take();
+        }
     }
 
     public void push(Task task) throws InterruptedException {
-        this.queue.put(task);
+        synchronized (TaskQueue.class){
+            this.queue.put(task);
+        }
+    }
+
+    public void pushAll(List<Task> tasks) throws InterruptedException {
+        synchronized (TaskQueue.class) {
+            for (Task task : tasks) {
+                this.queue.put(task);
+            }
+        }
     }
 
     public void push(List<String> urls) {
-        urls.stream().map(url -> new Task(url)).forEach(task -> {
-            try {
-                this.queue.put(task);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+        synchronized (TaskQueue.class){
+            urls.stream().map(url -> new Task(url)).forEach(task -> {
+                try {
+                    this.queue.put(task);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     public void clear(){
-        this.queue.clear();
+        synchronized (TaskQueue.class){
+            this.queue.clear();
+        }
     }
 }

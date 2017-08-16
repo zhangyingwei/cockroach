@@ -42,6 +42,11 @@ public class Task{
         this.url = url;
     }
 
+    public Task(String url,String group){
+        this.url = url;
+        this.group = group;
+    }
+
     public String getUrl() {
         return url;
     }

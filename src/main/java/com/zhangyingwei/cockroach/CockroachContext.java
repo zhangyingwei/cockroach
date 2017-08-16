@@ -5,6 +5,7 @@ import com.zhangyingwei.cockroach.executer.TaskExecuter;
 import com.zhangyingwei.cockroach.executer.TaskQueue;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.HttpProxy;
+import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -57,6 +58,6 @@ public class CockroachContext {
         client.setCookie(this.config.getCookie());
         client.setHttpHeader(this.config.getHttpHeader());
         client.setTaskErrorHandler(this.config.getTaskErrorHandler().newInstance());
-        return client;
+        return new HttpClientProxy(client);
     }
 }
