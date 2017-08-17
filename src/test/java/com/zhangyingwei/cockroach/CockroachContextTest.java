@@ -5,6 +5,7 @@ import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.TaskQueue;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.store.NameStore;
+import com.zhangyingwei.cockroach.store.PrintStore;
 
 import java.io.FileNotFoundException;
 
@@ -15,11 +16,11 @@ public class CockroachContextTest {
     public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
-                .setThread(2);
-//                .setAutoClose(true);
+                .setThread(2)
+                .setAutoClose(true)
 //                .setProxys("121.232.145.21:9000")
 //                .setHttpClient(COkHttpClient.class)
-//                .setStore(NameStore.class);
+                .setStore(PrintStore.class);
         CockroachContext context = new CockroachContext(config);
         TaskQueue queue = TaskQueue.of();
         queue.push(new Task("http://baidu.com"));

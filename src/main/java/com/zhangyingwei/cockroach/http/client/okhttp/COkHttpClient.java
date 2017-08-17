@@ -5,12 +5,11 @@ import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpParams;
 import com.zhangyingwei.cockroach.http.HttpProxy;
 import com.zhangyingwei.cockroach.http.ProxyTuple;
+import com.zhangyingwei.cockroach.http.client.AbsHttpClient;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import net.sf.json.JSONObject;
 import okhttp3.*;
-
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.HashMap;
@@ -20,25 +19,12 @@ import java.util.stream.Collectors;
 /**
  * Created by zhangyw on 2017/8/10.
  */
-public class COkHttpClient implements HttpClient {
+public class COkHttpClient extends AbsHttpClient {
     private OkHttpClient okHttpClient;
-    private HttpProxy proxy;
-    private ProxyTuple proxyTuple;
-    private Integer reTryTime = 5;
-    private String cookie;
-    private Map<String, String> httpHeader;
-    private ITaskErrorHandler taskErrorHandler;
 
     public COkHttpClient() {
         this.okHttpClient = new OkHttpClient.Builder().cookieJar(new CookieManager()).build();
-        this.httpHeader = new HashMap<String, String>();
         this.httpHeader.put("cockroach", "hello-cockroach");
-    }
-
-    @Override
-    public HttpClient setProxy(HttpProxy proxy) {
-        this.proxy = proxy;
-        return this;
     }
 
     @Override
@@ -51,28 +37,8 @@ public class COkHttpClient implements HttpClient {
                 .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .get()
                 .build();
-        Response response = null;
-        response = this.okHttpClient.newCall(request).execute();
-        if(!response.isSuccessful()){
-            int code = response.code();
-            System.out.println("ERROR: server error - " + code + " - "+ task);
-            if (code != 404) {
-                if (reTryTime-- > 0) {
-                    System.out.println("INFO: resty - " + task);
-                    if (this.proxy != null) {
-                        this.proxy.disable(this.proxyTuple);
-                        this.proxy();
-                    }
-                    return this.doGet(task);
-                }
-            } else {
-                this.taskErrorHandler.error(task, "INFO: resources is not found - " + code);
-            }
-        } else if(response.isRedirect()){
-            System.out.println("INFO: redirect - "+task);
-            this.taskErrorHandler.error(task,"INFO: redirect");
-        }
-        return TaskResponse.of(response.body().string(), task);
+        Response response = this.okHttpClient.newCall(request).execute();
+        return TaskResponse.of(response, task);
     }
 
     @Override
@@ -104,30 +70,13 @@ public class COkHttpClient implements HttpClient {
                 .post(requestBody)
                 .build();
         Response response = this.okHttpClient.newCall(request).execute();
-        if(response.isSuccessful()){
-            System.out.println("INFO: 服务端错误");
-        } else if(response.isRedirect()){
-            System.out.println("INFO: 重定向");
-        }
-        return TaskResponse.of(response.message(),task);
+        return TaskResponse.of(response,task);
     }
 
     @Override
     public HttpClient setCookie(String cookie) {
         this.cookie = cookie;
         this.okHttpClient = new OkHttpClient.Builder().cookieJar(new CookieManager(this.cookie)).build();
-        return this;
-    }
-
-    @Override
-    public HttpClient setHttpHeader(Map<String, String> httpHeader) {
-        this.httpHeader = httpHeader;
-        return this;
-    }
-
-    @Override
-    public HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler) {
-        this.taskErrorHandler = taskErrorHandler;
         return this;
     }
 }

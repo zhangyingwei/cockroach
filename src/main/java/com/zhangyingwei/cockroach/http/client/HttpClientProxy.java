@@ -3,6 +3,11 @@ package com.zhangyingwei.cockroach.http.client;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
+import com.zhangyingwei.cockroach.http.ProxyTuple;
+import com.zhangyingwei.cockroach.http.exception.Http30XException;
+import com.zhangyingwei.cockroach.http.exception.Http40XException;
+import com.zhangyingwei.cockroach.http.exception.Http50XException;
+import com.zhangyingwei.cockroach.http.exception.HttpException;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 
 import java.util.Map;
@@ -17,6 +22,7 @@ public class HttpClientProxy implements HttpClient {
 
     private HttpClient client;
     private ITaskErrorHandler taskErrorhandler;
+    private HttpProxy proxy;
 
     public HttpClientProxy(HttpClient client) {
         this.client = client;
@@ -24,7 +30,9 @@ public class HttpClientProxy implements HttpClient {
 
     @Override
     public HttpClient setProxy(HttpProxy proxy) {
-        return this.client.setProxy(proxy);
+        this.proxy = proxy;
+        this.client.setProxy(proxy);
+        return this;
     }
 
     @Override
@@ -32,15 +40,31 @@ public class HttpClientProxy implements HttpClient {
         try {
             return this.client.doGet(task);
         } catch (Exception e) {
-            this.taskErrorhandler.error(task, e.getMessage());
-            System.out.println("ERROR: "+task + " - " +e.getMessage());
+            String message = "";
+            if (e instanceof HttpException) {
+                if(e instanceof Http40XException){
+                    message = "resources not found";
+                }else if(e instanceof Http50XException){
+                    message = "server error";
+                }else if(e instanceof Http30XException){
+                    message = "resources redirect:" + e.getMessage();
+                }
+            } else {
+                if (this.proxy != null) {
+                    this.proxy.disable(this.getCurrentProxyTuple());
+                }
+                message = e.getMessage();
+            }
+            System.out.println("ERROR: " + task + " - " + message);
+//            this.taskErrorhandler.error(task, e.getMessage());
         }
         return TaskResponse.empty().setTask(task);
     }
 
     @Override
     public HttpClient proxy() {
-        return this.client.proxy();
+        this.client.proxy();
+        return this;
     }
 
     @Override
@@ -56,17 +80,25 @@ public class HttpClientProxy implements HttpClient {
 
     @Override
     public HttpClient setCookie(String cookie) {
-        return this.client.setCookie(cookie);
+        this.client.setCookie(cookie);
+        return this;
     }
 
     @Override
     public HttpClient setHttpHeader(Map<String, String> httpHeader) {
-        return this.client.setHttpHeader(httpHeader);
+        this.client.setHttpHeader(httpHeader);
+        return this;
     }
 
     @Override
     public HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler) {
         this.taskErrorhandler = taskErrorHandler;
-        return this.client.setTaskErrorHandler(taskErrorHandler);
+        this.client.setTaskErrorHandler(taskErrorHandler);
+        return this;
+    }
+
+    @Override
+    public ProxyTuple getCurrentProxyTuple() {
+        return this.client.getCurrentProxyTuple();
     }
 }

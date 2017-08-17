@@ -45,10 +45,8 @@ public class TaskExecuter implements Runnable {
                 System.out.println("INFO: "+this.id+" GET - "+task);
                 TaskResponse response = this.httpClient.proxy().doGet(task);
                 this.store.store(response);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("INFO: " + e.getLocalizedMessage());
             }
         }
         System.out.println(id+" : 结束");

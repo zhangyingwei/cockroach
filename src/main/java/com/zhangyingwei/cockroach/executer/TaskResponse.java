@@ -1,9 +1,12 @@
 package com.zhangyingwei.cockroach.executer;
 
+import com.zhangyingwei.cockroach.http.exception.*;
+import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -59,8 +62,50 @@ public class TaskResponse {
         return new TaskResponse();
     }
 
-    public static TaskResponse of(String content, Task task){
-        return new TaskResponse().setContent(content).setSelects(task.getSelects()).setTask(task);
+    public static TaskResponse of(Response response, Task task) throws HttpException, IOException {
+        int code = response.code();
+        String location = response.header("Location");
+        switch (code){
+            case 200:
+                String content = response.body().string();
+                return new TaskResponse().setContent(content).setSelects(task.getSelects()).setTask(task);
+            case 300:
+                throw new Http300Exception(location);
+            case 301:
+                throw new Http301Exception(location);
+            case 302:
+                throw new Http302Exception(location);
+            case 400:
+                throw new Http400Exception();
+            case 401:
+                throw new Http401Exception();
+            case 403:
+                throw new Http403Exception();
+            case 404:
+                throw new Http404Exception();
+            case 405:
+                throw new Http405Exception();
+            case 406:
+                throw new Http406Exception();
+            case 407:
+                throw new Http407Exception();
+            case 408:
+                throw new Http408Exception();
+            case 500:
+                throw new Http500Exception();
+            case 501:
+                throw new Http501Exception();
+            case 502:
+                throw new Http502Exception();
+            case 503:
+                throw new Http503Exception();
+            case 504:
+                throw new Http504Exception();
+            case 505:
+                throw new Http505Exception();
+            default:
+                throw new HttpException(code+"");
+        }
     }
 
     public Map<String,Elements> select(){

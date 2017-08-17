@@ -19,8 +19,8 @@ public class CockroachContextZhihuTest {
                 .setAppName("haha")
                 .setThread(1)
                 .setHttpClient(COkHttpClient.class)
-                .setCookie(cookie)
-                .addHttpHeader("authorization","")
+//                .setCookie(cookie)
+//                .addHttpHeader("authorization","")
                 .setStore(ZhihuStore.class);
         CockroachContext context = new CockroachContext(config);
         TaskQueue queue = TaskQueue.of();

@@ -49,6 +49,7 @@ public class CockroachContext {
         service.shutdown();
     }
 
+
     private HttpClient bulidHttpClient() throws IllegalAccessException, InstantiationException {
         System.out.println("INFO: bulid httpclient");
         if(this.config.getProxys() != null && this.proxy ==null){
