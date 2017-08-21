@@ -14,6 +14,7 @@ public class Task{
     private String url;
     private Map<String, Object> params;
     private List<String> selects;
+    private Object extr;
 
     public Task(String url, Map<String, Object> params) {
         this.url = url;
@@ -73,6 +74,15 @@ public class Task{
     public Task addSelect(String cssSelect){
         this.selects = Optional.ofNullable(this.selects).orElse(new ArrayList<String>());
         this.selects.add(cssSelect);
+        return this;
+    }
+
+    public Object getExtr() {
+        return extr;
+    }
+
+    public Task setExtr(Object extr) {
+        this.extr = extr;
         return this;
     }
 
