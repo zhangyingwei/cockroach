@@ -9,7 +9,7 @@ import com.zhangyingwei.cockroach.http.exception.Http40XException;
 import com.zhangyingwei.cockroach.http.exception.Http50XException;
 import com.zhangyingwei.cockroach.http.exception.HttpException;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
-
+import org.apache.log4j.Logger;
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ import java.util.Map;
  * @desc:
  */
 public class HttpClientProxy implements HttpClient {
-
+    private Logger logger = Logger.getLogger(HttpClientProxy.class);
     private HttpClient client;
     private ITaskErrorHandler taskErrorhandler;
     private HttpProxy proxy;
@@ -55,15 +55,17 @@ public class HttpClientProxy implements HttpClient {
                 }
                 message = e.getMessage();
             }
-            System.out.println("ERROR: " + task + " - " + message);
-//            this.taskErrorhandler.error(task, e.getMessage());
+            logger.error(task + " - " + message);
+            this.taskErrorhandler.error(task, message);
         }
         return TaskResponse.empty().setTask(task);
     }
 
     @Override
     public HttpClient proxy() {
-        this.client.proxy();
+        if(this.proxy != null && !this.proxy.isEmpty()){
+            this.client.proxy();
+        }
         return this;
     }
 
@@ -90,10 +92,8 @@ public class HttpClientProxy implements HttpClient {
         return this;
     }
 
-    @Override
     public HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler) {
         this.taskErrorhandler = taskErrorHandler;
-        this.client.setTaskErrorHandler(taskErrorHandler);
         return this;
     }
 

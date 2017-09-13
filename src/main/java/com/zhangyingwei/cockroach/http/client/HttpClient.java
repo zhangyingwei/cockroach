@@ -24,7 +24,5 @@ public interface HttpClient {
 
     HttpClient setHttpHeader(Map<String, String> httpHeader);
 
-    HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler);
-
     ProxyTuple getCurrentProxyTuple();
 }

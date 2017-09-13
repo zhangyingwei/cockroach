@@ -1,15 +1,18 @@
 package com.zhangyingwei.cockroach.executer;
 
 
+import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Created by zhangyw on 2017/8/10.
+ * 消息队列
  */
-public class TaskQueue {
-    private ArrayBlockingQueue<Task> queue;
+public class TaskQueue implements CockroachQueue {
+    private Logger logger = Logger.getLogger(TaskQueue.class);
 
+    private ArrayBlockingQueue<Task> queue;
     private static TaskQueue taskQueue;
 
     public static TaskQueue of(){
@@ -29,49 +32,52 @@ public class TaskQueue {
 
     private TaskQueue(int calacity) {
         this.queue = new ArrayBlockingQueue<Task>(calacity);
+        logger.info("create queue whith calacity " + calacity);
     }
 
+    @Override
     public Task poll() throws InterruptedException {
-        synchronized (TaskQueue.class){
-            return this.queue.poll();
-        }
+        Task task = this.queue.poll();
+        logger.info(Thread.currentThread().getName() + " pull task " + task);
+        return task;
     }
 
+    @Override
     public Task take() throws InterruptedException {
-        synchronized (TaskQueue.class){
-            return this.queue.take();
-        }
+        Task task = this.queue.take();
+        logger.info(Thread.currentThread().getName() + " take task " + task);
+        return task;
     }
 
+    @Override
     public void push(Task task) throws InterruptedException {
-        synchronized (TaskQueue.class){
+        this.queue.put(task);
+        logger.info(Thread.currentThread().getName() + " put task " + task);
+    }
+
+    @Override
+    public void pushAll(List<Task> tasks) throws InterruptedException {
+        for (Task task : tasks) {
             this.queue.put(task);
         }
+        logger.info(Thread.currentThread().getName() + " put task list " + tasks.size());
     }
 
-    public void pushAll(List<Task> tasks) throws InterruptedException {
-        synchronized (TaskQueue.class) {
-            for (Task task : tasks) {
-                this.queue.put(task);
-            }
-        }
-    }
-
+    @Override
     public void push(List<String> urls) {
-        synchronized (TaskQueue.class){
-            urls.stream().map(url -> new Task(url)).forEach(task -> {
-                try {
-                    this.queue.put(task);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+        urls.stream().map(url -> new Task(url)).forEach(task -> {
+            try {
+                this.queue.put(task);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        logger.info(Thread.currentThread().getName() + " put urls list " + urls.size());
     }
 
+    @Override
     public void clear(){
-        synchronized (TaskQueue.class){
-            this.queue.clear();
-        }
+        this.queue.clear();
+        logger.info(Thread.currentThread().getName() + " clear queue");
     }
 }

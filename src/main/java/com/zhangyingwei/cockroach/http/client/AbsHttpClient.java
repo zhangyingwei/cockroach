@@ -51,12 +51,6 @@ public abstract class AbsHttpClient implements HttpClient{
     }
 
     @Override
-    public HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler) {
-        this.taskErrorHandler = taskErrorHandler;
-        return this;
-    }
-
-    @Override
     public ProxyTuple getCurrentProxyTuple() {
         return proxyTuple;
     }

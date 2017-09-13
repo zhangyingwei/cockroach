@@ -6,16 +6,23 @@ import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 /**
  * Created by zhangyw on 2017/8/10.
+ * cockroach 爬虫 配置类，主要配置有
+ * 应用名 http客户端 结果处理类 代理 线程数 任务处理完毕线程操作（等待/结束） cookie httpheader 任务失败处理逻辑
  */
 public class CockroachConfig {
-    public static final String APPNAME_KEY = "cockroach.app.name";
+    private Logger logger = Logger.getLogger(CockroachConfig.class);
     private static final Class HTTPCLIENT_DEFAULT = COkHttpClient.class;
     private static final Class STORE_DEFAULT = PrintStore.class;
     private String appName;
@@ -28,6 +35,15 @@ public class CockroachConfig {
     private Map<String, String> httpHeader;
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
+
+    static {
+        if(true){
+            Logger logger = Logger.getRootLogger();
+            System.err.println("log4j.properties is not found , use default log4j config");
+            logger.setLevel(Level.DEBUG);
+            logger.addAppender(new ConsoleAppender(new PatternLayout("[%-5p][%-20d{yyyy/MM/dd HH:mm:ss}] %m%n")));
+        }
+    }
 
     public String getProxys() {
         return proxys;
@@ -52,7 +68,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setAppName(String appName) {
-        System.setProperty(APPNAME_KEY, appName);
+        System.setProperty(Constants.APP_NAME_KEY, appName);
         this.appName = appName;
         return this;
     }
@@ -125,15 +141,15 @@ public class CockroachConfig {
     }
 
     public void print() {
-        System.out.println("INFO: AppName: "+this.getAppName());
-        System.out.println("INFO: Proxys: "+this.getProxys());
-        System.out.println("INFO: Threads: "+this.getThread());
-        System.out.println("INFO: ThreadSleep: "+this.getThreadSleep());
-        System.out.println("INFO: HttpClient: "+this.getHttpClient());
-        System.out.println("INFO: Store: "+this.getStore());
-        System.out.println("INFO: Cookie: "+this.getCookie());
-        System.out.println("INFO: HttpHeaders: "+this.getHttpHeader());
-        System.out.println("INFO: AutoClose: "+this.autoClose);
-        System.out.println("INFO: TaskErrorHandler: "+this.getTaskErrorHandler());
+        logger.info("AppName: "+this.getAppName());
+        logger.info("Proxys: "+this.getProxys());
+        logger.info("Threads: "+this.getThread());
+        logger.info("ThreadSleep: "+this.getThreadSleep());
+        logger.info("HttpClient: "+this.getHttpClient());
+        logger.info("Store: "+this.getStore());
+        logger.info("Cookie: "+this.getCookie());
+        logger.info("HttpHeaders: "+this.getHttpHeader());
+        logger.info("AutoClose: "+this.autoClose);
+        logger.info("TaskErrorHandler: "+this.getTaskErrorHandler());
     }
 }

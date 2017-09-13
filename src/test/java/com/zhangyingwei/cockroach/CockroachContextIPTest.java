@@ -30,12 +30,12 @@ public class CockroachContextIPTest {
                 try {
 //                    Thread.sleep(1000);
                     String url = "http://www.xicidaili.com/wt/"+i;
-                    System.out.println(url);
                     queue.push(new Task(url));
+//                    System.out.println("push "+url);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (i > 1000) {
+                if (i > 10) {
                     break;
                 }
             }

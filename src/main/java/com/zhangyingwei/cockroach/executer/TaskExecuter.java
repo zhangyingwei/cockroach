@@ -3,21 +3,23 @@ package com.zhangyingwei.cockroach.executer;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.utils.NameUtils;
-
+import org.apache.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zhangyw on 2017/8/10.
+ * 任务执行器，主要工作是从队列中取出任务然后执行任务
  */
 public class TaskExecuter implements Runnable {
-    private TaskQueue queue;
+    private Logger logger = Logger.getLogger(TaskExecuter.class);
+    private CockroachQueue queue;
     private HttpClient httpClient;
     private IStore store;
     private String id;
     private boolean autoClose;
     private int sleep;
 
-    public TaskExecuter(TaskQueue queue, HttpClient httpClient,IStore store,int sleep,boolean autoClose) {
+    public TaskExecuter(CockroachQueue queue, HttpClient httpClient,IStore store,int sleep,boolean autoClose) {
         this.queue = queue;
         this.httpClient = httpClient;
         this.store = store;
@@ -42,14 +44,14 @@ public class TaskExecuter implements Runnable {
                     task = this.queue.take();
                 }
                 TimeUnit.MILLISECONDS.sleep(sleep);
-                System.out.println("INFO: "+this.id+" GET - "+task);
+                logger.info(this.getId()+" GET - "+task);
                 TaskResponse response = this.httpClient.proxy().doGet(task);
                 this.store.store(response);
             } catch (Exception e) {
-                System.out.println("INFO: " + e.getLocalizedMessage());
+                logger.error(e.getLocalizedMessage());
             }
         }
-        System.out.println(id+" : 结束");
+        logger.info(id+" : 结束");
     }
 
     public String getId() {

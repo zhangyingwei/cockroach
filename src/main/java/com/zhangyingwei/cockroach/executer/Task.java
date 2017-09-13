@@ -1,16 +1,20 @@
 package com.zhangyingwei.cockroach.executer;
 
 
+import com.zhangyingwei.cockroach.config.Constants;
 import com.zhangyingwei.cockroach.utils.NameUtils;
 
 import java.util.*;
 
 /**
  * Created by zhangyw on 2017/8/10.
+ * 爬虫任务描述类
  */
 public class Task{
+    //每一个任务都会生成一个编号，编号是一个递增的连续序列
     private String id = NameUtils.name(Task.class);
-    private String group = "default";
+    //每一个任务都会有一个分组，如果没有设置，默认为 default
+    private String group = Constants.APP_TASK_GROUP_DEFAULT;
     private String url;
     private Map<String, Object> params;
     private List<String> selects;
