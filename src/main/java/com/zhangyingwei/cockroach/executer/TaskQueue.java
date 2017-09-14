@@ -52,7 +52,7 @@ public class TaskQueue implements CockroachQueue {
     @Override
     public void push(Task task) throws InterruptedException {
         this.queue.put(task);
-        logger.info(Thread.currentThread().getName() + " put task " + task);
+        logger.info(Thread.currentThread().getName() + " push task " + task);
     }
 
     @Override

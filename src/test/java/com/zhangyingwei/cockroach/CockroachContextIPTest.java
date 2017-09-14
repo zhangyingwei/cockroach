@@ -15,13 +15,13 @@ public class CockroachContextIPTest {
     public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
-                .setThread(2,5000)
-                .setProxys("183.222.102.105,183.222.102.108,183.222.102.107,183.222.102.106,183.222.102.104,183.222.102.109")
+                .setThread(5,5000)
+//                .setProxys("183.222.102.105,183.222.102.108,183.222.102.107,183.222.102.106,183.222.102.104,183.222.102.109")
                 .setHttpClient(COkHttpClient.class)
-                .setStore(IpStore.class);
+                .setStore(IpStore.class)
+                .setAutoClose(true);
         CockroachContext context = new CockroachContext(config);
         TaskQueue queue = TaskQueue.of();
-        context.start(queue);
 
         new Thread(() -> {
             int i = 167;
@@ -35,12 +35,13 @@ public class CockroachContextIPTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (i > 10) {
+                if (i > 200) {
                     break;
                 }
             }
         }).start();
 
+        context.start(queue);
 
     }
 }

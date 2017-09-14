@@ -6,12 +6,11 @@ import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
+import com.zhangyingwei.cockroach.utils.CockroachUtils;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -36,8 +35,12 @@ public class CockroachConfig {
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
 
+    /**
+     * 如果找不到 log4j 的配置，就使用默认配置
+     */
     static {
-        if(true){
+        Logger elogger = Logger.getLogger(CockroachConfig.class);
+        if(!elogger.getParent().getAllAppenders().hasMoreElements()){
             Logger logger = Logger.getRootLogger();
             System.err.println("log4j.properties is not found , use default log4j config");
             logger.setLevel(Level.DEBUG);
@@ -50,6 +53,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setProxys(String proxys) {
+        CockroachUtils.addSystemPropertie(Constants.APP_PROXY_KEY,proxys);
         this.proxys = proxys;
         return this;
     }
@@ -59,6 +63,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setAutoClose(boolean autoClose) {
+        CockroachUtils.addSystemPropertie(Constants.APP_AUTOCLOSE_KEY,autoClose);
         this.autoClose = autoClose;
         return this;
     }
@@ -68,7 +73,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setAppName(String appName) {
-        System.setProperty(Constants.APP_NAME_KEY, appName);
+        CockroachUtils.addSystemPropertie(Constants.APP_NAME_KEY,appName);
         this.appName = appName;
         return this;
     }
@@ -78,11 +83,14 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setThread(int thread) {
+        CockroachUtils.addSystemPropertie(Constants.APP_THREAD_KEY,thread);
         this.thread = thread;
         return this;
     }
 
     public CockroachConfig setThread(int thread, int sleep) {
+        CockroachUtils.addSystemPropertie(Constants.APP_THREAD_KEY,thread);
+        CockroachUtils.addSystemPropertie(Constants.APP_THREAD_SLEEP_KEY,sleep);
         this.thread = thread;
         this.threadSleep = sleep;
         return this;
@@ -97,6 +105,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setHttpClient(Class<? extends HttpClient> httpClient) {
+        CockroachUtils.addSystemPropertie(Constants.APP_HTTPCLIENT_KEY,httpClient);
         this.httpClient = httpClient;
         return this;
     }
@@ -106,11 +115,13 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setStore(Class<? extends IStore> store) {
+        CockroachUtils.addSystemPropertie(Constants.APP_STORE_KEY,store);
         this.store = store;
         return this;
     }
 
     public CockroachConfig setCookie(String cookid) {
+        CockroachUtils.addSystemPropertie(Constants.APP_COOKIE_KEY,cookid);
         this.cookie = cookid;
         return this;
     }
@@ -136,6 +147,7 @@ public class CockroachConfig {
     }
 
     public CockroachConfig setTaskErrorHandler(Class<? extends ITaskErrorHandler> taskErrorHandler) {
+        CockroachUtils.addSystemPropertie(Constants.APP_TASK_ERROR_KEY,taskErrorHandler);
         this.taskErrorHandler = taskErrorHandler;
         return this;
     }
