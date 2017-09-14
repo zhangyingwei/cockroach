@@ -137,6 +137,20 @@ CockroachConfig config = new CockroachConfig()
     .setStore(SelfStore.class);
 ```
 
+### 自定义错误处理类
+
+当 http 请求网页出现错误的时候会统一定位到错误处理类，如果没有自定义错误处理类，系统会默认使用 DefaultTaskErrorHandler ，此处理类会吧错误信息打印出来。具体实现代码如下。
+
+```
+public class DefaultTaskErrorHandler implements ITaskErrorHandler {
+    private Logger logger = Logger.getLogger(DefaultTaskErrorHandler.class);
+    @Override
+    public void error(Task task,String message) {
+        logger.info("task error: "+message);
+    }
+}
+```
+
 ## 健壮 
 
 说到健壮，这里主要体现在以下几个方面：
