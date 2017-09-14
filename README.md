@@ -1,5 +1,7 @@
 # cockroach 爬虫
 
+![bulid](https://img.shields.io/travis/USER/REPO.svg)
+
 cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记，导致编码的过程中因为单词的拼写问题耽误了好长时间。
 
 这个项目算是我的又一个坑吧，算起来挖的坑多了去了，多一个不多少一个不少。
