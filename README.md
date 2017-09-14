@@ -2,7 +2,6 @@
 
 [![](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
 [![](https://img.shields.io/badge/language-java-orange.svg)]()
-[![](https://img.shields.io/badge/weibo-@zhangyw.svg)](http://weibo.com/zyw8866)
 
 
 
