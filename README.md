@@ -1,6 +1,6 @@
 # cockroach 爬虫
 
-[![Travis](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
+[![](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
 [![](https://img.shields.io/badge/language-java-orange.svg)]()
 [![](https://img.shields.io/badge/weibo-@专业喝咖啡.svg)](http://weibo.com/zyw8866)
 
