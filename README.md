@@ -154,7 +154,7 @@ CockroachConfig config = new CockroachConfig()
 
 > 应对 http 请求中的 user-agent 问题
 
-我们在程序中实现了一个 user-agent 池，每次请求都会随机取出一个 user-agent 使用，目前在程序中集成了 17 种 user-agent，后续会考虑把这块开放出来到配置中，自定义配置（有没有意义呢？）。
+程序中实现了一个 user-agent 池，每次请求都会随机取出一个 user-agent 使用，目前在程序中集成了 17 种 user-agent，后续会考虑把这块开放出来到配置中，自定义配置（有没有意义呢？）。
 
 > 程序中的异常处理问题
 
