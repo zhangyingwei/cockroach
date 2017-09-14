@@ -1,7 +1,7 @@
 # cockroach 爬虫
 
 [![Travis](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
-![Version](https://img.shields.io/badge/github-1.0-Alpha-519dd9.svg)
+[![](https://img.shields.io/badge/language-java-orange.svg)]()
 
 cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记，导致编码的过程中因为单词的拼写问题耽误了好长时间。
 
