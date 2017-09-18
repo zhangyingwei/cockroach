@@ -18,8 +18,7 @@ public class IpStore implements IStore {
 
     private String id = NameUtils.name(IpStore.class);
 
-    public IpStore() throws IOException {
-    }
+    public IpStore() throws IOException {}
 
     @Override
     public void store(TaskResponse response) throws IOException {

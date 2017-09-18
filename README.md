@@ -1,9 +1,10 @@
-# cockroach 爬虫
+# cockroach 爬虫：又一个 java 爬虫实现
 
 [![](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
 [![](https://img.shields.io/badge/language-java-orange.svg)]()
 
 
+## 简介
 
 cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记，导致编码的过程中因为单词的拼写问题耽误了好长时间。
 
@@ -12,6 +13,13 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 一个小巧、灵活、健壮的爬虫框架，暂且叫做框架吧。
 
 简单到什么程度呢，几句话就可以创建一个爬虫。
+
+## 依赖
+
+* java8 程序中用到了一些 java8 的新特性
+* maven
+
+下面就逐点介绍一下：
 
 ## 小巧
 
@@ -179,6 +187,31 @@ CockroachConfig config = new CockroachConfig()
 
 目前在异常处理这块，本身也不是非常擅长，已经尽力把异常控制在一个可控的范围内，程序中定义了很多自定义异常，这里没有什么发言权，就不细说了，各位要是有意见建议，欢迎拍砖。
 
+## 所谓深度爬取
+
+程序中并没有现成的深度爬取实现，是因为一般情况下我并不觉得深度爬取有什么卵用，但是也不是没有为深度爬取留出来一席之地。我们可以自己提取出页面中的链接并加入到任务队列中。
+
+```java
+public class DemoStore implements IStore {
+
+    private String id = NameUtils.name(DemoStore.class);
+
+    public DemoStore() throws IOException {}
+
+    @Override
+    public void store(TaskResponse response) throws IOException {
+        List<String> urls = response.select("a").stream().map(element -> element.attr("href")).collect(Collectors.toList());
+        try {
+            response.getQueue().push(urls);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## 关于
+
 ## 关于分布式，我有话说
 
 现在网上是个爬虫就要搞一下分布式，这令我很不爽。
@@ -189,10 +222,11 @@ CockroachConfig config = new CockroachConfig()
 
 所以，我的分布式将会包括：
 
-* 分布式消息中间件（有可能会使用 redis 或者自己实现一个）
+* 分布式消息中间件（有可能会使用 redis 或者自己实现一个; 为了还程序一个清静，最有可能会自己实现一个）
 * 分布式任务调度
 * 分布式分布式容错机制
 * 分布式事务
+* 状态监控
 
 所以，这个坑是越来越大了么？？我靠，有点怕怕
 

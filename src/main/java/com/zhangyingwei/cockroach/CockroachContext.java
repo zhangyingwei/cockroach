@@ -20,6 +20,7 @@ public class CockroachContext {
     private int thread = 5;
     private HttpProxy proxy = null;
     private ExecutorService service = Executors.newCachedThreadPool();
+    private boolean started = false;
 
     public CockroachContext(CockroachConfig config) {
         this.config = config;
@@ -32,28 +33,35 @@ public class CockroachContext {
 
     /**
      * 启动爬虫程序
+     * 只能启动一次，启动之前先判断之前有没有启动过
      * @param queue
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
     public void start(TaskQueue queue) throws IllegalAccessException, InstantiationException {
-        logger.info("starting...");
-        config.print();
-        this.thread = config.getThread() == 0 ? this.thread : config.getThread();
-        for (int i = 0; i < thread; i++) {
-            TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose());
-            logger.info("new thread:" + executer.getId());
-            service.execute(executer);
+        if(!started){
+            logger.info("starting...");
+            config.print();
+            this.thread = config.getThread() == 0 ? this.thread : config.getThread();
+            for (int i = 0; i < thread; i++) {
+                TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose());
+                logger.info("new thread:" + executer.getId());
+                service.execute(executer);
+            }
+            /**
+             * 不可以再继续 提交新的任务 已经提交的任务不影响
+             */
+            service.shutdown();
+            this.started = true;
+            logger.info("start success");
+        }else{
+            logger.warn("the cockroach has already started");
         }
-        /**
-         * 不可以再继续 提交新的任务 已经提交的任务不影响
-         */
-        service.shutdown();
-        logger.info("start success");
     }
 
     public void stop() {
         service.shutdown();
+        logger.info("stop success");
     }
 
     private HttpClient bulidHttpClient() throws IllegalAccessException, InstantiationException {

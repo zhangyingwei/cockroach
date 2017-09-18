@@ -47,6 +47,7 @@ public class TaskExecuter implements Runnable {
                 TimeUnit.MILLISECONDS.sleep(sleep);
                 logger.info(this.getId()+" GET - "+task);
                 TaskResponse response = this.httpClient.proxy().doGet(task);
+                response.setQueue(this.queue);
                 this.store.store(response);
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage());

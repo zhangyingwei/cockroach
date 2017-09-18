@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
 import com.zhangyingwei.cockroach.http.exception.*;
+import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +18,7 @@ public class TaskResponse {
     private String content;
     private Document document;
     private List<String> selects;
+    private CockroachQueue queue;
 
     public String getContent() {
         return content;
@@ -34,7 +36,7 @@ public class TaskResponse {
 
     private Document parseDocument() {
         if(this.document == null){
-            this.document = Jsoup.parse(Optional.of(this.content).orElse(""));
+            this.document = Jsoup.parse(Optional.ofNullable(this.content).orElse(""));
         }
         return this.document;
     }
@@ -126,5 +128,13 @@ public class TaskResponse {
 
     public String getGroup(){
         return this.task.getGroup();
+    }
+
+    public void setQueue(CockroachQueue queue) {
+        this.queue = queue;
+    }
+
+    public CockroachQueue getQueue() {
+        return queue;
     }
 }
