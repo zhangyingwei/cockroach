@@ -159,6 +159,19 @@ public class DefaultTaskErrorHandler implements ITaskErrorHandler {
 }
 ```
 
+如果需要自定义错误处理类，可以仿照以上代码，实现 ITaskErrorHandler 接口，在 error 方法中实现自己的处理逻辑。
+
+在自定义错误处理类之后，我们需要把自定义类应用到爬虫。
+
+```
+CockroachConfig config = new CockroachConfig()
+    .setAppName("我是一个小强")
+    .setThread(2) //爬虫线程数
+    .setHttpClient(SelfHttpClient.class)
+    .setStore(SelfStore.class)
+    .setTaskErrorHandler(SelfTaskErrorHandler.class);
+```
+
 ## 健壮 
 
 说到健壮，这里主要体现在以下几个方面：
