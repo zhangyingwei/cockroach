@@ -2,7 +2,7 @@ package com.zhangyingwei.cockroach;
 
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.TaskExecuter;
-import com.zhangyingwei.cockroach.executer.TaskQueue;
+import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.HttpProxy;
 import com.zhangyingwei.cockroach.http.client.HttpClientProxy;

@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
+import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.PrintStore;
 
 import java.util.concurrent.ExecutorService;

@@ -1,6 +1,7 @@
-package com.zhangyingwei.cockroach.executer;
+package com.zhangyingwei.cockroach.queue;
 
 
+import com.zhangyingwei.cockroach.executer.Task;
 import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;

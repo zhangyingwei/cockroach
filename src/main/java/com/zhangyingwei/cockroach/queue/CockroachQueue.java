@@ -1,4 +1,6 @@
-package com.zhangyingwei.cockroach.executer;
+package com.zhangyingwei.cockroach.queue;
+
+import com.zhangyingwei.cockroach.executer.Task;
 
 import java.util.List;
 

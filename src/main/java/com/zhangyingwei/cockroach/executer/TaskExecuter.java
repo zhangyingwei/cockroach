@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
 import com.zhangyingwei.cockroach.http.client.HttpClient;
+import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.utils.NameUtils;
 import org.apache.log4j.Logger;
