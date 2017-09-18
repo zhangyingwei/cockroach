@@ -49,7 +49,7 @@ public static void main(String[] args){
                     .setAppName("我是一个小强")
                     .setThread(2); //爬虫线程数
     CockroachContext context = new CockroachContext(config);
-    TaskQueue queue = new TaskQueue();
+    TaskQueue queue = TaskQueue.of();
     context.start(queue);
     
     // 以上就是一个完整的爬虫，下边的代码相当于一个生产者，往队列里边写任务，一旦写入任务，爬虫就会对任务进行爬取
