@@ -202,7 +202,7 @@ CockroachConfig config = new CockroachConfig()
 
 ## 所谓深度爬取
 
-程序中并没有现成的深度爬取实现，是因为一般情况下我并不觉得深度爬取有什么卵用，但是也不是没有为深度爬取留出来一席之地。我们可以自己提取出页面中的链接并加入到任务队列中。
+程序中并没有现成的深度爬取实现，是因为一般情况下我并不觉得深度爬取有什么卵用，但是也不是没有为深度爬取留出来一席之地。我们可以自己提取出页面中的链接并加入到任务队列中。以达到深度爬取的效果。
 
 ```java
 public class DemoStore implements IStore {
@@ -222,8 +222,6 @@ public class DemoStore implements IStore {
     }
 }
 ```
-
-## 关于
 
 ## 关于分布式，我有话说
 
