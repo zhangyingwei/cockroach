@@ -5,6 +5,8 @@ import com.zhangyingwei.cockroach.executer.Task;
 import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -13,11 +15,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class TaskQueue implements CockroachQueue {
     private Logger logger = Logger.getLogger(TaskQueue.class);
 
-    private ArrayBlockingQueue<Task> queue;
+    private BlockingQueue<Task> queue;
     private static TaskQueue taskQueue;
 
     public static TaskQueue of(){
-        return TaskQueue.of(1024);
+        return TaskQueue.of(Integer.MAX_VALUE);
     }
 
     public static TaskQueue of(int calacity){
@@ -32,7 +34,8 @@ public class TaskQueue implements CockroachQueue {
     }
 
     private TaskQueue(int calacity) {
-        this.queue = new ArrayBlockingQueue<Task>(calacity);
+//        this.queue = new ArrayBlockingQueue<Task>(calacity);
+        this.queue = new LinkedBlockingDeque<Task>();
         logger.info("create queue whith calacity " + calacity);
     }
 

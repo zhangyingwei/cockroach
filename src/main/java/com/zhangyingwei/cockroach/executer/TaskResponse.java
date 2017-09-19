@@ -15,28 +15,27 @@ import java.util.*;
  */
 public class TaskResponse {
     private Task task;
-    private String content;
     private Document document;
     private List<String> selects;
     private CockroachQueue queue;
+    private Response response;
 
-    public String getContent() {
-        return content;
+    public String getContent() throws IOException {
+        return response.body().string();
     }
 
-    public TaskResponse setContent(String content) {
-        this.content = content;
-        return this;
+    public byte[] getContentBytes() throws IOException {
+        return response.body().bytes();
     }
 
-    public Document getDocument() {
+    public Document getDocument() throws IOException {
         this.document = this.parseDocument();
         return document;
     }
 
-    private Document parseDocument() {
+    private Document parseDocument() throws IOException {
         if(this.document == null){
-            this.document = Jsoup.parse(Optional.ofNullable(this.content).orElse(""));
+            this.document = Jsoup.parse(Optional.ofNullable(this.response.body().string()).orElse(""));
         }
         return this.document;
     }
@@ -66,10 +65,9 @@ public class TaskResponse {
     public static TaskResponse of(Response response, Task task) throws HttpException, IOException {
         int code = response.code();
         String location = response.header("Location");
-        switch (code){
+        switch (code) {
             case 200:
-                String content = response.body().string();
-                return new TaskResponse().setContent(content).setSelects(task.getSelects()).setTask(task);
+                return new TaskResponse().setResoonse(response).setSelects(task.getSelects()).setTask(task);
             case 300:
                 throw new Http300Exception(location);
             case 301:
@@ -105,11 +103,11 @@ public class TaskResponse {
             case 505:
                 throw new Http505Exception();
             default:
-                throw new HttpException(code+"");
+                throw new HttpException(code + "");
         }
     }
 
-    public Map<String,Elements> select(){
+    public Map<String,Elements> select() throws IOException {
         Document doc = this.parseDocument();
         Map<String, Elements> results = new HashMap<String,Elements>();
         Optional.ofNullable(this.selects).orElse(new ArrayList<String>()).forEach(cssquery ->{
@@ -118,7 +116,7 @@ public class TaskResponse {
         return results;
     }
 
-    public Elements select(String cssSelect) {
+    public Elements select(String cssSelect) throws IOException {
         return this.parseDocument().select(cssSelect);
     }
 
@@ -136,5 +134,14 @@ public class TaskResponse {
 
     public CockroachQueue getQueue() {
         return queue;
+    }
+
+    public TaskResponse setResoonse(Response resoonse) {
+        this.response = resoonse;
+        return this;
+    }
+
+    public Response getResoonse() {
+        return response;
     }
 }

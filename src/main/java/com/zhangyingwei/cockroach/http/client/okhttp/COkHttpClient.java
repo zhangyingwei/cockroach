@@ -30,7 +30,7 @@ public class COkHttpClient extends AbsHttpClient {
                 .map(entity -> entity.getKey() + "=" + entity.getValue())
                 .collect(Collectors.toList()));
         Request request = new Request.Builder()
-                .url(String.format("%s?%s",task.getUrl(),""))
+                .url(String.format("%s",task.getUrl(),""))
                 .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .get()
                 .build();
