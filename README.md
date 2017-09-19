@@ -14,7 +14,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 简单到什么程度呢，几句话就可以创建一个爬虫。
 
-## 依赖
+## 环境
 
 * java8 程序中用到了一些 java8 的新特性
 * maven
@@ -247,3 +247,8 @@ public class DemoStore implements IStore {
 ## 联系方式
 * 邮箱： zhangyw001@gmail.com
 * 微信： fengche361
+
+
+## Lisence
+
+Lisenced under [Apache 2.0 lisence](http://opensource.org/licenses/Apache-2.0)
