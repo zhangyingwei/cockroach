@@ -15,5 +15,6 @@
 *.rar
 
 /.idea
+/target
 cockroach.iml
 
