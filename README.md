@@ -245,6 +245,10 @@ public class DemoStore implements IStore {
 
 所以，这个坑是越来越大了么？？我靠，有点怕怕
 
+## PS
+
+昨天下午开了几十个线程爬知乎，结果公司网管说疑似有 DOS 攻击，吓得我赶紧放在云上跑。
+
 
 ## 联系方式
 * 邮箱： zhangyw001@gmail.com
