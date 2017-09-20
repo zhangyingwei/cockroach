@@ -21,7 +21,6 @@ import java.util.Map;
 public class HttpClientProxy implements HttpClient {
     private Logger logger = Logger.getLogger(HttpClientProxy.class);
     private HttpClient client;
-    private ITaskErrorHandler taskErrorhandler;
     private HttpProxy proxy;
 
     public HttpClientProxy(HttpClient client) {
@@ -37,15 +36,15 @@ public class HttpClientProxy implements HttpClient {
 
     @Override
     public TaskResponse doGet(Task task) {
+        String message = "";
         try {
             return this.client.doGet(task);
         } catch (Exception e) {
-            String message = "";
             if (e instanceof HttpException) {
                 if(e instanceof Http40XException){
-                    message = "resources not found";
+                    message = e.getMessage();
                 }else if(e instanceof Http50XException){
-                    message = "server error";
+                    message = e.getMessage();
                 }else if(e instanceof Http30XException){
                     message = "resources redirect:" + e.getMessage();
                 }
@@ -56,9 +55,8 @@ public class HttpClientProxy implements HttpClient {
                 message = e.getMessage();
             }
             logger.error(task + " - " + message);
-            this.taskErrorhandler.error(task, message);
         }
-        return TaskResponse.empty().setTask(task);
+        return TaskResponse.empty().setTask(task).setMessage(message);
     }
 
     @Override
@@ -89,11 +87,6 @@ public class HttpClientProxy implements HttpClient {
     @Override
     public HttpClient setHttpHeader(Map<String, String> httpHeader) {
         this.client.setHttpHeader(httpHeader);
-        return this;
-    }
-
-    public HttpClient setTaskErrorHandler(ITaskErrorHandler taskErrorHandler) {
-        this.taskErrorhandler = taskErrorHandler;
         return this;
     }
 

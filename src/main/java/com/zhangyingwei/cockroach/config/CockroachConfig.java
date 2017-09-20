@@ -120,9 +120,10 @@ public class CockroachConfig {
         return this;
     }
 
-    public CockroachConfig setCookie(String cookid) {
-        CockroachUtils.addSystemPropertie(Constants.APP_COOKIE_KEY,cookid);
-        this.cookie = cookid;
+    public CockroachConfig setCookie(String cookie) {
+        CockroachUtils.addSystemPropertie(Constants.APP_COOKIE_KEY,cookie);
+        this.cookie = cookie;
+        this.addHttpHeader("Cookie", cookie);
         return this;
     }
 

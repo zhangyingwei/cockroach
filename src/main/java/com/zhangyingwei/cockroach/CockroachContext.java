@@ -44,7 +44,7 @@ public class CockroachContext {
             config.print();
             this.thread = config.getThread() == 0 ? this.thread : config.getThread();
             for (int i = 0; i < thread; i++) {
-                TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose());
+                TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getTaskErrorHandler().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose());
                 logger.info("new thread:" + executer.getId());
                 service.execute(executer);
             }
@@ -71,7 +71,6 @@ public class CockroachContext {
         }
         HttpClient client  = this.config.getHttpClient().newInstance();
         return new HttpClientProxy(client)
-                .setTaskErrorHandler(this.config.getTaskErrorHandler().newInstance())
                 .setProxy(this.proxy)
                 .setCookie(this.config.getCookie())
                 .setHttpHeader(this.config.getHttpHeader());

@@ -26,11 +26,8 @@ public class COkHttpClient extends AbsHttpClient {
 
     @Override
     public TaskResponse doGet(Task task) throws Exception {
-        String params = String.join("&", task.getParams().entrySet().stream()
-                .map(entity -> entity.getKey() + "=" + entity.getValue())
-                .collect(Collectors.toList()));
         Request request = new Request.Builder()
-                .url(String.format("%s",task.getUrl(),""))
+                .url(task.getUrl())
                 .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .get()
                 .build();

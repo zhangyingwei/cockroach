@@ -41,6 +41,9 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public Task poll() throws InterruptedException {
+        if(this.queue.isEmpty()){
+            logger.info(Thread.currentThread().getName() + " queue is empty");
+        }
         Task task = this.queue.poll();
         logger.info(Thread.currentThread().getName() + " pull task " + task);
         return task;
@@ -48,6 +51,9 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public Task take() throws InterruptedException {
+        if(this.queue.isEmpty()){
+            logger.info(Thread.currentThread().getName() + " queue is empty");
+        }
         Task task = this.queue.take();
         logger.info(Thread.currentThread().getName() + " take task " + task);
         return task;

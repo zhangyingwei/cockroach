@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
 import com.zhangyingwei.cockroach.http.client.HttpClient;
+import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.utils.NameUtils;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  * 任务执行器，主要工作是从队列中取出任务然后执行任务
  */
 public class TaskExecuter implements Runnable {
+    private final ITaskErrorHandler errorHandler;
     private Logger logger = Logger.getLogger(TaskExecuter.class);
     private CockroachQueue queue;
     private HttpClient httpClient;
@@ -20,11 +22,12 @@ public class TaskExecuter implements Runnable {
     private boolean autoClose;
     private int sleep;
 
-    public TaskExecuter(CockroachQueue queue, HttpClient httpClient,IStore store,int sleep,boolean autoClose) {
+    public TaskExecuter(CockroachQueue queue, HttpClient httpClient, IStore store, ITaskErrorHandler errorHandler, int sleep, boolean autoClose) {
         this.queue = queue;
         this.httpClient = httpClient;
         this.store = store;
         this.id = NameUtils.name(TaskExecuter.class);
+        this.errorHandler = errorHandler;
         this.autoClose = autoClose;
         this.sleep = sleep;
     }
@@ -48,12 +51,17 @@ public class TaskExecuter implements Runnable {
                 logger.info(this.getId()+" GET - "+task);
                 TaskResponse response = this.httpClient.proxy().doGet(task);
                 response.setQueue(this.queue);
-                this.store.store(response);
+                if(response.isEmpty()){
+                    this.errorHandler.error(new TaskErrorResponse(response));
+                }else{
+                    this.store.store(response);
+                }
+                response.getResponse().close();
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage());
             }
         }
-        logger.info(id+" : 结束");
+        logger.info(id+" : over");
     }
 
     public String getId() {

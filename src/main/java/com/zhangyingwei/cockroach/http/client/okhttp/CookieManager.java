@@ -35,7 +35,7 @@ public class CookieManager implements CookieJar {
             list = Arrays.stream(this.cookie.split(";"))
                     .map(line -> line.split("="))
                     .filter(item -> item.length > 1)
-                    .map(item -> new Cookie.Builder().name(item[0].trim()).value(item[1]).domain(httpUrl.host()).build()).collect(Collectors.toList());
+                    .map(item -> new Cookie.Builder().name(item[0].trim()).value(item[1].trim()).domain(httpUrl.host().trim()).build()).collect(Collectors.toList());
         }
         return Optional.ofNullable(cookies.get(httpUrl.host())).orElse(list);
     }

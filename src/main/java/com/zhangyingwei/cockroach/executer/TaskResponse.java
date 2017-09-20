@@ -19,6 +19,7 @@ public class TaskResponse {
     private List<String> selects;
     private CockroachQueue queue;
     private Response response;
+    private String message;
 
     public String getContent() throws IOException {
         return response.body().string();
@@ -62,12 +63,17 @@ public class TaskResponse {
         return new TaskResponse();
     }
 
+    public Boolean isEmpty(){
+        return this.response == null && this.selects == null;
+    }
+
     public static TaskResponse of(Response response, Task task) throws HttpException, IOException {
         int code = response.code();
+        String message = response.message();
         String location = response.header("Location");
         switch (code) {
             case 200:
-                return new TaskResponse().setResoonse(response).setSelects(task.getSelects()).setTask(task);
+                return new TaskResponse().setResponse(response).setSelects(task.getSelects()).setTask(task);
             case 300:
                 throw new Http300Exception(location);
             case 301:
@@ -75,35 +81,35 @@ public class TaskResponse {
             case 302:
                 throw new Http302Exception(location);
             case 400:
-                throw new Http400Exception();
+                throw new Http400Exception(message);
             case 401:
-                throw new Http401Exception();
+                throw new Http401Exception(message);
             case 403:
-                throw new Http403Exception();
+                throw new Http403Exception(message);
             case 404:
-                throw new Http404Exception();
+                throw new Http404Exception(message);
             case 405:
-                throw new Http405Exception();
+                throw new Http405Exception(message);
             case 406:
-                throw new Http406Exception();
+                throw new Http406Exception(message);
             case 407:
-                throw new Http407Exception();
+                throw new Http407Exception(message);
             case 408:
-                throw new Http408Exception();
+                throw new Http408Exception(message);
             case 500:
-                throw new Http500Exception();
+                throw new Http500Exception(message);
             case 501:
-                throw new Http501Exception();
+                throw new Http501Exception(message);
             case 502:
-                throw new Http502Exception();
+                throw new Http502Exception(message);
             case 503:
-                throw new Http503Exception();
+                throw new Http503Exception(message);
             case 504:
-                throw new Http504Exception();
+                throw new Http504Exception(message);
             case 505:
-                throw new Http505Exception();
+                throw new Http505Exception(message);
             default:
-                throw new HttpException(code + "");
+                throw new HttpException(code + "-" + message);
         }
     }
 
@@ -136,12 +142,21 @@ public class TaskResponse {
         return queue;
     }
 
-    public TaskResponse setResoonse(Response resoonse) {
+    public TaskResponse setResponse(Response resoonse) {
         this.response = resoonse;
         return this;
     }
 
-    public Response getResoonse() {
+    public String getMessage() {
+        return message;
+    }
+
+    public TaskResponse setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public Response getResponse() {
         return response;
     }
 }
