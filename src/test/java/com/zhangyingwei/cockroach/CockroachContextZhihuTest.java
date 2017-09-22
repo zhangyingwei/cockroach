@@ -13,7 +13,7 @@ import java.util.HashMap;
  * Created by zhangyw on 2017/8/10.
  */
 public class CockroachContextZhihuTest {
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         String cockie = "";
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")

@@ -27,7 +27,7 @@ public abstract class AbsHttpClient implements HttpClient{
     protected ITaskErrorHandler taskErrorHandler;
 
     @Override
-    public HttpClient setProxy(HttpProxy proxy) {
+    public HttpClient setProxy(HttpProxy proxy) throws Exception {
         this.proxy = proxy;
         return this;
     }
@@ -36,22 +36,22 @@ public abstract class AbsHttpClient implements HttpClient{
     public abstract TaskResponse doGet(Task task) throws Exception;
 
     @Override
-    public abstract HttpClient proxy();
+    public abstract HttpClient proxy() throws Exception;
 
     @Override
     public abstract TaskResponse doPost(Task task) throws Exception;
 
     @Override
-    public abstract HttpClient setCookie(String cookie);
+    public abstract HttpClient setCookie(String cookie) throws Exception;
 
     @Override
-    public HttpClient setHttpHeader(Map<String, String> httpHeader) {
+    public HttpClient setHttpHeader(Map<String, String> httpHeader) throws Exception {
         this.httpHeader = httpHeader;
         return this;
     }
 
     @Override
-    public ProxyTuple getCurrentProxyTuple() {
+    public ProxyTuple getCurrentProxyTuple() throws Exception {
         return proxyTuple;
     }
 }

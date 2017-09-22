@@ -30,7 +30,11 @@ public class HttpClientProxy implements HttpClient {
     @Override
     public HttpClient setProxy(HttpProxy proxy) {
         this.proxy = proxy;
-        this.client.setProxy(proxy);
+        try {
+            this.client.setProxy(proxy);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         return this;
     }
 
@@ -62,7 +66,11 @@ public class HttpClientProxy implements HttpClient {
     @Override
     public HttpClient proxy() {
         if(this.proxy != null && !this.proxy.isEmpty()){
-            this.client.proxy();
+            try {
+                this.client.proxy();
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
         return this;
     }
@@ -80,18 +88,31 @@ public class HttpClientProxy implements HttpClient {
 
     @Override
     public HttpClient setCookie(String cookie) {
-        this.client.setCookie(cookie);
+        try {
+            this.client.setCookie(cookie);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         return this;
     }
 
     @Override
     public HttpClient setHttpHeader(Map<String, String> httpHeader) {
-        this.client.setHttpHeader(httpHeader);
+        try {
+            this.client.setHttpHeader(httpHeader);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         return this;
     }
 
     @Override
     public ProxyTuple getCurrentProxyTuple() {
-        return this.client.getCurrentProxyTuple();
+        try {
+            return this.client.getCurrentProxyTuple();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 }

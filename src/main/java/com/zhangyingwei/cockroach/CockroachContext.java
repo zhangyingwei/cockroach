@@ -38,7 +38,7 @@ public class CockroachContext {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public void start(TaskQueue queue) throws IllegalAccessException, InstantiationException {
+    public void start(TaskQueue queue) throws Exception {
         if(!started){
             logger.info("starting...");
             config.print();
@@ -64,7 +64,7 @@ public class CockroachContext {
         logger.info("stop success");
     }
 
-    private HttpClient bulidHttpClient() throws IllegalAccessException, InstantiationException {
+    private HttpClient bulidHttpClient() throws Exception {
         logger.info("bulid httpclient");
         if(this.config.getProxys() != null && this.proxy ==null){
             this.proxy = new HttpProxy(this.config.getProxys());

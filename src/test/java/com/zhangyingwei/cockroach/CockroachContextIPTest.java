@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
  * Created by zhangyw on 2017/8/10.
  */
 public class CockroachContextIPTest {
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
                 .setThread(5,5000)
