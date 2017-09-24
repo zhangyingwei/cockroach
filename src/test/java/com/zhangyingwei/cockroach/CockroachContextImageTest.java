@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * Created by zhangyw on 2017/8/10.
  */
 public class CockroachContextImageTest {
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("妹子下载器")
                 .setThread(20, 3000)
