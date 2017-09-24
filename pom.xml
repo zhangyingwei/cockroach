@@ -4,14 +4,45 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zhangyingwei.cockroach</groupId>
+    <!-- push to maven rep -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
-    <version>1.0-Alpha</version>
+    <version>1.0.1-Alpha</version>
+    <packaging>jar</packaging>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/zhangyingwei/cockroach</url>
+        <connection>https://github.com/zhangyingwei/cockroach.git</connection>
+        <developerConnection>https://www.zhangyingwei.com</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>cockroach</name>
+            <email>zhangyw001@gmail.com</email>
+            <url>https://www.zhangyingwei.com</url>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
     </properties>
 
     <dependencies>
@@ -45,6 +76,22 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <!-- 这个id需要在setting.xml中设置，后边讲到  -->
+            <id>oss</id>
+            <name>OSS Snapshots Repository</name>
+            <!-- 这里的url就是Issue中回复的snapshots 的repo地址-->
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <name>OSS Staging Repository</name>
+            <!-- 这里的url就是Issue中回复的staging 的repo地址-->
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
@@ -54,6 +101,32 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
