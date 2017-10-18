@@ -44,7 +44,7 @@ public class CockroachConfig {
             Logger logger = Logger.getRootLogger();
             System.err.println("log4j.properties is not found , use default log4j config");
             logger.setLevel(Level.DEBUG);
-            logger.addAppender(new ConsoleAppender(new PatternLayout("[%-5p][%-20d{yyyy/MM/dd HH:mm:ss}] %m%n")));
+            logger.addAppender(new ConsoleAppender(new PatternLayout("[%-5p][%-20d{yyyy/MM/dd HH:mm:ss}][%c] %m%n")));
         }
     }
 
@@ -104,6 +104,7 @@ public class CockroachConfig {
         return httpClient;
     }
 
+    @SuppressWarnings("not supported")
     public CockroachConfig setHttpClient(Class<? extends HttpClient> httpClient) {
         CockroachUtils.addSystemPropertie(Constants.APP_HTTPCLIENT_KEY,httpClient);
         this.httpClient = httpClient;
