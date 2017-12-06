@@ -6,3 +6,4 @@
 接下来
 
 * 替换打印日志的方式 改用 log4j 或者 logback √
+* 增加login方法，获取登录 cookie
