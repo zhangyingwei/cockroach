@@ -29,7 +29,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 新建一个 maven 项目，在 pom 文件中引入依赖
 
-```
+```xml
 <dependency>
     <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
@@ -41,7 +41,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 ### 实例
 
-```
+```java
 public static void main(String[] args){
     CockroachConfig config = new CockroachConfig()
                     .setAppName("我是一个小强")
@@ -82,7 +82,7 @@ public static void main(String[] args){
 
 首先我们尝试一下自定义客户端
 
-```
+```java
 public class SelfHttpClient implements HttpClient {
        public HttpClient setProxy(HttpProxy proxy){
             //设置代理实现方法
@@ -111,7 +111,7 @@ public class SelfHttpClient implements HttpClient {
 
 应用自定义 http 客户端到爬虫
 
-```
+```java
 CockroachConfig config = new CockroachConfig()
     .setAppName("我是一个小强")
     .setThread(2) //爬虫线程数
@@ -122,7 +122,7 @@ CockroachConfig config = new CockroachConfig()
 
 自定义结果处理类
 
-```
+```java
 public class SelfStore implements IStore {
     @Override
     public void store(TaskResponse response) {
@@ -135,7 +135,7 @@ public class SelfStore implements IStore {
 
 应用自定义 store 客户端到爬虫
 
-```
+```java
 CockroachConfig config = new CockroachConfig()
     .setAppName("我是一个小强")
     .setThread(2) //爬虫线程数
@@ -147,7 +147,7 @@ CockroachConfig config = new CockroachConfig()
 
 当 http 请求网页出现错误的时候会统一定位到错误处理类，如果没有自定义错误处理类，系统会默认使用 DefaultTaskErrorHandler ，此处理类会吧错误信息打印出来。具体实现代码如下。
 
-```
+```java
 public class DefaultTaskErrorHandler implements ITaskErrorHandler {
     private Logger logger = Logger.getLogger(DefaultTaskErrorHandler.class);
     @Override
@@ -161,7 +161,7 @@ public class DefaultTaskErrorHandler implements ITaskErrorHandler {
 
 在自定义错误处理类之后，我们需要把自定义类应用到爬虫。
 
-```
+```java
 CockroachConfig config = new CockroachConfig()
     .setAppName("我是一个小强")
     .setThread(2) //爬虫线程数
@@ -180,7 +180,7 @@ CockroachConfig config = new CockroachConfig()
 
 ### 动态代理的使用
 
-```
+```java
 CockroachConfig config = new CockroachConfig()
     .setAppName("我是一个小强")
     .setThread(2) //爬虫线程数
