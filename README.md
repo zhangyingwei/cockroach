@@ -31,9 +31,9 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 ```xml
 <dependency>
-    <groupId>com.github.zhangyingwei</groupId>
-    <artifactId>cockroach</artifactId>
-    <version>1.0-Alpha</version>
+  <groupId>com.github.zhangyingwei</groupId>
+  <artifactId>cockroach</artifactId>
+  <version>1.0.3-Alpha</version>
 </dependency>
 ```
 
