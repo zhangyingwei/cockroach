@@ -36,6 +36,12 @@ public class Task {
         this.group = group;
     }
 
+    public Task(String url, String group, Map<String, Object> params) {
+        this.group = group;
+        this.url = url;
+        this.params = params;
+    }
+
     public String getGroup() {
         return group;
     }

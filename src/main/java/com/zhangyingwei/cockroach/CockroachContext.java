@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach;
 
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.TaskExecuter;
+import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.HttpProxy;
@@ -38,7 +39,7 @@ public class CockroachContext {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public void start(TaskQueue queue) throws Exception {
+    public void start(CockroachQueue queue) throws Exception {
         if(!started){
             logger.info("starting...");
             config.print();

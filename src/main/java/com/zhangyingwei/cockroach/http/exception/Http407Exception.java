@@ -4,7 +4,7 @@ import com.zhangyingwei.cockroach.utils.CockroachUtils;
 
 /**
  * Created by zhangyw on 2017/8/17.
- * Proxy Authentication Required/代理服务器认证要求
+ * ProxyConfig Authentication Required/代理服务器认证要求
  */
 public class Http407Exception extends Http40XException  {
     private static final int CODE = 407;
