@@ -155,6 +155,7 @@ public class CockroachConfig {
     }
 
     public void print() {
+        logger.info("---------------------------config--------------------------");
         logger.info("AppName: "+this.getAppName());
         logger.info("Proxys: "+this.getProxys());
         logger.info("Threads: "+this.getThread());
@@ -165,5 +166,6 @@ public class CockroachConfig {
         logger.info("HttpHeaders: "+this.getHttpHeader());
         logger.info("AutoClose: "+this.autoClose);
         logger.info("TaskErrorHandler: "+this.getTaskErrorHandler());
+        logger.info("-------------------------------------------------------------");
     }
 }

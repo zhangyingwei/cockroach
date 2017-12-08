@@ -1,5 +1,8 @@
 package com.zhangyingwei.cockroach.config;
 
+import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
+import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
+
 /**
  * Created by zhangyw on 2017/9/13.
  * 常量统一管理
@@ -15,4 +18,10 @@ public class Constants {
     public static final String APP_STORE_KEY = "cockroach.app.store";
     public static final String APP_COOKIE_KEY = "cockroach.app.cookie";
     public static final String APP_TASK_ERROR_KEY = "cockroach.app.task.error";
+
+    public static final String DEFAULT_APP_NAME = "cockroach";
+    public static final Class<? extends ITaskErrorHandler> DEFAULT_TASKERROR_HANDLER = DefaultTaskErrorHandler.class;
+    public static final int DEFAULT_THREAD_NUM = 10;
+    public static final int DEFAULT_THREAD_SLEEP = 500; //毫秒
+    public static final boolean DEFAULT_AUTO_CLOSE = false;
 }

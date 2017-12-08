@@ -221,6 +221,44 @@ public class DemoStore implements IStore {
 }
 ```
 
+## 注解支持
+最近忙里偷闲增加了注解支持，那么在使用注解之后，一个爬虫是什么样的呢？
+
+```java
+@EnableAutoConfiguration
+@AppName("hello spider")
+@Store(PrintStore.class)
+@AutoClose(true)
+@ThreadConfig(num = 1)
+@CookieConfig("asdfasdfasdfasdfasfasdfa")
+@HttpHeaderConfig({
+        "key1=value1",
+        "key2=value2"
+})
+@ProxyConfig("1.1.1.1,2.2.2.2")
+public class CockroachApplicationTest {
+    public static void main(String[] args) throws Exception {
+        TaskQueue queue = TaskQueue.of();
+        queue.push(new Task("http://blog.zhangyingwei.com"));
+        CockroachApplication.run(CockroachApplicationTest.class,queue);
+    }
+}
+```
+如上就是基本上所有注解的演示，那么抛开演示的部分，如果真的知识做一个demo，需要怎么写呢？
+
+```java
+@EnableAutoConfiguration
+public class CockroachApplicationTest {
+    public static void main(String[] args) throws Exception {
+        TaskQueue queue = TaskQueue.of();
+        queue.push(new Task("http://blog.zhangyingwei.com"));
+        CockroachApplication.run(CockroachApplicationTest.class,queue);
+    }
+}
+```
+没错，就是这么简单。这个爬虫就是爬取 `http://blog.zhangyingwei.com` 这个页面的内容并将结果打印出来。
+在爬虫结果处理这个问题上，程序中默认使用 PringStore 这个类将所有结果打印出来。
+
 ## 关于分布式，我有话说
 
 现在网上是个爬虫就要搞一下分布式，这令我很不爽。
