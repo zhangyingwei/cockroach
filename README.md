@@ -244,7 +244,7 @@ public class CockroachApplicationTest {
     }
 }
 ```
-如上就是基本上所有注解的演示，那么抛开演示的部分，如果真的知识做一个demo，需要怎么写呢？
+如上就是基本上所有注解的演示，那么抛开演示的部分，如果真的只是做一个demo，需要怎么写呢？
 
 ```java
 @EnableAutoConfiguration
