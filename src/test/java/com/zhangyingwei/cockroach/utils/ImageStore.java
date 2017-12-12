@@ -26,7 +26,7 @@ public class ImageStore implements IStore {
 
         System.out.println("use:"+name2);
 
-        FileUtils.save(response.getContentBytes(),"D://",name2+".mp4");
+        FileUtils.save(response.getContentBytes(),"/Users/zhangyw/IdeaProjects/zhangyw/Projects/java/cockroach/src/main/resources",name2+".flv");
         System.out.println("end");
     }
 }
