@@ -25,4 +25,6 @@ public interface HttpClient {
     HttpClient setHttpHeader(Map<String, String> httpHeader) throws Exception;
 
     ProxyTuple getCurrentProxyTuple() throws Exception;
+
+    HttpClient showProgress(Boolean show);
 }

@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.annotation;
 
 import com.zhangyingwei.cockroach.CockroachApplication;
 import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.DescribeStore;
 import com.zhangyingwei.cockroach.store.TestStore;
@@ -24,7 +25,7 @@ import com.zhangyingwei.cockroach.store.TestStore;
 //@ProxyConfig("1.1.1.1,2.2.2.2")
 public class AnnotationTest {
     public static void main(String[] args) throws Exception {
-        TaskQueue queue = TaskQueue.of();
+        CockroachQueue queue = TaskQueue.of();
         queue.push(new Task("http://zhangyingwei.com"));
         queue.push(new Task("http://zhangyingwei.com"));
         queue.push(new Task("http://zhangyingwei.com"));

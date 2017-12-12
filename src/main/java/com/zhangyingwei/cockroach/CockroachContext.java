@@ -74,6 +74,7 @@ public class CockroachContext {
         return new HttpClientProxy(client)
                 .setProxy(this.proxy)
                 .setCookie(this.config.getCookie())
-                .setHttpHeader(this.config.getHttpHeader());
+                .setHttpHeader(this.config.getHttpHeader())
+                .showProgress(this.config.getShowHttpClientProgress());
     }
 }

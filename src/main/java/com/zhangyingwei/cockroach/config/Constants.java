@@ -1,7 +1,9 @@
 package com.zhangyingwei.cockroach.config;
 
+import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
+import com.zhangyingwei.cockroach.store.PrintStore;
 
 /**
  * Created by zhangyw on 2017/9/13.
@@ -24,4 +26,9 @@ public class Constants {
     public static final int DEFAULT_THREAD_NUM = 10;
     public static final int DEFAULT_THREAD_SLEEP = 500; //毫秒
     public static final boolean DEFAULT_AUTO_CLOSE = false;
+
+    public static final Boolean HTTP_SHOWHTTPCLIENTPROGRESS = false;
+
+    public static final Class HTTP_CLIENT = COkHttpClient.class;
+    public static final Class STORE = PrintStore.class;
 }

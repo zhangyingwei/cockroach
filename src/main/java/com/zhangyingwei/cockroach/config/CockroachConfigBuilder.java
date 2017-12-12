@@ -32,6 +32,7 @@ public class CockroachConfigBuilder {
                 this.config.setThread(((ThreadConfig) annotation).num(), ((ThreadConfig) annotation).sleep());
             } else if (annotation instanceof HttpConfig) {
                 this.config.setHttpClient(((HttpConfig) annotation).value());
+                this.config.setShowHttpClientProgress(((HttpConfig) annotation).progress());
             } else if (annotation instanceof Store) {
                 this.config.setStore(((Store) annotation).value());
             } else if (annotation instanceof CookieConfig) {

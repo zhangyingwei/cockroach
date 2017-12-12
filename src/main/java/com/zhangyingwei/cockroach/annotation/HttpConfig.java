@@ -14,4 +14,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface HttpConfig {
     Class value() default COkHttpClient.class;
+    boolean progress() default false;
 }

@@ -22,14 +22,13 @@ import java.util.Optional;
  */
 public class CockroachConfig {
     private Logger logger = Logger.getLogger(CockroachConfig.class);
-    private static final Class HTTPCLIENT_DEFAULT = COkHttpClient.class;
-    private static final Class STORE_DEFAULT = PrintStore.class;
     private String appName;
     private String proxys = null;
     private int thread = 1;
     private int threadSleep = 0;
-    private Class<? extends HttpClient> httpClient = HTTPCLIENT_DEFAULT;
-    private Class<? extends IStore> store = STORE_DEFAULT;
+    private Class<? extends HttpClient> httpClient = Constants.HTTP_CLIENT;
+    private Boolean showHttpClientProgress = Constants.HTTP_SHOWHTTPCLIENTPROGRESS;
+    private Class<? extends IStore> store = Constants.STORE;
     private String cookie;
     private Map<String, String> httpHeader;
     private boolean autoClose = false;
@@ -154,6 +153,15 @@ public class CockroachConfig {
         return this;
     }
 
+    public CockroachConfig setShowHttpClientProgress(Boolean showHttpClientProgress) {
+        this.showHttpClientProgress = showHttpClientProgress;
+        return this;
+    }
+
+    public Boolean getShowHttpClientProgress() {
+        return showHttpClientProgress;
+    }
+
     public void print() {
         logger.info("---------------------------config--------------------------");
         logger.info("AppName: "+this.getAppName());
@@ -161,6 +169,7 @@ public class CockroachConfig {
         logger.info("Threads: "+this.getThread());
         logger.info("ThreadSleep: "+this.getThreadSleep());
         logger.info("HttpClient: "+this.getHttpClient());
+        logger.info("HttpClientProgress: "+this.getShowHttpClientProgress());
         logger.info("Store: "+this.getStore());
         logger.info("Cookie: "+this.getCookie());
         logger.info("HttpHeaders: "+this.getHttpHeader());

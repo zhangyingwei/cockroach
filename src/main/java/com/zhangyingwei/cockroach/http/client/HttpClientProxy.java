@@ -115,4 +115,10 @@ public class HttpClientProxy implements HttpClient {
         }
         return null;
     }
+
+    @Override
+    public HttpClient showProgress(Boolean show) {
+        this.client.showProgress(show);
+        return this;
+    }
 }
