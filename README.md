@@ -289,4 +289,4 @@ public class CockroachApplicationTest {
 
 ## Lisence
 
-Lisenced under [Apache 2.0 lisence](http://opensource.org/licenses/Apache-2.0)
+Lisenced under [Apache 2.0 lisence](./LICENSE)
