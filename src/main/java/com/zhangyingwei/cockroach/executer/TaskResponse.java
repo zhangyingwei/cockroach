@@ -20,14 +20,17 @@ public class TaskResponse implements ICockroachResponse {
     private CockroachQueue queue;
     private Response response;
     private String message;
+    private String content;
+    private byte[] contentBytes;
 
     @Override
     public String getContent() throws IOException {
-        return response.body().string();
+        return this.content;
     }
 
     public byte[] getContentBytes() throws IOException {
-        return response.body().bytes();
+        this.contentBytes = this.content.getBytes();
+        return this.contentBytes;
     }
 
     public Document getDocument() throws IOException {
@@ -161,8 +164,9 @@ public class TaskResponse implements ICockroachResponse {
         return queue;
     }
 
-    public TaskResponse setResponse(Response resoonse) {
+    public TaskResponse setResponse(Response resoonse) throws IOException {
         this.response = resoonse;
+        this.content = response.body().string();
         return this;
     }
 
