@@ -33,9 +33,11 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 <dependency>
   <groupId>com.github.zhangyingwei</groupId>
   <artifactId>cockroach</artifactId>
-  <version>1.0.3-Alpha</version>
+  <version>1.0.5-Alpha</version>
 </dependency>
 ```
+
+如果哪天我忘了更新文档了，一定要记住使用最新的版本，最新的版本，新的版本，版本，本。
 
 在项目中新建一个测试类 App.java 并新建 main 方法。
 
