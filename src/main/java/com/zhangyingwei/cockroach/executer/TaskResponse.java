@@ -13,22 +13,21 @@ import java.util.*;
  * Created by zhangyw on 2017/8/10.
  * 请求返回结构
  */
-public class TaskResponse {
+public class TaskResponse implements ICockroachResponse {
     private Task task;
     private Document document;
     private List<String> selects;
     private CockroachQueue queue;
     private Response response;
     private String message;
-    private String content;
-    private byte[] contentBytes;
 
-    public String getContent() {
-        return this.content;
+    @Override
+    public String getContent() throws IOException {
+        return response.body().string();
     }
 
-    public byte[] getContentBytes() {
-        return this.content.getBytes();
+    public byte[] getContentBytes() throws IOException {
+        return response.body().bytes();
     }
 
     public Document getDocument() throws IOException {
@@ -38,7 +37,7 @@ public class TaskResponse {
 
     private Document parseDocument() throws IOException {
         if(this.document == null){
-            this.document = Jsoup.parse(Optional.ofNullable(this.getContent()).orElse(""));
+            this.document = Jsoup.parse(Optional.ofNullable(this.response.body().string()).orElse(""));
         }
         return this.document;
     }
@@ -52,6 +51,7 @@ public class TaskResponse {
         return this;
     }
 
+    @Override
     public Task getTask() {
         return task;
     }
@@ -128,8 +128,24 @@ public class TaskResponse {
         return this.parseDocument().select(cssSelect);
     }
 
+    @Override
     public boolean isGroup(String group){
         return task.getGroup().equals(group);
+    }
+
+    @Override
+    public boolean isGroupStartWith(String groupPrefix) {
+        return task.getGroup().startsWith(groupPrefix);
+    }
+
+    @Override
+    public boolean isGroupEndWith(String end) {
+        return task.getGroup().endsWith(end);
+    }
+
+    @Override
+    public boolean isGroupContains(String str) {
+        return task.getGroup().contains(str);
     }
 
     public String getGroup(){
@@ -140,13 +156,13 @@ public class TaskResponse {
         this.queue = queue;
     }
 
+    @Override
     public CockroachQueue getQueue() {
         return queue;
     }
 
-    public TaskResponse setResponse(Response resoonse) throws IOException {
+    public TaskResponse setResponse(Response resoonse) {
         this.response = resoonse;
-        this.content = resoonse.body().string();
         return this;
     }
 

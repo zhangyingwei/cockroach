@@ -4,6 +4,8 @@ import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.TaskErrorResponse;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+
 /**
  * Created by zhangyw on 2017/8/16.
  */
@@ -12,6 +14,10 @@ public class DefaultTaskErrorHandler implements ITaskErrorHandler {
 
     @Override
     public void error(TaskErrorResponse response) {
-        logger.info("task error: "+ response.getMessage());
+        try {
+            logger.info("task error: "+ response.getContent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
