@@ -259,6 +259,59 @@ public class CockroachApplicationTest {
 没错，就是这么简单。这个爬虫就是爬取 `http://blog.zhangyingwei.com` 这个页面的内容并将结果打印出来。
 在爬虫结果处理这个问题上，程序中默认使用 PringStore 这个类将所有结果打印出来。
 
+## 动态 header 支持
+最近做了一个工作职位的爬虫，在爬拉钩的时候遇到一个问题。需要登录才能爬取，这个当然配置 cookie 就能解决，但是拉钩的 cookie 里边做了防爬虫验证。cookie 里边有一个时间需要动态变化。所以就产生了这个功能。
+
+这个功能使用起来如下：
+
+### Cookie 生成器
+
+```java
+@CookieConfig(cookieGenerator = CookieGeneratorTest.class)
+```
+
+```java
+/**
+ * Created by zhangyw on 2017/12/19.
+ */
+public class CookieGeneratorTest implements StringGenerator {
+
+    @Override
+    public String get(Task task) {
+        String cookie = "v="+ UUID.randomUUID().toString();
+        System.out.println(cookie);
+        return cookie;
+    }
+}
+```
+
+在每次发生 http 请求之前，程序都会调用 Generator 的 get 方法。获取到本次的 cookie 值，并附加到 http 请求头中。
+
+### Header 生成器
+
+由于程序中需要的 header 是 map 类型的数据，所以 header 生成器如下：
+
+```java
+@HttpHeaderConfig(headerGenerator = HeaderGeneratorTest.class)
+```
+
+```java
+/**
+ * Created by zhangyw on 2017/12/19.
+ */
+public class HeaderGeneratorTest implements MapGenerator {
+    private Map headers = new HashMap();
+    @Override
+    public Map get(Task task) {
+        return headers;
+    }
+}
+```
+
+以上就是目前所有的生成器，可以看到生成器中传入了 task 对象，这里是为了在爬虫应对不同的地址的时候使用不同的 cookie/header 。
+
+OK，到此为止，就啰嗦这么多了。
+
 ## 关于分布式，我有话说
 
 现在网上是个爬虫就要搞一下分布式，这令我很不爽。
