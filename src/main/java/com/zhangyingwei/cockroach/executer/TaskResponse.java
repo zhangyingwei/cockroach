@@ -20,13 +20,15 @@ public class TaskResponse {
     private CockroachQueue queue;
     private Response response;
     private String message;
+    private String content;
+    private byte[] contentBytes;
 
-    public String getContent() throws IOException {
-        return response.body().string();
+    public String getContent() {
+        return this.content;
     }
 
-    public byte[] getContentBytes() throws IOException {
-        return response.body().bytes();
+    public byte[] getContentBytes() {
+        return this.content.getBytes();
     }
 
     public Document getDocument() throws IOException {
@@ -36,7 +38,7 @@ public class TaskResponse {
 
     private Document parseDocument() throws IOException {
         if(this.document == null){
-            this.document = Jsoup.parse(Optional.ofNullable(this.response.body().string()).orElse(""));
+            this.document = Jsoup.parse(Optional.ofNullable(this.getContent()).orElse(""));
         }
         return this.document;
     }
@@ -142,8 +144,9 @@ public class TaskResponse {
         return queue;
     }
 
-    public TaskResponse setResponse(Response resoonse) {
+    public TaskResponse setResponse(Response resoonse) throws IOException {
         this.response = resoonse;
+        this.content = resoonse.body().string();
         return this;
     }
 

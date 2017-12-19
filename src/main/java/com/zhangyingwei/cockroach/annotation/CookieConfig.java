@@ -1,7 +1,6 @@
 package com.zhangyingwei.cockroach.annotation;
 
-import com.zhangyingwei.cockroach.common.NoCookieGenerator;
-import com.zhangyingwei.cockroach.common.StringGenerator;
+import com.zhangyingwei.cockroach.common.generators.NoCookieGenerator;
 
 import java.lang.annotation.*;
 

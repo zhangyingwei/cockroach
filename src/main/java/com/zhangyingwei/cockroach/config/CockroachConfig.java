@@ -1,13 +1,11 @@
 package com.zhangyingwei.cockroach.config;
 
-import com.zhangyingwei.cockroach.common.CockroachGenerator;
-import com.zhangyingwei.cockroach.common.StringGenerator;
+import com.zhangyingwei.cockroach.common.generators.MapGenerator;
+import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
-import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.store.IStore;
-import com.zhangyingwei.cockroach.store.PrintStore;
 import com.zhangyingwei.cockroach.utils.CockroachUtils;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -33,6 +31,7 @@ public class CockroachConfig {
     private Class<? extends IStore> store = Constants.STORE;
     private String cookie;
     private Class<? extends StringGenerator> cookieGenerator = Constants.COOKIDGENERATOR;
+    private Class<? extends MapGenerator> headerGenerator = Constants.HEADERGENERATOR;
     private Map<String, String> httpHeader;
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
@@ -174,6 +173,15 @@ public class CockroachConfig {
         return this;
     }
 
+    public Class<? extends MapGenerator> getHeaderGenerator() {
+        return headerGenerator;
+    }
+
+    public CockroachConfig setHeaderGenerator(Class<? extends MapGenerator> headerGenerator) {
+        this.headerGenerator = headerGenerator;
+        return this;
+    }
+
     public void print() {
         logger.info("---------------------------config--------------------------");
         logger.info("AppName: "+this.getAppName());
@@ -186,6 +194,7 @@ public class CockroachConfig {
         logger.info("Cookie: "+this.getCookie());
         logger.info("CookieGenerator: "+this.getCookieGenerator());
         logger.info("HttpHeaders: "+this.getHttpHeader());
+        logger.info("HttpHeadersGenerator: "+this.getHeaderGenerator());
         logger.info("AutoClose: "+this.autoClose);
         logger.info("TaskErrorHandler: "+this.getTaskErrorHandler());
         logger.info("-------------------------------------------------------------");

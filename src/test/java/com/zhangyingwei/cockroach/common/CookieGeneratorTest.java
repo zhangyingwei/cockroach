@@ -1,17 +1,17 @@
 package com.zhangyingwei.cockroach.common;
 
-import java.util.Random;
-import java.util.UUID;
+import com.zhangyingwei.cockroach.common.generators.StringGenerator;
+import com.zhangyingwei.cockroach.executer.Task;
 
-import static org.junit.Assert.*;
+import java.util.UUID;
 
 /**
  * Created by zhangyw on 2017/12/19.
  */
-public class CookieGeneratorTest implements StringGenerator{
+public class CookieGeneratorTest implements StringGenerator {
 
     @Override
-    public String get() {
+    public String get(Task task) {
         String cookie = "v="+ UUID.randomUUID().toString();
         System.out.println(cookie);
         return cookie;

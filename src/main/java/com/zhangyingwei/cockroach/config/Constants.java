@@ -1,7 +1,9 @@
 package com.zhangyingwei.cockroach.config;
 
-import com.zhangyingwei.cockroach.common.NoCookieGenerator;
-import com.zhangyingwei.cockroach.common.StringGenerator;
+import com.zhangyingwei.cockroach.common.generators.MapGenerator;
+import com.zhangyingwei.cockroach.common.generators.NoCookieGenerator;
+import com.zhangyingwei.cockroach.common.generators.NoHeaderGenerator;
+import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
@@ -34,4 +36,5 @@ public class Constants {
     public static final Class HTTP_CLIENT = COkHttpClient.class;
     public static final Class STORE = PrintStore.class;
     public static final Class COOKIDGENERATOR = NoCookieGenerator.class;
+    public static final Class<? extends MapGenerator> HEADERGENERATOR = NoHeaderGenerator.class;
 }

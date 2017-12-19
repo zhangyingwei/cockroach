@@ -1,10 +1,10 @@
 package com.zhangyingwei.cockroach;
 
-import com.zhangyingwei.cockroach.common.StringGenerator;
+import com.zhangyingwei.cockroach.common.generators.MapGenerator;
+import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.TaskExecuter;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
-import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.HttpProxy;
 import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
@@ -78,8 +78,14 @@ public class CockroachContext {
             cookieGenerator = (StringGenerator) this.config.getCookieGenerator().newInstance();
         }
 
+        MapGenerator headerGenerator = null;
+        if (this.config.getHeaderGenerator() != null) {
+            headerGenerator = (MapGenerator) this.config.getHeaderGenerator().newInstance();
+        }
+
         return new HttpClientProxy(client)
                 .setCookieGenerator(cookieGenerator)
+                .setHeaderGenerator(headerGenerator)
                 .setProxy(this.proxy)
                 .setCookie(this.config.getCookie())
                 .setHttpHeader(this.config.getHttpHeader())

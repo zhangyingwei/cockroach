@@ -1,6 +1,6 @@
 package com.zhangyingwei.cockroach.utils;
 
-import com.zhangyingwei.cockroach.common.NameGenerator;
+import com.zhangyingwei.cockroach.common.generators.NameGenerator;
 import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.store.IStore;
 

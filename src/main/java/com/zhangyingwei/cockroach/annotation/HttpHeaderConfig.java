@@ -1,7 +1,8 @@
 package com.zhangyingwei.cockroach.annotation;
 
+import com.zhangyingwei.cockroach.common.generators.MapGenerator;
+import com.zhangyingwei.cockroach.common.generators.NoHeaderGenerator;
 import java.lang.annotation.*;
-import java.util.List;
 
 /**
  * Created by zhangyw on 2017/12/8.
@@ -12,5 +13,6 @@ import java.util.List;
 @Documented
 @Inherited
 public @interface HttpHeaderConfig {
-    String[] value();
+    String[] value() default {};
+    Class<? extends MapGenerator> headerGenerator() default NoHeaderGenerator.class;
 }

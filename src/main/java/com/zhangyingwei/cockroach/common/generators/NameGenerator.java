@@ -1,4 +1,4 @@
-package com.zhangyingwei.cockroach.common;
+package com.zhangyingwei.cockroach.common.generators;
 
 import com.zhangyingwei.cockroach.executer.TaskResponse;
 

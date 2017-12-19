@@ -40,12 +40,15 @@ public class CockroachConfigBuilder {
                 this.config.setCookieGenerator(((CookieConfig) annotation).cookieGenerator());
             } else if (annotation instanceof HttpHeaderConfig) {
                 String[] headers = ((HttpHeaderConfig) annotation).value();
-                for (String header : headers) {
-                    if (header.indexOf("=") < 0) {
-                        throw new Exception("require header like key=value, but get "+header);
+                this.config.setHeaderGenerator(((HttpHeaderConfig) annotation).headerGenerator());
+                if (headers.length > 0) {
+                    for (String header : headers) {
+                        if (header.indexOf("=") < 0) {
+                            throw new Exception("require header like key=value, but get "+header);
+                        }
+                        String[] kv = header.split("=");
+                        this.config.addHttpHeader(kv[0], kv[1]);
                     }
-                    String[] kv = header.split("=");
-                    this.config.addHttpHeader(kv[0], kv[1]);
                 }
             } else if (annotation instanceof TaskErrorHandlerConfig) {
                 this.config.setTaskErrorHandler(((TaskErrorHandlerConfig) annotation).value());

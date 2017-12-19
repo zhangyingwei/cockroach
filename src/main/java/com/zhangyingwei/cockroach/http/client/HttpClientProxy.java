@@ -1,7 +1,9 @@
 package com.zhangyingwei.cockroach.http.client;
 
-import com.zhangyingwei.cockroach.common.NoCookieGenerator;
-import com.zhangyingwei.cockroach.common.StringGenerator;
+import com.zhangyingwei.cockroach.common.generators.MapGenerator;
+import com.zhangyingwei.cockroach.common.generators.NoCookieGenerator;
+import com.zhangyingwei.cockroach.common.generators.NoHeaderGenerator;
+import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
@@ -10,7 +12,6 @@ import com.zhangyingwei.cockroach.http.exception.Http30XException;
 import com.zhangyingwei.cockroach.http.exception.Http40XException;
 import com.zhangyingwei.cockroach.http.exception.Http50XException;
 import com.zhangyingwei.cockroach.http.exception.HttpException;
-import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import org.apache.log4j.Logger;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ public class HttpClientProxy implements HttpClient {
     private HttpClient client;
     private HttpProxy proxy;
     private StringGenerator cookieGenerator;
+    private MapGenerator headerGenerator;
 
     public HttpClientProxy(HttpClient client) {
         this.client = client;
@@ -43,7 +45,7 @@ public class HttpClientProxy implements HttpClient {
 
     @Override
     public TaskResponse doGet(Task task) {
-        this.makeCookie();
+        this.makeGenerators(task);
         String message = "";
         try {
             return this.client.doGet(task);
@@ -68,12 +70,19 @@ public class HttpClientProxy implements HttpClient {
     }
 
     /**
-     * 如果配置了cookie生成器，则在请求之前调用cookie生成器
+     * 如果配置了生成器，则在请求之前调用生成器
+     * @param task
      */
-    private void makeCookie() {
+    private void makeGenerators(Task task) {
         if (this.cookieGenerator != null) {
             if (!(this.cookieGenerator instanceof NoCookieGenerator)) {
-                this.setCookie(this.cookieGenerator.get());
+                this.setCookie(this.cookieGenerator.get(task));
+            }
+        }
+        if (this.headerGenerator != null) {
+            if (!(this.headerGenerator instanceof NoHeaderGenerator)) {
+                Map headers = this.headerGenerator.get(task);
+                this.setHttpHeader(headers);
             }
         }
     }
@@ -137,8 +146,13 @@ public class HttpClientProxy implements HttpClient {
         return this;
     }
 
-    public HttpClient setCookieGenerator(StringGenerator cookieGenerator){
+    public HttpClientProxy setCookieGenerator(StringGenerator cookieGenerator){
         this.cookieGenerator = cookieGenerator;
+        return this;
+    }
+
+    public HttpClientProxy setHeaderGenerator(MapGenerator headerGenerator) {
+        this.headerGenerator = headerGenerator;
         return this;
     }
 }
