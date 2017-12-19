@@ -1,5 +1,6 @@
 package com.zhangyingwei.cockroach;
 
+import com.zhangyingwei.cockroach.common.StringGenerator;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.TaskExecuter;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
@@ -71,7 +72,14 @@ public class CockroachContext {
             this.proxy = new HttpProxy(this.config.getProxys());
         }
         HttpClient client  = this.config.getHttpClient().newInstance();
+
+        StringGenerator cookieGenerator = null;
+        if (this.config.getCookieGenerator() != null) {
+            cookieGenerator = (StringGenerator) this.config.getCookieGenerator().newInstance();
+        }
+
         return new HttpClientProxy(client)
+                .setCookieGenerator(cookieGenerator)
                 .setProxy(this.proxy)
                 .setCookie(this.config.getCookie())
                 .setHttpHeader(this.config.getHttpHeader())

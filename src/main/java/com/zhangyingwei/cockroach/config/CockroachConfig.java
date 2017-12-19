@@ -1,5 +1,7 @@
 package com.zhangyingwei.cockroach.config;
 
+import com.zhangyingwei.cockroach.common.CockroachGenerator;
+import com.zhangyingwei.cockroach.common.StringGenerator;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
@@ -30,6 +32,7 @@ public class CockroachConfig {
     private Boolean showHttpClientProgress = Constants.HTTP_SHOWHTTPCLIENTPROGRESS;
     private Class<? extends IStore> store = Constants.STORE;
     private String cookie;
+    private Class<? extends StringGenerator> cookieGenerator = Constants.COOKIDGENERATOR;
     private Map<String, String> httpHeader;
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
@@ -162,6 +165,15 @@ public class CockroachConfig {
         return showHttpClientProgress;
     }
 
+    public Class<?> getCookieGenerator() {
+        return cookieGenerator;
+    }
+
+    public CockroachConfig setCookieGenerator(Class<?> cookieGenerator) {
+        this.cookieGenerator = (Class<? extends StringGenerator>) cookieGenerator;
+        return this;
+    }
+
     public void print() {
         logger.info("---------------------------config--------------------------");
         logger.info("AppName: "+this.getAppName());
@@ -172,6 +184,7 @@ public class CockroachConfig {
         logger.info("HttpClientProgress: "+this.getShowHttpClientProgress());
         logger.info("Store: "+this.getStore());
         logger.info("Cookie: "+this.getCookie());
+        logger.info("CookieGenerator: "+this.getCookieGenerator());
         logger.info("HttpHeaders: "+this.getHttpHeader());
         logger.info("AutoClose: "+this.autoClose);
         logger.info("TaskErrorHandler: "+this.getTaskErrorHandler());

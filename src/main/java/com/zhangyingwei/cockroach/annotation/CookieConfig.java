@@ -1,5 +1,8 @@
 package com.zhangyingwei.cockroach.annotation;
 
+import com.zhangyingwei.cockroach.common.NoCookieGenerator;
+import com.zhangyingwei.cockroach.common.StringGenerator;
+
 import java.lang.annotation.*;
 
 /**
@@ -11,5 +14,6 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface CookieConfig {
-    String value();
+    String value() default "";
+    Class<?> cookieGenerator() default NoCookieGenerator.class;
 }

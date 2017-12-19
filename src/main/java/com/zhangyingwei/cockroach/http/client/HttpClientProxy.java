@@ -1,5 +1,7 @@
 package com.zhangyingwei.cockroach.http.client;
 
+import com.zhangyingwei.cockroach.common.NoCookieGenerator;
+import com.zhangyingwei.cockroach.common.StringGenerator;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
@@ -22,6 +24,7 @@ public class HttpClientProxy implements HttpClient {
     private Logger logger = Logger.getLogger(HttpClientProxy.class);
     private HttpClient client;
     private HttpProxy proxy;
+    private StringGenerator cookieGenerator;
 
     public HttpClientProxy(HttpClient client) {
         this.client = client;
@@ -40,6 +43,7 @@ public class HttpClientProxy implements HttpClient {
 
     @Override
     public TaskResponse doGet(Task task) {
+        this.makeCookie();
         String message = "";
         try {
             return this.client.doGet(task);
@@ -61,6 +65,17 @@ public class HttpClientProxy implements HttpClient {
             logger.error(task + " - " + message);
         }
         return TaskResponse.empty().setTask(task).setMessage(message);
+    }
+
+    /**
+     * 如果配置了cookie生成器，则在请求之前调用cookie生成器
+     */
+    private void makeCookie() {
+        if (this.cookieGenerator != null) {
+            if (!(this.cookieGenerator instanceof NoCookieGenerator)) {
+                this.setCookie(this.cookieGenerator.get());
+            }
+        }
     }
 
     @Override
@@ -119,6 +134,11 @@ public class HttpClientProxy implements HttpClient {
     @Override
     public HttpClient showProgress(Boolean show) {
         this.client.showProgress(show);
+        return this;
+    }
+
+    public HttpClient setCookieGenerator(StringGenerator cookieGenerator){
+        this.cookieGenerator = cookieGenerator;
         return this;
     }
 }

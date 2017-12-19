@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach.executer;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
+import com.zhangyingwei.cockroach.store.DescribeStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
 
 import java.util.concurrent.ExecutorService;
@@ -18,8 +19,8 @@ public class TaskExecuterTest {
 //        queue.push(new Task("http://zhangyingwei.com"));
 //        queue.push(new Task("http://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl/1.9.13"));
         ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new PrintStore(),new DefaultTaskErrorHandler(),0,true));
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new PrintStore(),new DefaultTaskErrorHandler(),0,true));
+        service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true));
+        service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true));
         service.execute(() -> {
             while(true){
                 try {

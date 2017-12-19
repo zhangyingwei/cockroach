@@ -37,6 +37,7 @@ public class CockroachConfigBuilder {
                 this.config.setStore(((Store) annotation).value());
             } else if (annotation instanceof CookieConfig) {
                 this.config.setCookie(((CookieConfig) annotation).value());
+                this.config.setCookieGenerator(((CookieConfig) annotation).cookieGenerator());
             } else if (annotation instanceof HttpHeaderConfig) {
                 String[] headers = ((HttpHeaderConfig) annotation).value();
                 for (String header : headers) {
