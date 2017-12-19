@@ -40,7 +40,7 @@ public class TaskResponse implements ICockroachResponse {
 
     private Document parseDocument() throws IOException {
         if(this.document == null){
-            this.document = Jsoup.parse(Optional.ofNullable(this.response.body().string()).orElse(""));
+            this.document = Jsoup.parse(Optional.ofNullable(this.content).orElse(""));
         }
         return this.document;
     }
