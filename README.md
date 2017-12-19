@@ -312,6 +312,26 @@ public class HeaderGeneratorTest implements MapGenerator {
 
 以上就是目前所有的生成器，可以看到生成器中传入了 task 对象，这里是为了在爬虫应对不同的地址的时候使用不同的 cookie/header 。
 
+算了还是举个栗子吧：
+
+```java
+/**
+ * Created by zhangyw on 2017/12/19.
+ */
+public class HeaderGeneratorTest implements MapGenerator {
+    private Map headers = new HashMap();
+    @Override
+    public Map get(Task task) {
+        if ("jobs.lagou".equals(task.getGroup())) {
+            header.put("key","value");
+            return headers;
+        } else {
+            return null;
+        }
+    }
+}
+```
+
 OK，到此为止，就啰嗦这么多了。
 
 ## 关于分布式，我有话说

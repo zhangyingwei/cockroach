@@ -16,6 +16,10 @@ public class HeaderGeneratorTest implements MapGenerator {
     private Map headers = new HashMap();
     @Override
     public Map get(Task task) {
-        return headers;
+        if ("jobs.lagou".equals(task.getGroup())) {
+            return headers;
+        } else {
+            return null;
+        }
     }
 }
