@@ -33,7 +33,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 <dependency>
   <groupId>com.github.zhangyingwei</groupId>
   <artifactId>cockroach</artifactId>
-  <version>1.0.5-Alpha</version>
+  <version>1.0.5-Beta</version>
 </dependency>
 ```
 
