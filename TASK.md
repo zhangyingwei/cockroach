@@ -6,6 +6,6 @@
 接下来
 
 * 替换打印日志的方式 改用 log4j 或者 logback √
-* 增加login方法，获取登录 cookie
+* 增加login方法，获取登录 cookie (考虑要不要做)
 * task 优先级
 * 代理IP这里需要抽象一个接口出来，可以实现实时获取
