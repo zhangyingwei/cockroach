@@ -1,6 +1,6 @@
 package com.zhangyingwei.cockroach.store;
 
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import org.apache.log4j.Logger;
 
 /**

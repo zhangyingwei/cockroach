@@ -1,10 +1,9 @@
 package com.zhangyingwei.cockroach.http.client;
 
 import com.zhangyingwei.cockroach.executer.Task;
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
 import com.zhangyingwei.cockroach.http.ProxyTuple;
-import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 
 import java.util.Map;
 

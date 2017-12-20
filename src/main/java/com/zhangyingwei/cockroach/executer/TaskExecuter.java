@@ -1,5 +1,7 @@
 package com.zhangyingwei.cockroach.executer;
 
+import com.zhangyingwei.cockroach.executer.response.TaskErrorResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;

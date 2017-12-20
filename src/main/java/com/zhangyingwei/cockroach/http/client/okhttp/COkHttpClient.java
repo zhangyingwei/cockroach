@@ -1,7 +1,7 @@
 package com.zhangyingwei.cockroach.http.client.okhttp;
 
 import com.zhangyingwei.cockroach.executer.Task;
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpParams;
 import com.zhangyingwei.cockroach.http.client.AbsHttpClient;
 import com.zhangyingwei.cockroach.http.client.HttpClient;

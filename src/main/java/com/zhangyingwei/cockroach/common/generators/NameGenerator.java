@@ -1,6 +1,6 @@
 package com.zhangyingwei.cockroach.common.generators;
 
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 
 /**
  * Created by zhangyw on 2017/12/12.

@@ -1,17 +1,12 @@
 package com.zhangyingwei.cockroach.store;
 
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.utils.NameUtils;
 import org.jsoup.select.Elements;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Created by zhangyw on 2017/8/11.
