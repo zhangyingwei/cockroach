@@ -124,7 +124,8 @@ CockroachConfig config = new CockroachConfig()
     .setHttpClient(SelfHttpClient.class)
 ```
 
-上边这一块目前处于待定状态
+*PS：上边这一块目前处于待定状态*
+
 ---
 
 ### 自定义结果处理类
