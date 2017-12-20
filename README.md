@@ -21,14 +21,6 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 * java8 程序中用到了一些 java8 的新特性
 * maven
 
----
-
-下面就逐点介绍一下：
-
-## 小巧
-
-新建一个 maven 项目，在 pom 文件中引入依赖
-
 ```xml
 <dependency>
   <groupId>com.github.zhangyingwei</groupId>
@@ -36,12 +28,25 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
   <version>1.0.5-Beta</version>
 </dependency>
 ```
-
 如果哪天我忘了更新文档了，一定要记住使用最新的版本，最新的版本，新的版本，版本，本。
 
-在项目中新建一个测试类 App.java 并新建 main 方法。
+---
+
+下面就逐点介绍一下：
+
+## 小巧
+
+小巧主要体现在两个方面
+
+### 体积小
+打包之后整个 jar 包只有 70k 多一点，所以完全担得起小巧两个字。
+
+### 开发代码量小
+基于本框架开发一个爬虫需要的工作量可以说是非常小。这个在下边的文档中会有体现。
 
 ### 实例
+
+在项目中新建一个测试类 App.java 并新建 main 方法。
 
 ```java
 public static void main(String[] args){
@@ -77,8 +82,10 @@ public static void main(String[] args){
 
 那灵活又体现在什么方面呢
 
-* 可以自定义 http 客户端（可选，默认使用 okhttp3）
+* 可以自定义 http 客户端（<del>可选<del>，默认使用 okhttp3）
 * 可以自定义结果的处理 （可选，默认使用打印处理器）
+
+---
 
 ### 自定义 http 客户端
 
@@ -119,6 +126,9 @@ CockroachConfig config = new CockroachConfig()
     .setThread(2) //爬虫线程数
     .setHttpClient(SelfHttpClient.class)
 ```
+
+上边这一块目前处于待定状态
+---
 
 ### 自定义结果处理类
 
