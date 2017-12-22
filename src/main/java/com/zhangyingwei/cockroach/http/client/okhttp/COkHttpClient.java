@@ -3,7 +3,7 @@ package com.zhangyingwei.cockroach.http.client.okhttp;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpParams;
-import com.zhangyingwei.cockroach.http.client.AbsHttpClient;
+import com.zhangyingwei.cockroach.http.client.AbstractHttpClient;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import net.sf.json.JSONObject;
 import okhttp3.*;
@@ -22,9 +22,8 @@ import java.text.DecimalFormat;
 /**
  * Created by zhangyw on 2017/8/10.
  */
-public class COkHttpClient extends AbsHttpClient {
+public class COkHttpClient extends AbstractHttpClient {
     private Logger logger = Logger.getLogger(COkHttpClient.class);
-//    private OkHttpClient okHttpClientBuilder;
     private OkHttpClient.Builder clientBuilder;
 
     public COkHttpClient() {

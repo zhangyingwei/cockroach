@@ -1,7 +1,6 @@
 package com.zhangyingwei.cockroach.utils;
 
 import com.zhangyingwei.cockroach.annotation.EnableAutoConfiguration;
-
 import java.lang.annotation.Annotation;
 
 /**

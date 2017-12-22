@@ -55,7 +55,7 @@ public class Task {
         return id;
     }
 
-    public Task setId(String Id) {
+    public Task setId(String id) {
         this.id = id;
         return this;
     }
@@ -104,6 +104,7 @@ public class Task {
         return this;
     }
 
+
     @Override
     public String toString() {
         return "Task{" +
@@ -111,5 +112,39 @@ public class Task {
                 ", group='" + group + '\'' +
                 ", url='" + url + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o){ return true;}
+        if (!(o instanceof Task)) {
+            return false;
+        }
+
+        Task task = (Task) o;
+
+        if (!getId().equals(task.getId())){ return false;}
+        if (!getGroup().equals(task.getGroup())) {
+            return false;
+        }
+        if (!getUrl().equals(task.getUrl())) {
+            return false;
+        }
+        if (getParams() != null ? !getParams().equals(task.getParams()) : task.getParams() != null){ return false;}
+        if (getSelects() != null ? !getSelects().equals(task.getSelects()) : task.getSelects() != null) {
+            return false;
+        }
+        return getExtr().equals(task.getExtr());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getGroup().hashCode();
+        result = 31 * result + getUrl().hashCode();
+        result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
+        result = 31 * result + (getSelects() != null ? getSelects().hashCode() : 0);
+        result = 31 * result + getExtr().hashCode();
+        return result;
     }
 }

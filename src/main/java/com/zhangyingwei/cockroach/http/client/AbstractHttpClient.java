@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by zhangyw on 2017/8/10.
  */
-public abstract class AbsHttpClient implements HttpClient{
+public abstract class AbstractHttpClient implements HttpClient{
     protected HttpProxy proxy;
     protected ProxyTuple proxyTuple;
     protected String cookie;
