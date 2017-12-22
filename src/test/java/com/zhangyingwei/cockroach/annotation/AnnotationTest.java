@@ -28,10 +28,17 @@ import org.junit.Test;
 //})
 //@ProxyConfig("1.1.1.1,2.2.2.2")
 public class AnnotationTest {
-    @Test
-    public void main() throws Exception {
-        CockroachQueue queue = TaskQueue.of();
-        queue.push(new Task("http://zhangyingwei.com"));
+    public static void main(String[] args) throws Exception {
+        CockroachQueue queue = TaskQueue.of(20);
+        new Thread(() -> {
+            for (int i = 0; i < 30; i++) {
+                try {
+                    queue.push(new Task("http://zhangyingwei.com"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         CockroachApplication.run(AnnotationTest.class,queue);
     }
 }

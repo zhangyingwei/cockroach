@@ -40,8 +40,7 @@ public class TaskQueue implements CockroachQueue {
     }
 
     private TaskQueue(int calacity) {
-//        this.queue = new ArrayBlockingQueue<Task>(calacity);
-        this.queue = new LinkedBlockingDeque<Task>();
+        this.queue = new LinkedBlockingDeque<Task>(calacity);
         this.faildQueue = new LinkedBlockingDeque<Task>();
         this.faildCounter = new HashMap<Task, Integer>();
         logger.info("create queue whith calacity " + calacity);
