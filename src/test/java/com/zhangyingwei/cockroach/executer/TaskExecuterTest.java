@@ -5,6 +5,7 @@ import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.DescribeStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
+import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,23 +15,10 @@ import java.util.concurrent.Executors;
  */
 public class TaskExecuterTest {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void  main(String[] args) throws InterruptedException {
         TaskQueue queue = TaskQueue.of();
-//        queue.push(new Task("http://zhangyingwei.com"));
-//        queue.push(new Task("http://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl/1.9.13"));
+        queue.push(new Task("http://zhangyingwei.com"));
         ExecutorService service = Executors.newCachedThreadPool();
         service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true));
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true));
-        service.execute(() -> {
-            while(true){
-                try {
-                    queue.push(new Task("http://zhangyingwei.com"));
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
-
 }

@@ -32,14 +32,6 @@ public class AnnotationTest {
     public void main() throws Exception {
         CockroachQueue queue = TaskQueue.of();
         queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
-        queue.push(new Task("http://zhangyingwei.com"));
         CockroachApplication.run(AnnotationTest.class,queue);
     }
 }
