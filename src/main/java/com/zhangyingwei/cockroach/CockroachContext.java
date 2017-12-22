@@ -61,11 +61,6 @@ public class CockroachContext {
         }
     }
 
-    public void stop() {
-        service.shutdown();
-        logger.info("stop success");
-    }
-
     private HttpClient bulidHttpClient() throws Exception {
         logger.info("bulid httpclient");
         if(this.config.getProxys() != null && this.proxy ==null){
