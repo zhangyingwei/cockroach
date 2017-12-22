@@ -30,6 +30,7 @@ import org.junit.Test;
 public class AnnotationTest {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of(20);
+        CockroachApplication.run(AnnotationTest.class,queue);
         new Thread(() -> {
             for (int i = 0; i < 30; i++) {
                 try {
@@ -39,6 +40,5 @@ public class AnnotationTest {
                 }
             }
         }).start();
-        CockroachApplication.run(AnnotationTest.class,queue);
     }
 }
