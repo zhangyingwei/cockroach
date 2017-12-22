@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
+import com.zhangyingwei.cockroach.store.DescribeStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
 
 import java.io.FileNotFoundException;
@@ -18,7 +19,7 @@ public class CockroachContextTest {
                 .setAutoClose(true)
 //                .setProxys("121.232.145.21:9000")
 //                .setHttpClient(COkHttpClient.class)
-                .setStore(PrintStore.class);
+                .setStore(DescribeStore.class);
         CockroachContext context = new CockroachContext(config);
         TaskQueue queue = TaskQueue.of();
         queue.push(new Task("http://baidu.com"));

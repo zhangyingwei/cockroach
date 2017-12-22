@@ -15,7 +15,8 @@ import java.util.concurrent.Executors;
  */
 public class TaskExecuterTest {
 
-    public static void  main(String[] args) throws InterruptedException {
+    @Test
+    public void test() throws InterruptedException {
         TaskQueue queue = TaskQueue.of();
         queue.push(new Task("http://zhangyingwei.com"));
         ExecutorService service = Executors.newCachedThreadPool();

@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach.http;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -13,6 +14,6 @@ public class COkHttpClientTest {
     public void doGet() throws Exception {
         COkHttpClient client = new COkHttpClient();
         TaskResponse resp = client.doGet(new Task("https://luolei.org").addSelect("a"));
-        System.out.println(resp.select());
+        Assert.assertNotNull(resp.select());
     }
 }
