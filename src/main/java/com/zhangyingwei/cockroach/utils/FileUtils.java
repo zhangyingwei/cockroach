@@ -1,7 +1,7 @@
 package com.zhangyingwei.cockroach.utils;
 
 import com.zhangyingwei.cockroach.common.generators.NameGenerator;
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 
 import java.io.*;
 import java.net.URLDecoder;

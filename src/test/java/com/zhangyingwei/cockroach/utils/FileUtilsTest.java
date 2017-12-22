@@ -6,12 +6,8 @@ import com.zhangyingwei.cockroach.annotation.HttpConfig;
 import com.zhangyingwei.cockroach.annotation.Store;
 import com.zhangyingwei.cockroach.annotation.ThreadConfig;
 import com.zhangyingwei.cockroach.executer.Task;
-import com.zhangyingwei.cockroach.executer.TaskResponse;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
-import com.zhangyingwei.cockroach.store.IStore;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by zhangyw on 2017/12/12.

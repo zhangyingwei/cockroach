@@ -1,6 +1,6 @@
 package com.zhangyingwei.cockroach.store;
 
-import com.zhangyingwei.cockroach.executer.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.utils.NameUtils;
 import org.jsoup.select.Elements;
 

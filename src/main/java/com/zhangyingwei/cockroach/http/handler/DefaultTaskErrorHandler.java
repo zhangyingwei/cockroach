@@ -1,7 +1,6 @@
 package com.zhangyingwei.cockroach.http.handler;
 
-import com.zhangyingwei.cockroach.executer.Task;
-import com.zhangyingwei.cockroach.executer.TaskErrorResponse;
+import com.zhangyingwei.cockroach.executer.response.TaskErrorResponse;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
