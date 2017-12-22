@@ -19,18 +19,13 @@ import java.util.concurrent.Executors;
 public class CockroachContext {
     private Logger logger = Logger.getLogger(CockroachContext.class);
     private CockroachConfig config;
-    private int thread = 5;
+    private int thread;
     private HttpProxy proxy = null;
     private ExecutorService service = Executors.newCachedThreadPool();
     private boolean started = false;
 
-    public CockroachContext(CockroachConfig config) {
+    public CockroachContext(final CockroachConfig config) {
         this.config = config;
-    }
-
-    public CockroachContext thread(int thread) {
-        this.thread = thread;
-        return this;
     }
 
     /**
@@ -44,7 +39,7 @@ public class CockroachContext {
         if(!started){
             logger.info("starting...");
             config.print();
-            this.thread = config.getThread() == 0 ? this.thread : config.getThread();
+            this.thread = config.getThread();
             for (int i = 0; i < thread; i++) {
                 TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getTaskErrorHandler().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose());
                 logger.info("new thread:" + executer.getId());
