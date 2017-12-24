@@ -29,14 +29,7 @@ public class TaskQueue implements CockroachQueue {
     }
 
     public static TaskQueue of(int calacity){
-        if(taskQueue == null){
-            synchronized (TaskQueue.class){
-                if(taskQueue == null){
-                    taskQueue = new TaskQueue(calacity);
-                }
-            }
-        }
-        return taskQueue;
+        return new TaskQueue(calacity);
     }
 
     private TaskQueue(int calacity) {
