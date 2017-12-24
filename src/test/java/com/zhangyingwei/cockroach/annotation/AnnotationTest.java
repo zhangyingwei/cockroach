@@ -18,7 +18,7 @@ import org.junit.Test;
 //@AppName("hello spider")
 @Store(DescribeStore.class)
 //@AutoClose(true)
-@ThreadConfig(num = 3,sleep = 5000)
+@ThreadConfig(num = 10,sleep = 100)
 @CookieConfig(value = "asdfasdfasdfasdfasfasdfa",cookieGenerator = CookieGeneratorTest.class)
 @HttpHeaderConfig(headerGenerator = HeaderGeneratorTest.class)
 //@HttpHeaderConfig({
@@ -32,9 +32,9 @@ public class AnnotationTest {
         CockroachQueue queue = TaskQueue.of(20);
         CockroachApplication.run(AnnotationTest.class,queue);
         new Thread(() -> {
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 10000; i++) {
                 try {
-                    queue.push(new Task("http://zhangyingwei.com"));
+                    queue.push(new Task("http://biadu.com"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
