@@ -23,19 +23,16 @@ public class TaskResponse implements ICockroachResponse {
     private String message;
     private String content;
     private byte[] contentBytes;
+    private String charset;
 
     @Override
     public String getContent() throws IOException {
         if (null == this.content) {
-            this.content = new String(this.getContentBytes());
-        }
-        return this.content;
-    }
-
-    @Override
-    public String getContent(String charset) throws IOException {
-        if (null == this.content) {
-            this.content = new String(this.getContentBytes(), charset);
+            if (null != this.charset) {
+                this.content = new String(this.getContentBytes(), this.charset);
+            } else {
+                this.content = new String(this.getContentBytes());
+            }
         }
         return this.content;
     }
@@ -68,6 +65,11 @@ public class TaskResponse implements ICockroachResponse {
     @Override
     public Task getTask() {
         return task;
+    }
+
+    public TaskResponse charset(String charset) {
+        this.charset = charset;
+        return this;
     }
 
     public TaskResponse setTask(Task task) {

@@ -13,6 +13,7 @@ public class TaskErrorResponse implements ICockroachResponse {
     private Task task;
     private String message;
     private CockroachQueue queue;
+    private String charset;
 
     public TaskErrorResponse(TaskResponse response) {
         this.task =response.getTask();
@@ -23,11 +24,6 @@ public class TaskErrorResponse implements ICockroachResponse {
     @Override
     public String getContent() throws IOException {
         return message;
-    }
-
-    @Override
-    public String getContent(String charset) throws IOException {
-        return new String(this.message.getBytes(),charset);
     }
 
     @Override

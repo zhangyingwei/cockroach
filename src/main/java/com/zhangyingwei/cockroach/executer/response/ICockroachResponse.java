@@ -13,7 +13,6 @@ import java.io.IOException;
  */
 public interface ICockroachResponse {
     String getContent() throws IOException;
-    String getContent(String charset) throws IOException;
     Task getTask();
     boolean isGroup(String group);
     boolean isGroupStartWith(String groupPrefix);
