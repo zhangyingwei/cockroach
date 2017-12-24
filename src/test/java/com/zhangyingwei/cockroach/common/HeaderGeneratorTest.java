@@ -19,7 +19,9 @@ public class HeaderGeneratorTest implements MapGenerator {
         if ("jobs.lagou".equals(task.getGroup())) {
             return headers;
         } else {
-            return null;
+            System.out.println("text/json; charset=utf-8");
+            headers.put("content-type", "text/json; charset=utf-8");
+            return headers;
         }
     }
 }

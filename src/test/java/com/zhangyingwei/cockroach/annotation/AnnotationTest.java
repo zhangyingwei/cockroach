@@ -7,6 +7,7 @@ import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.DescribeStore;
+import com.zhangyingwei.cockroach.store.PrintStore;
 import com.zhangyingwei.cockroach.store.TestStore;
 import org.junit.Test;
 
@@ -16,9 +17,9 @@ import org.junit.Test;
 
 @EnableAutoConfiguration
 //@AppName("hello spider")
-@Store(DescribeStore.class)
+@Store(TestStore.class)
 //@AutoClose(true)
-@ThreadConfig(num = 10,sleep = 100)
+@ThreadConfig(num = 1)
 @CookieConfig(value = "asdfasdfasdfasdfasfasdfa",cookieGenerator = CookieGeneratorTest.class)
 @HttpHeaderConfig(headerGenerator = HeaderGeneratorTest.class)
 //@HttpHeaderConfig({
@@ -30,15 +31,7 @@ import org.junit.Test;
 public class AnnotationTest {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of(20);
+        queue.push(new Task("http://search.51job.com/jobsearch/search_result.php?fromJs=1&jobarea=010000&industrytype=32&keyword=Java%E5%BC%80%E5%8F%91&keywordtype=2&lang=c&stype=2&postchannel=0000&fromType=1&confirmdate=9"));
         CockroachApplication.run(AnnotationTest.class,queue);
-        new Thread(() -> {
-            for (int i = 0; i < 10000; i++) {
-                try {
-                    queue.push(new Task("http://biadu.com"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 }

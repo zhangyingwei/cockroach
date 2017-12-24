@@ -26,6 +26,11 @@ public class TaskErrorResponse implements ICockroachResponse {
     }
 
     @Override
+    public String getContent(String charset) throws IOException {
+        return new String(this.message.getBytes(),charset);
+    }
+
+    @Override
     public Task getTask() {
         return task;
     }

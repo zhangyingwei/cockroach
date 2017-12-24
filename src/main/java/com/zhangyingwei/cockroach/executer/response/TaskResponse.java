@@ -26,11 +26,21 @@ public class TaskResponse implements ICockroachResponse {
 
     @Override
     public String getContent() throws IOException {
+        if (null == this.content) {
+            this.content = new String(this.getContentBytes());
+        }
+        return this.content;
+    }
+
+    @Override
+    public String getContent(String charset) throws IOException {
+        if (null == this.content) {
+            this.content = new String(this.getContentBytes(), charset);
+        }
         return this.content;
     }
 
     public byte[] getContentBytes() throws IOException {
-        this.contentBytes = this.content.getBytes();
         return this.contentBytes;
     }
 
@@ -41,7 +51,7 @@ public class TaskResponse implements ICockroachResponse {
 
     private Document parseDocument() throws IOException {
         if(this.document == null){
-            this.document = Jsoup.parse(Optional.ofNullable(this.content).orElse(""));
+            this.document = Jsoup.parse(Optional.ofNullable(this.getContent()).orElse(""));
         }
         return this.document;
     }
@@ -167,7 +177,7 @@ public class TaskResponse implements ICockroachResponse {
 
     public TaskResponse setResponse(Response resoonse) throws IOException {
         this.response = resoonse;
-        this.content = response.body().string();
+        this.contentBytes = resoonse.body().bytes();
         return this;
     }
 
