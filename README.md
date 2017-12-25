@@ -342,6 +342,71 @@ public class HeaderGeneratorTest implements MapGenerator {
 
 OK，到此为止，就啰嗦这么多了。
 
+## scala & kotlin
+
+作为目前使用的 jvm 系语言几大巨头，scala 与 kotlin 这里基本上对跟 java 的互调做的很好，但是这里还是给几个 demo。
+
+### scala
+
+```scala
+/**
+  * Created by zhangyw on 2017/12/25.
+  */
+class TTTStore extends IStore{
+    override def store(taskResponse: TaskResponse): Unit = {
+        println("ttt store")
+    }
+}
+
+object TTTStore{}
+```
+
+```scala
+/**
+  * Created by zhangyw on 2017/12/25.
+  */
+@EnableAutoConfiguration
+@ThreadConfig(num = 1)
+@Store(classOf[TTTStore])
+object MainApplication {
+    def main(args: Array[String]): Unit = {
+        println("hello scala spider")
+        val queue = TaskQueue.of()
+        queue.push(new Task("http://blog.zhangyingwei.com"))
+        CockroachApplication.run(MainApplication.getClass(),queue)
+    }
+}
+```
+
+### kotlin
+
+```kotlin
+class TTTStore :IStore{
+    override fun store(response: TaskResponse) {
+        print("ttt store")
+    }
+}
+```
+
+```kotlin
+
+/**
+ * Created by zhangyw on 2017/12/25.
+ */
+@EnableAutoConfiguration
+@ThreadConfig(num = 1)
+@Store(TTTStore::class)
+object MainApplication {
+    @JvmStatic
+    fun main(args: Array<String>) {
+        print("hello kotin spider")
+        val queue = TaskQueue.of()
+        queue.push(Task("http://blog.zhangyingwei.com"))
+        CockroachApplication.run(MainApplication::class.java, queue)
+    }
+}
+```
+
 ## 关于分布式，我有话说
 
 现在网上是个爬虫就要搞一下分布式，这令我很不爽。
