@@ -399,7 +399,7 @@ class TTTStore :IStore{
 object MainApplication {
     @JvmStatic
     fun main(args: Array<String>) {
-        print("hello kotin spider")
+        print("hello kotlin spider")
         val queue = TaskQueue.of()
         queue.push(Task("http://blog.zhangyingwei.com"))
         CockroachApplication.run(MainApplication::class.java, queue)
