@@ -1,5 +1,7 @@
 package com.zhangyingwei.cockroach.http;
 
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,6 +12,7 @@ import java.util.Random;
 public class HttpParams {
 
     private static Random random = new Random();
+    private static Logger logger = Logger.getLogger(HttpParams.class);
 
     private static String[] agents = new String[]{
             "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
@@ -41,6 +44,8 @@ public class HttpParams {
     }
 
     private static String randouAgent() {
-        return agents[random.nextInt(agents.length)];
+        String agent = agents[random.nextInt(agents.length)];
+        logger.debug("user agent: "+agent);
+        return agent;
     }
 }

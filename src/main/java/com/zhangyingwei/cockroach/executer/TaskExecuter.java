@@ -60,7 +60,7 @@ public class TaskExecuter implements Runnable {
                 }
                 response.getResponse().close();
             } catch (Exception e) {
-                logger.error(e.getLocalizedMessage());
+                logger.error(this.getId()+" - "+ e.getLocalizedMessage());
             }
         }
         logger.info(id+" : over");
