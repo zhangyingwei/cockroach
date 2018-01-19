@@ -50,4 +50,10 @@ public interface CockroachQueue {
      * @throws Exception
      */
     public void clear() throws Exception;
+
+    /**
+     * push 的时候先经过过滤器
+     * @throws Exception
+     */
+    public CockroachQueue filter(IQueueTaskFilter filter) throws Exception;
 }

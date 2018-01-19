@@ -23,6 +23,7 @@ public class TaskQueue implements CockroachQueue {
     private Map<Task,Integer> faildCounter;
 
     private static TaskQueue taskQueue;
+    private IQueueTaskFilter filter = new DefaultQueueTaskFilter();
 
     public static TaskQueue of(){
         return TaskQueue.of(Integer.MAX_VALUE);
@@ -61,33 +62,41 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public void push(Task task) throws InterruptedException {
-        this.queue.put(task);
-        logger.info(Thread.currentThread().getName() + " push task " + task);
+        if (this.filter.accept(task)) {
+            this.queue.put(task);
+            logger.info(Thread.currentThread().getName() + " push task " + task);
+        } else {
+            logger.info(Thread.currentThread().getName() + " " + task +" is not accept by " + this.filter.getClass());
+        }
     }
 
     @Override
     public void pushAll(List<Task> tasks) throws InterruptedException {
         for (Task task : tasks) {
-            this.queue.put(task);
+            this.push(task);
         }
-        logger.info(Thread.currentThread().getName() + " put task list " + tasks.size());
     }
 
     @Override
     public void push(List<String> urls) {
         urls.stream().map(url -> new Task(url)).forEach(task -> {
             try {
-                this.queue.put(task);
+                this.push(task);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
-        logger.info(Thread.currentThread().getName() + " put urls list " + urls.size());
     }
 
     @Override
     public void clear(){
         this.queue.clear();
         logger.info(Thread.currentThread().getName() + " clear queue");
+    }
+
+    @Override
+    public CockroachQueue filter(IQueueTaskFilter filter) throws Exception {
+        this.filter = filter;
+        return this;
     }
 }
