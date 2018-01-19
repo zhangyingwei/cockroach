@@ -36,9 +36,11 @@ public class HttpParams {
 
     public static Map<String, String> headers(Map<String, String> httpHeader) {
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("User-Agent", randouAgent());
         if(httpHeader != null){
             headers.putAll(httpHeader);
+        }
+        if (!headers.containsKey("User-Agent")) {
+            headers.put("User-Agent", randouAgent());
         }
         return headers;
     }
