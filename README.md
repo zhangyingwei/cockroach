@@ -342,6 +342,58 @@ public class HeaderGeneratorTest implements MapGenerator {
 
 OK，到此为止，就啰嗦这么多了。
 
+### 队列过滤器
+
+最近遇到一个需求，要对需要入队的 task 进行有选择的入队。 例如： 如果 url 为空，则放弃入对。于是边产生了入队过滤器。
+
+过滤器依赖 IQueueTaskFilter 接口。
+
+创建过滤器示例：
+```java
+/**
+ * @author: zhangyw
+ * @date: 2018/1/19
+ * @time: 下午2:37
+ * @desc: 过滤所有入队的task
+ */
+public class TestQueueTaskFilter implements IQueueTaskFilter {
+    @Override
+    public boolean accept(Task task) {
+        return StringUtils.isNotBlank(task.getUrl()) && task.getUrl().contains("baidu");
+    }
+}
+```
+
+使用方法：
+
+```java
+/**
+ * @author: zhangyw
+ * @date: 2018/1/19
+ * @time: 下午2:32
+ * @desc:
+ */
+public class DefaultQueueTaskFilterTest {
+    @Test
+    public void accept() throws Exception {
+        CockroachQueue queue = TaskQueue.of().filter(new TestQueueTaskFilter());
+        queue.push(new Task(null));
+        queue.push(new Task("http://baidu.com"));
+        queue.push(new Task("https://google.com"));
+    }
+}
+```
+
+日志：
+
+```text
+[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] create queue whith calacity 2147483647
+[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-1', group='default', url='null'} is not accept by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
+[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-2', group='default', url='http://baidu.com'}
+[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accept by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
+```
+
+
 ## scala & kotlin
 
 作为目前使用的 jvm 系语言几大巨头，scala 与 kotlin 这里基本上对跟 java 的互调做的很好，但是这里还是给几个 demo。
