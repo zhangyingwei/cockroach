@@ -38,6 +38,7 @@ public class TaskExecuter implements Runnable {
     public void run() {
         boolean flag = true;
         loop:while (flag) {
+            TaskResponse response = null;
             try {
                 Task task = null;
                 if(autoClose){
@@ -51,16 +52,19 @@ public class TaskExecuter implements Runnable {
                 }
                 TimeUnit.MILLISECONDS.sleep(sleep);
                 logger.info(this.getId()+" GET - "+task);
-                TaskResponse response = this.httpClient.proxy().doGet(task);
+                response = this.httpClient.proxy().doGet(task);
                 response.setQueue(this.queue);
                 if(response.isEmpty()){
                     this.errorHandler.error(new TaskErrorResponse(response));
                 }else{
                     this.store.store(response);
                 }
-                response.getResponse().close();
             } catch (Exception e) {
                 logger.error(this.getId()+" - "+ e.getLocalizedMessage());
+            }finally {
+                if (response != null) {
+                    response.getResponse().close();
+                }
             }
         }
         logger.info(id+" : over");
