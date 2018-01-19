@@ -66,7 +66,7 @@ public class TaskQueue implements CockroachQueue {
             this.queue.put(task);
             logger.info(Thread.currentThread().getName() + " push task " + task);
         } else {
-            logger.info(Thread.currentThread().getName() + " " + task +" is not accept by " + this.filter.getClass());
+            logger.info(Thread.currentThread().getName() + " " + task +" is not accepted by " + this.filter.getClass());
         }
     }
 

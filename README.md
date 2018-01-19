@@ -387,10 +387,10 @@ public class DefaultQueueTaskFilterTest {
 日志：
 
 ```text
-[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] create queue whith calacity 2147483647
-[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-1', group='default', url='null'} is not accept by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
-[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-2', group='default', url='http://baidu.com'}
-[INFO ][2018/01/19 14:49:56 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accept by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
+[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] create queue whith calacity 2147483647
+[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-1', group='default', url='null'} is not accepted by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
+[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-2', group='default', url='http://baidu.com'}
+[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accepted by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
 ```
 
 
