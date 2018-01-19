@@ -1,5 +1,10 @@
 # cockroach 爬虫 更新日志
 
+## 2018-01-19
+
+* 修改了 response 的 close 方法到 finally 方法块中
+* 增加了队列过滤器
+
 ## 2017-12-24
 * 增加了 TaskResponse 中指定编码格式的接口
 * 去掉了 taskqueue 中的单例
