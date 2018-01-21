@@ -434,7 +434,7 @@ Java开源的支持xpath的html解析器介绍--JsoupXpath - 无忌小伙 - 博�
 
 所以，本着条条大路通罗马的精神，使用 `response.xpath("//*[@id='cnblogs_post_body']/h2").get(2)` 来代替。
 
-同时，程序中对 `JsoupXpath` 本来的结果集进行了进一步的封装，使之返回 `jsoup` 的 `Elements` 对象，所以之后可以直接连接 `soup` 的 `css` 选择器。
+同时，程序中对 `JsoupXpath` 本来的结果集进行了进一步的封装，使之返回 `jsoup` 的 `Elements` 对象，所以之后可以直接连接 `jsoup` 的 `css` 选择器。
 
 ## scala & kotlin
 
