@@ -5,6 +5,7 @@ import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.DescribeStore;
 import com.zhangyingwei.cockroach.store.PrintStore;
+import com.zhangyingwei.cockroach.store.SelecterTestStore;
 
 import java.io.FileNotFoundException;
 
@@ -15,14 +16,14 @@ public class CockroachContextTest {
     public static void main(String[] args) throws Exception {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
-                .setThread(2)
+                .setThread(1)
                 .setAutoClose(true)
 //                .setProxys("121.232.145.21:9000")
 //                .setHttpClient(COkHttpClient.class)
-                .setStore(DescribeStore.class);
+                .setStore(SelecterTestStore.class);
         CockroachContext context = new CockroachContext(config);
         TaskQueue queue = TaskQueue.of();
-        queue.push(new Task("http://baidu.com"));
+        queue.push(new Task("https://www.cnblogs.com/wanghaomiao/p/4899355.html"));
         context.start(queue);
 
 //        new Thread(() -> {

@@ -342,7 +342,7 @@ public class HeaderGeneratorTest implements MapGenerator {
 
 OK，到此为止，就啰嗦这么多了。
 
-### 队列过滤器
+## 队列过滤器
 
 最近遇到一个需求，要对需要入队的 task 进行有选择的入队。 例如： 如果 url 为空，则放弃入队。于是便产生了入队过滤器。
 
@@ -393,6 +393,48 @@ public class DefaultQueueTaskFilterTest {
 [INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accepted by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
 ```
 
+## xpath 选择器支持
+
+本来选择器只支持 css 选择器，但是有些时候，xpath 选择器还是非常方便的。所以使用了 JsoupXpath 来支持 xpath 选择器，同时与 jsoup 完美结合。
+
+BUT，最终还是发现， JsoupXpath 对 xpath 中的数组选择存在一定的问题，当然也可能是我用的不对，有知道的老铁请联系我。
+
+以 `https://www.cnblogs.com/wanghaomiao/p/4899355.html` 这个页面为例。
+
+示例：
+
+```java
+/**
+ * @author: zhangyw
+ * @date: 2018/1/21
+ * @time: 下午3:06
+ * @desc:
+ */
+public class SelecterTestStore implements IStore {
+    @Override
+    public void store(TaskResponse response) throws Exception {
+        String title = response.select("title").text();
+        System.out.println(title);
+        String res = response.xpath("//*[@id='cnblogs_post_body']/h2").get(2).text();
+        System.out.println(res);
+    }
+}
+```
+
+结果：
+
+```text
+Java开源的支持xpath的html解析器介绍--JsoupXpath - 无忌小伙 - 博客园
+二 函数
+```
+
+注意：
+
+这里本来的 xpath 选择器应该是： `//*[@id='cnblogs_post_body']/h2[3]` ，但是在使用 `[3]` 的时候报错了，可能是这个库对此类语法的支持有问题。
+
+所以，本着条条大路通罗马的精神，使用 `response.xpath("//*[@id='cnblogs_post_body']/h2").get(2)` 来代替。
+
+同时，程序中对 `JsoupXpath` 本来的结果集进行了进一步的封装，使之返回 `jsoup` 的 `Elements` 对象，所以之后可以直接连接 `soup` 的 `css` 选择器。
 
 ## scala & kotlin
 

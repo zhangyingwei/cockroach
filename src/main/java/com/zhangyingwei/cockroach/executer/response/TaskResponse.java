@@ -1,14 +1,19 @@
 package com.zhangyingwei.cockroach.executer.response;
 
+import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
+import cn.wanghaomiao.xpath.model.JXDocument;
 import com.zhangyingwei.cockroach.executer.Task;
 import com.zhangyingwei.cockroach.http.exception.*;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -24,6 +29,7 @@ public class TaskResponse implements ICockroachResponse {
     private String content;
     private byte[] contentBytes;
     private String charset;
+    private JXDocument xdocument;
 
     @Override
     public String getContent() throws IOException {
@@ -51,6 +57,14 @@ public class TaskResponse implements ICockroachResponse {
             this.document = Jsoup.parse(Optional.ofNullable(this.getContent()).orElse(""));
         }
         return this.document;
+    }
+
+    private JXDocument parseJXDocument() throws IOException {
+        if (this.xdocument == null) {
+            Document doc = this.parseDocument();
+            this.xdocument = new JXDocument(doc);
+        }
+        return this.xdocument;
     }
 
     public List<String> getSelects() {
@@ -142,6 +156,13 @@ public class TaskResponse implements ICockroachResponse {
 
     public Elements select(String cssSelect) throws IOException {
         return this.parseDocument().select(cssSelect);
+    }
+
+    public Elements xpath(String xpath) throws IOException, XpathSyntaxErrorException {
+        List<Element> elements = this.parseJXDocument().sel(xpath).stream().map(obj -> {
+            return (Element) obj;
+        }).collect(Collectors.toList());
+        return new Elements(Optional.of(elements).orElse(new ArrayList<Element>()));
     }
 
     @Override
