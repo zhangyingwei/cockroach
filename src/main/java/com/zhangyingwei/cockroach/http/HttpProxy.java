@@ -42,9 +42,10 @@ public class HttpProxy {
 
     /**
      * 如果代理失效，从代理池中删除代理
+     *
      * @param proxy
      */
-    public void disable(ProxyTuple proxy){
+    public void disable(ProxyTuple proxy) {
         synchronized (this.proxys) {
             logger.info("disable-" + proxy);
             this.proxys.remove(proxy.ip());
