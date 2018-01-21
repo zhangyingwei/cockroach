@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.queue;
 
 
 import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.utils.CockroachUtils;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class TaskQueue implements CockroachQueue {
         return new TaskQueue(calacity);
     }
 
-    private TaskQueue(int calacity) {
+    public TaskQueue(Integer calacity) {
         this.queue = new LinkedBlockingDeque<Task>(calacity);
         this.faildQueue = new LinkedBlockingDeque<Task>();
         this.faildCounter = new HashMap<Task, Integer>();
