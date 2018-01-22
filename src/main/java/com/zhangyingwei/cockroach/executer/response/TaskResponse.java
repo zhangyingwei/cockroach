@@ -216,4 +216,10 @@ public class TaskResponse implements ICockroachResponse {
     public Response getResponse() {
         return response;
     }
+
+    public void closeResponse() {
+        if (this.response != null) {
+            this.response.close();
+        }
+    }
 }
