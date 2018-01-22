@@ -1,7 +1,6 @@
 package com.zhangyingwei.cockroach.queue;
 
 import com.zhangyingwei.cockroach.executer.Task;
-
 import java.util.List;
 
 /**
@@ -30,6 +29,13 @@ public interface CockroachQueue {
      * @throws Exception
      */
     public void push(Task task) throws Exception;
+
+    /**
+     * 失败 task 入队
+     * @param task
+     * @throws InterruptedException
+     */
+    public void falied(Task task) throws Exception;
 
     /**
      * 批量入队

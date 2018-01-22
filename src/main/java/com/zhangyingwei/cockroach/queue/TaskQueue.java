@@ -1,7 +1,9 @@
 package com.zhangyingwei.cockroach.queue;
 
 
+import com.zhangyingwei.cockroach.config.Constants;
 import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.utils.CockroachUtils;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -20,7 +22,6 @@ public class TaskQueue implements CockroachQueue {
 
     private BlockingQueue<Task> queue;
     private BlockingQueue<Task> faildQueue;
-    private Map<Task,Integer> faildCounter;
 
     private static TaskQueue taskQueue;
     private IQueueTaskFilter filter = new DefaultQueueTaskFilter();
@@ -33,18 +34,15 @@ public class TaskQueue implements CockroachQueue {
         return new TaskQueue(calacity);
     }
 
-    private TaskQueue(int calacity) {
+    public TaskQueue(Integer calacity) {
         this.queue = new LinkedBlockingDeque<Task>(calacity);
         this.faildQueue = new LinkedBlockingDeque<Task>();
-        this.faildCounter = new HashMap<Task, Integer>();
         logger.info("create queue whith calacity " + calacity);
     }
 
     @Override
     public Task poll() throws InterruptedException {
-        if(this.queue.isEmpty()){
-            logger.info(Thread.currentThread().getName() + " queue is empty");
-        }
+        this.queueValid();
         Task task = this.queue.poll();
         logger.info(Thread.currentThread().getName() + " pull task " + task);
         return task;
@@ -52,12 +50,27 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public Task take() throws InterruptedException {
-        if(this.queue.isEmpty()){
-            logger.info(Thread.currentThread().getName() + " queue is empty");
-        }
+        this.queueValid();
         Task task = this.queue.take();
         logger.info(Thread.currentThread().getName() + " take task " + task);
         return task;
+    }
+
+    /**
+     * 如果 queue 为空
+     * 如果 task retry 次数小于系统设置的 DEFAULT_TASK_RESTY
+     * 把失败任务重新添加到队列中
+     */
+    private synchronized void queueValid() throws InterruptedException {
+        if(this.queue.isEmpty() && !this.faildQueue.isEmpty()){
+            for (Task task : this.faildQueue) {
+                this.push(task);
+            }
+            this.faildQueue.clear();
+        }
+        if (this.queue.isEmpty()) {
+            logger.info(Thread.currentThread().getName() + " queue is empty");
+        }
     }
 
     @Override
@@ -65,6 +78,18 @@ public class TaskQueue implements CockroachQueue {
         if (this.filter.accept(task)) {
             this.queue.put(task);
             logger.info(Thread.currentThread().getName() + " push task " + task);
+        } else {
+            logger.info(Thread.currentThread().getName() + " " + task +" is not accepted by " + this.filter.getClass());
+        }
+    }
+
+    @Override
+    public synchronized void falied(Task task) throws InterruptedException {
+        if (this.filter.accept(task)) {
+            if (task.getRetry() > 0) {
+                this.faildQueue.put(task);
+                logger.info(Thread.currentThread().getName() + " push failed task " + task);
+            }
         } else {
             logger.info(Thread.currentThread().getName() + " " + task +" is not accepted by " + this.filter.getClass());
         }

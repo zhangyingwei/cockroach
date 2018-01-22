@@ -21,6 +21,7 @@ public class Task {
     private Map<String, Object> params;
     private List<String> selects;
     private Object extr;
+    private Integer retry = 0;
 
     public Task(String url, Map<String, Object> params) {
         this.url = url;
@@ -104,47 +105,56 @@ public class Task {
         return this;
     }
 
-
     @Override
     public String toString() {
         return "Task{" +
                 "id='" + id + '\'' +
                 ", group='" + group + '\'' +
+                ", retry=" + retry +
                 ", url='" + url + '\'' +
+                ", extr=" + extr +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){ return true;}
-        if (!(o instanceof Task)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
 
         Task task = (Task) o;
 
-        if (!getId().equals(task.getId())){ return false;}
-        if (!getGroup().equals(task.getGroup())) {
-            return false;
-        }
-        if (!getUrl().equals(task.getUrl())) {
-            return false;
-        }
-        if (getParams() != null ? !getParams().equals(task.getParams()) : task.getParams() != null){ return false;}
-        if (getSelects() != null ? !getSelects().equals(task.getSelects()) : task.getSelects() != null) {
-            return false;
-        }
-        return getExtr().equals(task.getExtr());
+        if (getId() != null ? !getId().equals(task.getId()) : task.getId() != null) return false;
+        if (getGroup() != null ? !getGroup().equals(task.getGroup()) : task.getGroup() != null) return false;
+        if (getUrl() != null ? !getUrl().equals(task.getUrl()) : task.getUrl() != null) return false;
+        if (getParams() != null ? !getParams().equals(task.getParams()) : task.getParams() != null) return false;
+        if (getSelects() != null ? !getSelects().equals(task.getSelects()) : task.getSelects() != null) return false;
+        if (getExtr() != null ? !getExtr().equals(task.getExtr()) : task.getExtr() != null) return false;
+        return getRetry() != null ? getRetry().equals(task.getRetry()) : task.getRetry() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getGroup().hashCode();
-        result = 31 * result + getUrl().hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getGroup() != null ? getGroup().hashCode() : 0);
+        result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
         result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
         result = 31 * result + (getSelects() != null ? getSelects().hashCode() : 0);
-        result = 31 * result + getExtr().hashCode();
+        result = 31 * result + (getExtr() != null ? getExtr().hashCode() : 0);
+        result = 31 * result + (getRetry() != null ? getRetry().hashCode() : 0);
         return result;
+    }
+
+    public Integer getRetry() {
+        return retry;
+    }
+
+    public Task retry() {
+        this.retry -= 1;
+        return this;
+    }
+
+    public Task retry(Integer retry) {
+        this.retry = retry;
+        return this;
     }
 }
