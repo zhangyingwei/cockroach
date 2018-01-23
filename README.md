@@ -496,11 +496,6 @@ public class DefaultQueueTaskDeepTest {
  * Created by zhangyw on 2018/1/17.
  */
 public class MeteosurfcanariasStore implements IStore {
-    private MeteosurfcanariasItemStore meteosurfcanariasItemStore = new MeteosurfcanariasItemStore();
-
-    public MeteosurfcanariasStore() throws IOException {
-    }
-
     @Override
     public void store(TaskResponse response) throws Exception {
         if (response.isGroup("meteosurfcanarias")) {
