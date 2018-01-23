@@ -1,6 +1,6 @@
 package com.zhangyingwei.cockroach.utils;
 
-import com.zhangyingwei.cockroach.executer.TaskExecuter;
+import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

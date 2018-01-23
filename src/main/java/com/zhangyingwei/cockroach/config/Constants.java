@@ -37,4 +37,9 @@ public class Constants {
     public static final Class STORE = PrintStore.class;
     public static final Class COOKIDGENERATOR = NoCookieGenerator.class;
     public static final Class<? extends MapGenerator> HEADERGENERATOR = NoHeaderGenerator.class;
+
+    public static final Integer DEFAULT_TASK_RETRY = 0;
+    public static final Integer DEFAULT_TASK_DEEP = 0;
+
+    public static final Integer DEFAULT_QUEUE_CALACITY = 11;
 }

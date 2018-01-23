@@ -1,9 +1,7 @@
 package com.zhangyingwei.cockroach.queue;
 
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author: zhangyw

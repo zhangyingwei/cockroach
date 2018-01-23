@@ -1,7 +1,7 @@
 package com.zhangyingwei.cockroach.common;
 
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 
 import java.util.UUID;
 

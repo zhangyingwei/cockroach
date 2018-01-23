@@ -1,4 +1,4 @@
-package com.zhangyingwei.cockroach.executer;
+package com.zhangyingwei.cockroach.executer.task;
 
 import com.zhangyingwei.cockroach.executer.response.TaskErrorResponse;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;

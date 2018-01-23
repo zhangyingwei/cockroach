@@ -4,7 +4,7 @@ import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.NoCookieGenerator;
 import com.zhangyingwei.cockroach.common.generators.NoHeaderGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
 import com.zhangyingwei.cockroach.http.ProxyTuple;

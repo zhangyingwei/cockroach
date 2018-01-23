@@ -2,7 +2,7 @@ package com.zhangyingwei.cockroach.executer.response;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.http.exception.*;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import okhttp3.Response;

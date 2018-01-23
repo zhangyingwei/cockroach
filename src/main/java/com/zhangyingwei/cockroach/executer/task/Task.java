@@ -1,9 +1,10 @@
-package com.zhangyingwei.cockroach.executer;
+package com.zhangyingwei.cockroach.executer.task;
 
 
 import com.zhangyingwei.cockroach.config.Constants;
 import com.zhangyingwei.cockroach.utils.NameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * 爬虫任务描述类
  */
 public class Task {
+    private Logger logger = Logger.getLogger(Task.class);
     //每一个任务都会生成一个编号，编号是一个递增的连续序列
     private String id = NameUtils.name(Task.class);
     //每一个任务都会有一个分组，如果没有设置，默认为 default
@@ -21,7 +23,8 @@ public class Task {
     private Map<String, Object> params;
     private List<String> selects;
     private Object extr;
-    private Integer retry = 0;
+    private Integer retry = Constants.DEFAULT_TASK_RETRY;
+    private Integer deep = Constants.DEFAULT_TASK_DEEP;
 
     public Task(String url, Map<String, Object> params) {
         this.url = url;
@@ -110,9 +113,12 @@ public class Task {
         return "Task{" +
                 "id='" + id + '\'' +
                 ", group='" + group + '\'' +
-                ", retry=" + retry +
                 ", url='" + url + '\'' +
+                ", params=" + params +
+                ", selects=" + selects +
                 ", extr=" + extr +
+                ", retry=" + retry +
+                ", deep=" + deep +
                 '}';
     }
 
@@ -155,6 +161,24 @@ public class Task {
 
     public Task retry(Integer retry) {
         this.retry = retry;
+        return this;
+    }
+
+    public Integer getDeep() {
+        return deep;
+    }
+
+    public Task addDeep(int deep) {
+        if (deep > 0) {
+            this.deep += deep;
+        } else {
+            logger.info("deep is not valid: " + deep);
+        }
+        return this;
+    }
+
+    public Task nextDeepBy(Task task) {
+        this.deep = task.getDeep() + 1;
         return this;
     }
 }

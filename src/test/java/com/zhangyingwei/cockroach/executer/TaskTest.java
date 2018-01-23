@@ -1,10 +1,9 @@
 package com.zhangyingwei.cockroach.executer;
 
+import com.zhangyingwei.cockroach.executer.task.Task;
 import org.junit.Test;
 
 import java.util.HashMap;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by zhangyw on 2017/9/20.

@@ -3,13 +3,10 @@ package com.zhangyingwei.cockroach.annotation;
 import com.zhangyingwei.cockroach.CockroachApplication;
 import com.zhangyingwei.cockroach.common.CookieGeneratorTest;
 import com.zhangyingwei.cockroach.common.HeaderGeneratorTest;
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
-import com.zhangyingwei.cockroach.store.DescribeStore;
-import com.zhangyingwei.cockroach.store.PrintStore;
 import com.zhangyingwei.cockroach.store.TestStore;
-import org.junit.Test;
 
 /**
  * Created by zhangyw on 2017/12/8.

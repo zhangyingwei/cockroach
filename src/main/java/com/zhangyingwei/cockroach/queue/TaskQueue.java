@@ -2,16 +2,13 @@ package com.zhangyingwei.cockroach.queue;
 
 
 import com.zhangyingwei.cockroach.config.Constants;
-import com.zhangyingwei.cockroach.executer.Task;
-import com.zhangyingwei.cockroach.utils.CockroachUtils;
+import com.zhangyingwei.cockroach.executer.task.Task;
+import com.zhangyingwei.cockroach.executer.task.TaskCompatator;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -27,7 +24,7 @@ public class TaskQueue implements CockroachQueue {
     private IQueueTaskFilter filter = new DefaultQueueTaskFilter();
 
     public static TaskQueue of(){
-        return TaskQueue.of(Integer.MAX_VALUE);
+        return TaskQueue.of(Constants.DEFAULT_QUEUE_CALACITY);
     }
 
     public static TaskQueue of(int calacity){
@@ -35,8 +32,8 @@ public class TaskQueue implements CockroachQueue {
     }
 
     public TaskQueue(Integer calacity) {
-        this.queue = new LinkedBlockingDeque<Task>(calacity);
-        this.faildQueue = new LinkedBlockingDeque<Task>();
+        this.queue = new PriorityBlockingQueue<Task>(calacity,new TaskCompatator());
+        this.faildQueue = new PriorityBlockingQueue<Task>();
         logger.info("create queue whith calacity " + calacity);
     }
 

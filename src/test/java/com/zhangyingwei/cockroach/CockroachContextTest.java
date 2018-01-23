@@ -1,13 +1,9 @@
 package com.zhangyingwei.cockroach;
 
 import com.zhangyingwei.cockroach.config.CockroachConfig;
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
-import com.zhangyingwei.cockroach.store.DescribeStore;
-import com.zhangyingwei.cockroach.store.PrintStore;
 import com.zhangyingwei.cockroach.store.SelecterTestStore;
-
-import java.io.FileNotFoundException;
 
 /**
  * Created by zhangyw on 2017/8/10.

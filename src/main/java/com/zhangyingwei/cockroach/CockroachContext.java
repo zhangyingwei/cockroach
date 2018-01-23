@@ -3,7 +3,7 @@ package com.zhangyingwei.cockroach;
 import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
-import com.zhangyingwei.cockroach.executer.TaskExecuter;
+import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.HttpProxy;

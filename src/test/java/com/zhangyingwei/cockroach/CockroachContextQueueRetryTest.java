@@ -4,11 +4,9 @@ import com.zhangyingwei.cockroach.annotation.AppName;
 import com.zhangyingwei.cockroach.annotation.AutoClose;
 import com.zhangyingwei.cockroach.annotation.EnableAutoConfiguration;
 import com.zhangyingwei.cockroach.annotation.ThreadConfig;
-import com.zhangyingwei.cockroach.config.CockroachConfig;
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
-import com.zhangyingwei.cockroach.store.SelecterTestStore;
 
 /**
  * Created by zhangyw on 2017/8/10.

@@ -1,18 +1,9 @@
 package com.zhangyingwei.cockroach;
 
 import com.zhangyingwei.cockroach.config.CockroachConfig;
-import com.zhangyingwei.cockroach.executer.Task;
-import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
+import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
-import com.zhangyingwei.cockroach.store.ImageStore;
-import com.zhangyingwei.cockroach.store.IpStore;
-import com.zhangyingwei.cockroach.store.MeiZhiStore;
 import com.zhangyingwei.cockroach.store.ZhiHuMeiZhi;
-
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zhangyw on 2017/8/10.

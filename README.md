@@ -436,6 +436,88 @@ Java开源的支持xpath的html解析器介绍--JsoupXpath - 无忌小伙 - 博�
 
 同时，程序中对 `JsoupXpath` 本来的结果集进行了进一步的封装，使之返回 `jsoup` 的 `Elements` 对象，所以之后可以直接连接 `jsoup` 的 `css` 选择器。
 
+## 任务优先级支持
+
+通过 task 中定义的 deep 参数实现任务的优先级。
+
+```java
+/**
+ * @author: zhangyw
+ * @date: 2018/1/19
+ * @time: 下午2:32
+ * @desc:
+ */
+public class DefaultQueueTaskDeepTest {
+    @Test
+    public void accept() throws Exception {
+        CockroachQueue queue = TaskQueue.of();
+        queue.push(new Task("1").addDeep(1));
+        queue.push(new Task("2").addDeep(3));
+        queue.push(new Task("3").addDeep(5));
+        queue.push(new Task("4").addDeep(2));
+        queue.push(new Task("5").addDeep(4));
+        queue.push(new Task("6").addDeep(1));
+        queue.push(new Task("7").addDeep(1));
+
+        for (int i = 0; i < 7; i++) {
+            queue.take();
+        }
+    }
+}
+```
+
+日志:
+
+```text
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-1', group='default', url='1', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-2', group='default', url='2', params={}, selects=null, extr=null, retry=0, deep=3}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-3', group='default', url='3', params={}, selects=null, extr=null, retry=0, deep=5}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-4', group='default', url='4', params={}, selects=null, extr=null, retry=0, deep=2}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-5', group='default', url='5', params={}, selects=null, extr=null, retry=0, deep=4}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-6', group='default', url='6', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-7', group='default', url='7', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-3', group='default', url='3', params={}, selects=null, extr=null, retry=0, deep=5}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-5', group='default', url='5', params={}, selects=null, extr=null, retry=0, deep=4}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-2', group='default', url='2', params={}, selects=null, extr=null, retry=0, deep=3}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-4', group='default', url='4', params={}, selects=null, extr=null, retry=0, deep=2}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-1', group='default', url='1', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-6', group='default', url='6', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-7', group='default', url='7', params={}, selects=null, extr=null, retry=0, deep=1}
+```
+
+通过实例可以看到，通过 addDeep(int deep) 方法可以控制 task 的优先级， deep 值越大优先级越高。但是在实际操作中设置 addDeep(int deep) 中的 deep 值通常是比较烦的，因为免不了会忘记上一个 deep 到底是多少。
+
+所以，这里提供了另外一个方法 nextDeepBy(Task task) 。 传入上一个 task 会自动在上一个 task 的 deep 基础上加 1。
+
+举例：
+
+```java
+/**
+ * Created by zhangyw on 2018/1/17.
+ */
+public class MeteosurfcanariasStore implements IStore {
+    private MeteosurfcanariasItemStore meteosurfcanariasItemStore = new MeteosurfcanariasItemStore();
+
+    public MeteosurfcanariasStore() throws IOException {
+    }
+
+    @Override
+    public void store(TaskResponse response) throws Exception {
+        if (response.isGroup("meteosurfcanarias")) {
+            response.select(".display-webcams-peq").select("a").stream().forEach(element -> {
+                String path = element.attr("href");
+                String url = "http://www.meteosurfcanarias.com".concat(path);
+                try {
+                    response.getQueue().push(new Task(url,"meteosurfcanarias.item").nextDeepBy(response.getTask()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
+}
+```
+
 ## scala & kotlin
 
 作为目前使用的 jvm 系语言几大巨头，scala 与 kotlin 这里基本上对跟 java 的互调做的很好，但是这里还是给几个 demo。

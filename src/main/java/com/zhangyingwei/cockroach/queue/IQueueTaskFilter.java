@@ -1,6 +1,6 @@
 package com.zhangyingwei.cockroach.queue;
 
-import com.zhangyingwei.cockroach.executer.Task;
+import com.zhangyingwei.cockroach.executer.task.Task;
 
 /**
  * @author: zhangyw
