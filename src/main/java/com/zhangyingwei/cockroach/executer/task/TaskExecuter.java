@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.executer.task;
 
 import com.zhangyingwei.cockroach.executer.response.TaskErrorResponse;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
+import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TaskExecuter implements Runnable {
     private final ITaskErrorHandler errorHandler;
+    private final TaskResponseFilterBox filterBox;
     private Logger logger = Logger.getLogger(TaskExecuter.class);
     private CockroachQueue queue;
     private HttpClient httpClient;
@@ -24,7 +26,7 @@ public class TaskExecuter implements Runnable {
     private boolean autoClose;
     private int sleep;
 
-    public TaskExecuter(CockroachQueue queue, HttpClient httpClient, IStore store, ITaskErrorHandler errorHandler, int sleep, boolean autoClose) {
+    public TaskExecuter(CockroachQueue queue, HttpClient httpClient, IStore store, ITaskErrorHandler errorHandler, int sleep, boolean autoClose, TaskResponseFilterBox filterBox) {
         this.queue = queue;
         this.httpClient = httpClient;
         this.store = store;
@@ -32,6 +34,7 @@ public class TaskExecuter implements Runnable {
         this.errorHandler = errorHandler;
         this.autoClose = autoClose;
         this.sleep = sleep;
+        this.filterBox = filterBox;
     }
 
     @Override
@@ -57,7 +60,9 @@ public class TaskExecuter implements Runnable {
                 if(response.isEmpty()){
                     this.errorHandler.error(new TaskErrorResponse(response));
                 }else{
-                    this.store.store(response);
+                    if (this.filterBox.accept(response)) {
+                        this.store.store(response);
+                    }
                 }
             } catch (Exception e) {
                 logger.error(this.getId()+" - "+ e.getLocalizedMessage());

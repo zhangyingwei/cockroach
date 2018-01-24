@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.config;
 
 import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
+import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
@@ -11,9 +12,8 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -35,6 +35,7 @@ public class CockroachConfig {
     private Map<String, String> httpHeader;
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
+    private Set<Class<? extends ITaskResponseFilter>> responseFilters = new HashSet<Class<? extends ITaskResponseFilter>>();
 
     /**
      * 如果找不到 log4j 的配置，就使用默认配置
@@ -182,6 +183,20 @@ public class CockroachConfig {
         return this;
     }
 
+    public Set<Class<? extends ITaskResponseFilter>> getResponseFilters() {
+        return responseFilters;
+    }
+
+    public CockroachConfig setResponseFilters(Set<Class<? extends ITaskResponseFilter>> responseFilters) {
+        this.responseFilters = responseFilters;
+        return this;
+    }
+
+    public CockroachConfig addResponseFilters(Class<? extends ITaskResponseFilter> responseFilter) {
+        this.responseFilters.add(responseFilter);
+        return this;
+    }
+
     public void print() {
         logger.info("---------------------------config--------------------------");
         logger.info("AppName: "+this.getAppName());
@@ -197,6 +212,7 @@ public class CockroachConfig {
         logger.info("HttpHeadersGenerator: "+this.getHeaderGenerator());
         logger.info("AutoClose: "+this.autoClose);
         logger.info("TaskErrorHandler: "+this.getTaskErrorHandler());
+        logger.info("ResponseFilters: "+this.getResponseFilters());
         logger.info("-------------------------------------------------------------");
     }
 }

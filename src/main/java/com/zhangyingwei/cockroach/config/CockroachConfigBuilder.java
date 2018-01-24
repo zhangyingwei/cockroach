@@ -1,9 +1,12 @@
 package com.zhangyingwei.cockroach.config;
 
 import com.zhangyingwei.cockroach.annotation.*;
+import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
 import com.zhangyingwei.cockroach.utils.AnnotationUtils;
 
 import java.lang.annotation.Annotation;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by zhangyw on 2017/12/8.
@@ -52,6 +55,15 @@ public class CockroachConfigBuilder {
                 }
             } else if (annotation instanceof TaskErrorHandlerConfig) {
                 this.config.setTaskErrorHandler(((TaskErrorHandlerConfig) annotation).value());
+            } else if (annotation instanceof TaskResponseFiltersConfig) {
+                Set<Class<? extends ITaskResponseFilter>> filters = new HashSet<Class<? extends ITaskResponseFilter>>();
+                Class[] values = ((TaskResponseFiltersConfig) annotation).value();
+                if (values != null && values.length > 0) {
+                    for (Class value : values) {
+                        filters.add(value);
+                    }
+                }
+                this.config.setResponseFilters(filters);
             }
         }
         return this.config;

@@ -4,8 +4,9 @@ package com.zhangyingwei.cockroach.queue;
 import com.zhangyingwei.cockroach.config.Constants;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.executer.task.TaskCompatator;
+import com.zhangyingwei.cockroach.queue.filter.IQueueTaskFilter;
+import com.zhangyingwei.cockroach.queue.filter.TaskFilterBox;
 import org.apache.log4j.Logger;
-
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -20,8 +21,7 @@ public class TaskQueue implements CockroachQueue {
     private BlockingQueue<Task> queue;
     private BlockingQueue<Task> faildQueue;
 
-    private static TaskQueue taskQueue;
-    private IQueueTaskFilter filter = new DefaultQueueTaskFilter();
+    private TaskFilterBox filterBox;
 
     public static TaskQueue of(){
         return TaskQueue.of(Constants.DEFAULT_QUEUE_CALACITY);
@@ -34,6 +34,7 @@ public class TaskQueue implements CockroachQueue {
     public TaskQueue(Integer calacity) {
         this.queue = new PriorityBlockingQueue<Task>(calacity,new TaskCompatator());
         this.faildQueue = new PriorityBlockingQueue<Task>();
+        this.filterBox = new TaskFilterBox();
         logger.info("create queue whith calacity " + calacity);
     }
 
@@ -72,23 +73,19 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public void push(Task task) throws InterruptedException {
-        if (this.filter.accept(task)) {
+        if (filterBox.accept(task)) {
             this.queue.put(task);
             logger.info(Thread.currentThread().getName() + " push task " + task);
-        } else {
-            logger.info(Thread.currentThread().getName() + " " + task +" is not accepted by " + this.filter.getClass());
         }
     }
 
     @Override
     public synchronized void falied(Task task) throws InterruptedException {
-        if (this.filter.accept(task)) {
+        if (filterBox.accept(task)) {
             if (task.getRetry() > 0) {
                 this.faildQueue.put(task);
                 logger.info(Thread.currentThread().getName() + " push failed task " + task);
             }
-        } else {
-            logger.info(Thread.currentThread().getName() + " " + task +" is not accepted by " + this.filter.getClass());
         }
     }
 
@@ -118,7 +115,7 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public CockroachQueue filter(IQueueTaskFilter filter) throws Exception {
-        this.filter = filter;
+        this.filterBox.add(filter);
         return this;
     }
 }

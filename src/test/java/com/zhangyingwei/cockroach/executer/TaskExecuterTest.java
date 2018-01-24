@@ -1,5 +1,6 @@
 package com.zhangyingwei.cockroach.executer;
 
+import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
@@ -21,6 +22,6 @@ public class TaskExecuterTest {
         TaskQueue queue = TaskQueue.of();
         queue.push(new Task("http://zhangyingwei.com"));
         ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true));
+        service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true, new TaskResponseFilterBox()));
     }
 }

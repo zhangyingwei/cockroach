@@ -5,6 +5,7 @@
 * 调整了 task 的包位置
 * task 增加了 deep 参数
 * 换掉 ArrayBlockingQueue 使用可以定义优先级的 PriorityBlockingQueue，并结合 task 的 deep 参数实现任务的优先级
+* 增加了response filter
 
 ## 2018-01-19
 

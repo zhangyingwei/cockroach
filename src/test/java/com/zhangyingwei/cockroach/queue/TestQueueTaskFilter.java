@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.queue;
 
 import com.zhangyingwei.cockroach.executer.task.Task;
+import com.zhangyingwei.cockroach.queue.filter.IQueueTaskFilter;
 import org.apache.commons.lang.StringUtils;
 
 /**

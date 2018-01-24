@@ -15,6 +15,11 @@ public class DefaultQueueTaskFilterTest {
         CockroachQueue queue = TaskQueue.of().filter(new TestQueueTaskFilter());
         queue.push(new Task(null));
         queue.push(new Task("http://baidu.com"));
+        queue.push(new Task("http://baidu.com"));
+        queue.push(new Task("http://baidu.com"));
+        queue.push(new Task("http://baidu.com"));
+        queue.push(new Task("https://google.com"));
+        queue.push(new Task("https://google.com"));
         queue.push(new Task("https://google.com"));
     }
 }

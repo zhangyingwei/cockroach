@@ -393,6 +393,58 @@ public class DefaultQueueTaskFilterTest {
 [INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accepted by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
 ```
 
+## 结果过滤器
+
+主要是对爬取结果进行过滤，去掉一批不需要的页面或者错误页面。
+
+过滤器代码:
+
+```java
+/**
+ * @author: zhangyw
+ * @date: 2018/1/24
+ * @time: 下午3:39
+ * @desc:
+ */
+public class ResponseFilterTest implements ITaskResponseFilter{
+    @Override
+    public boolean accept(TaskResponse response) {
+        try {
+            return response.select("title").text().contains("百度");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+}
+```
+
+测试代码：
+
+```java
+/**
+ * @author: zhangyw
+ * @date: 2018/1/24
+ * @time: 下午3:37
+ * @desc:
+ */
+@EnableAutoConfiguration
+@AppName("test")
+@TaskResponseFiltersConfig({
+    ResponseFilterTest.class
+})
+public class ITaskResponseFilterTest {
+    public static void main(String[] args) throws Exception {
+        CockroachQueue queue = TaskQueue.of();
+        queue.push(new Task("https://baidu.com"));
+        queue.push(new Task("http://zhangyingwei.com"));
+        CockroachApplication.run(ITaskResponseFilterTest.class, queue);
+    }
+}
+```
+
+以上程序运行的结果就是只会打印出结果页面的 `title` 标签中包含 `百度` 两个字的页面，即 `https://baidu.com` 的结果。
+
 ## xpath 选择器支持
 
 本来选择器只支持 css 选择器，但是有些时候，xpath 选择器还是非常方便的。所以使用了 JsoupXpath 来支持 xpath 选择器，同时与 jsoup 完美结合。
