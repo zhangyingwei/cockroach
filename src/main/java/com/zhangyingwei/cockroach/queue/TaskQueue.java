@@ -78,14 +78,14 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public void push(Task task, Boolean withFilter) throws InterruptedException {
+        Boolean allow = true;
         if (withFilter) {
-            if (filterBox.accept(task)) {
-                this.queue.put(task);
-            }
-        }else {
-            this.queue.put(task);
+            allow = filterBox.accept(task);
         }
-        logger.info(Thread.currentThread().getName() + " push task " + task);
+        if (allow) {
+            this.queue.put(task);
+            logger.info(Thread.currentThread().getName() + " push task " + task);
+        }
     }
 
     @Override
