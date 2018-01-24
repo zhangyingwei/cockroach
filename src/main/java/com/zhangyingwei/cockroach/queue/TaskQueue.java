@@ -62,7 +62,7 @@ public class TaskQueue implements CockroachQueue {
     private synchronized void queueValid() throws InterruptedException {
         if(this.queue.isEmpty() && !this.faildQueue.isEmpty()){
             for (Task task : this.faildQueue) {
-                this.push(task);
+                this.push(task, false);
             }
             this.faildQueue.clear();
         }
@@ -73,19 +73,26 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public void push(Task task) throws InterruptedException {
-        if (filterBox.accept(task)) {
+        this.push(task, true);
+    }
+
+    @Override
+    public void push(Task task, Boolean withFilter) throws InterruptedException {
+        if (withFilter) {
+            if (filterBox.accept(task)) {
+                this.queue.put(task);
+            }
+        }else {
             this.queue.put(task);
-            logger.info(Thread.currentThread().getName() + " push task " + task);
         }
+        logger.info(Thread.currentThread().getName() + " push task " + task);
     }
 
     @Override
     public synchronized void falied(Task task) throws InterruptedException {
-        if (filterBox.accept(task)) {
-            if (task.getRetry() > 0) {
-                this.faildQueue.put(task);
-                logger.info(Thread.currentThread().getName() + " push failed task " + task);
-            }
+        if (task.getRetry() > 0) {
+            this.faildQueue.put(task);
+            logger.info(Thread.currentThread().getName() + " push failed task " + task);
         }
     }
 

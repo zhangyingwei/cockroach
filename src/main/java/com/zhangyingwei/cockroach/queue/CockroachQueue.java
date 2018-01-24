@@ -33,6 +33,14 @@ public interface CockroachQueue {
     public void push(Task task) throws Exception;
 
     /**
+     * 入队
+     * 是否应用 filter
+     * @param task
+     * @param withFilter
+     */
+    public void push(Task task, Boolean withFilter) throws Exception;
+
+    /**
      * 失败 task 入队
      * @param task
      * @throws InterruptedException
