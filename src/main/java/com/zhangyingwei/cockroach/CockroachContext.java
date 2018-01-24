@@ -43,8 +43,8 @@ public class CockroachContext {
             logger.info("starting...");
             config.print();
             this.thread = config.getThread();
+            TaskResponseFilterBox filterBox = this.bulidResponseFilters();
             for (int i = 0; i < thread; i++) {
-                TaskResponseFilterBox filterBox = this.bulidResponseFilters();
                 TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getTaskErrorHandler().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose(),filterBox);
                 logger.info("new thread:" + executer.getId());
                 service.execute(executer);
