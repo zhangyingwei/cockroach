@@ -20,7 +20,7 @@ public class TaskResponseFilterBox implements ITaskResponseFilter {
     }
 
     @Override
-    public boolean accept(TaskResponse response) {
+    public synchronized boolean accept(TaskResponse response) {
         for (ITaskResponseFilter responseFilter : responseFilters) {
             if (!responseFilter.accept(response)) {
                 logger.info(Thread.currentThread().getName() + " response of " + response.getTask() + " is not accepted by " + responseFilter.getClass());

@@ -30,7 +30,7 @@ public class TaskFilterBox implements IQueueTaskFilter {
     }
 
     @Override
-    public boolean accept(Task task) {
+    public synchronized boolean accept(Task task) {
         for (IQueueTaskFilter filter : filters) {
             if (!filter.accept(task)) {
                 logger.info(Thread.currentThread().getName() + " " + task + " is not accepted by " + filter.getClass());
