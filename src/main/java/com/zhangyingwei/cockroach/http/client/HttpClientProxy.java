@@ -59,7 +59,7 @@ public class HttpClientProxy implements HttpClient {
                     message = "resources redirect:" + e.getMessage();
                 }
             } else {
-                if (this.proxy != null) {
+                if (this.proxy != null && !this.proxy.isEmpty()) {
                     this.proxy.disable(this.getCurrentProxyTuple());
                 }
                 message = e.getMessage();

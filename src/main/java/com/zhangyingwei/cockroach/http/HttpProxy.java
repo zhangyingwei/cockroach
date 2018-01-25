@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Created by zhangyw on 2017/8/11.
  */
-public class HttpProxy {
+public class HttpProxy implements IHttpProxy{
     private Logger logger = Logger.getLogger(HttpProxy.class);
     private Map<String, Integer> proxys;
     private Random random = new Random();
@@ -30,11 +30,9 @@ public class HttpProxy {
      * 随机获取一个代理
      * @return
      */
+    @Override
     public ProxyTuple randomProxy(){
         synchronized (this.proxys){
-            if (this.proxys.size() == 0) {
-                logger.info("代理全部失效");
-            }
             Map.Entry<String,Integer> entity = this.proxys.entrySet().stream().collect(Collectors.toList()).get(random.nextInt(proxys.size()));
             return new ProxyTuple(entity.getKey(), entity.getValue());
         }
@@ -45,13 +43,18 @@ public class HttpProxy {
      *
      * @param proxy
      */
+    @Override
     public void disable(ProxyTuple proxy) {
         synchronized (this.proxys) {
             logger.info("disable-" + proxy);
             this.proxys.remove(proxy.ip());
+            if (this.isEmpty()) {
+                logger.info("代理全部失效");
+            }
         }
     }
 
+    @Override
     public boolean isEmpty(){
         return this.proxys.isEmpty();
     }

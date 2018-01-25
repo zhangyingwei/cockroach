@@ -14,7 +14,7 @@ public class CockroachContextIPTest {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
                 .setThread(5,5000)
-//                .setProxys("183.222.102.105,183.222.102.108,183.222.102.107,183.222.102.106,183.222.102.104,183.222.102.109")
+                .setProxys("183.222.102.105,183.222.102.108,183.222.102.107,183.222.102.106,183.222.102.104,183.222.102.109")
                 .setHttpClient(COkHttpClient.class)
                 .setStore(IpStore.class)
                 .setAutoClose(true);
