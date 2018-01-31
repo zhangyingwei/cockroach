@@ -72,4 +72,6 @@ public interface CockroachQueue {
      * @throws Exception
      */
     public CockroachQueue filter(IQueueTaskFilter filter) throws Exception;
+
+    Boolean isEmpty();
 }

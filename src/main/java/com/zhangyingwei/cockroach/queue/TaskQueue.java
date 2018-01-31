@@ -125,4 +125,9 @@ public class TaskQueue implements CockroachQueue {
         this.filterBox.add(filter);
         return this;
     }
+
+    @Override
+    public Boolean isEmpty() {
+        return this.queue.isEmpty();
+    }
 }
