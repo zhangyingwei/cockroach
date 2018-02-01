@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.config;
 
 import com.zhangyingwei.cockroach.annotation.*;
+import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
 import com.zhangyingwei.cockroach.utils.AnnotationUtils;
 
@@ -64,6 +65,9 @@ public class CockroachConfigBuilder {
                     }
                 }
                 this.config.setResponseFilters(filters);
+            } else if (annotation instanceof ExecutersListener) {
+                Class<? extends IExecutersListener> listener = ((ExecutersListener) annotation).value();
+                this.config.setExecutersListener(listener);
             }
         }
         return this.config;
