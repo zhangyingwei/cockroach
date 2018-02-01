@@ -1,21 +1,10 @@
 package com.zhangyingwei.cockroach;
 
-import com.zhangyingwei.cockroach.common.generators.MapGenerator;
-import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.ExecuterManager;
-import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
-import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
-import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
+import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
-import com.zhangyingwei.cockroach.http.client.HttpClient;
-import com.zhangyingwei.cockroach.http.HttpProxy;
-import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
 import org.apache.log4j.Logger;
-
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by zhangyw on 2017/8/10.
@@ -43,10 +32,11 @@ public class CockroachContext {
             logger.info("starting...");
             config.print();
             try {
-                this.executerManager.start(queue);
+                this.executerManager.bindListener(this.config.getExecutersListener()).start(queue);
             } catch (Exception e) {
                 logger.info("start faild");
                 logger.debug(e.getMessage());
+                e.printStackTrace();
             }
             this.started = true;
             logger.info("start success");

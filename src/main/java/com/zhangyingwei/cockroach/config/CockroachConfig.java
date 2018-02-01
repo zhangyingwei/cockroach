@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.config;
 
 import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
+import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
 import com.zhangyingwei.cockroach.http.client.HttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
@@ -36,6 +37,7 @@ public class CockroachConfig {
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
     private Set<Class<? extends ITaskResponseFilter>> responseFilters = new HashSet<Class<? extends ITaskResponseFilter>>();
+    private Class<? extends IExecutersListener> executersListener;
 
     /**
      * 如果找不到 log4j 的配置，就使用默认配置
@@ -214,5 +216,13 @@ public class CockroachConfig {
         logger.info("TaskErrorHandler: "+this.getTaskErrorHandler());
         logger.info("ResponseFilters: "+this.getResponseFilters());
         logger.info("-------------------------------------------------------------");
+    }
+
+    public Class<? extends IExecutersListener> getExecutersListener() {
+        return this.executersListener;
+    }
+
+    public void setExecutersListener(Class<? extends IExecutersListener> executersListener) {
+        this.executersListener = executersListener;
     }
 }

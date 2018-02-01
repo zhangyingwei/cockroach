@@ -3,6 +3,8 @@ package com.zhangyingwei.cockroach.executer;
 import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
+import com.zhangyingwei.cockroach.executer.listener.DefaultExecutersListener;
+import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
 import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
 import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
@@ -12,9 +14,11 @@ import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import org.apache.log4j.Logger;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: zhangyw
@@ -28,6 +32,7 @@ public class ExecuterManager {
     private ExecutorService service = Executors.newCachedThreadPool();
     private CockroachConfig config;
     private Logger logger = Logger.getLogger(ExecuterManager.class);
+    private IExecutersListener executerListener = new DefaultExecutersListener();
 
     public ExecuterManager(CockroachConfig config) {
         this.config = config;
@@ -36,6 +41,7 @@ public class ExecuterManager {
     public void start(CockroachQueue queue) throws Exception {
         this.thread = config.getThread();
         TaskResponseFilterBox filterBox = this.bulidResponseFilters();
+        this.executerListener.onStart();
         for (int i = 0; i < thread; i++) {
             TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getTaskErrorHandler().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose(),filterBox);
             logger.info("new thread:" + executer.getId());
@@ -45,6 +51,30 @@ public class ExecuterManager {
          * 不可以再继续 提交新的任务 已经提交的任务不影响
          */
         service.shutdown();
+
+        /**
+         * 每 5 秒检测是否全部线程执行完毕
+         */
+        while (true) {
+            TimeUnit.SECONDS.sleep(5);
+            if (service.isTerminated()) {
+                logger.info("任务已经全部执行完毕");
+                break;
+            }
+        }
+        this.executerListener.onEnd();
+    }
+
+    /**
+     * bind executer listener
+     * @param listener
+     * @return
+     */
+    public ExecuterManager bindListener(Class<? extends IExecutersListener> listener) throws IllegalAccessException, InstantiationException {
+        if (listener != null) {
+            this.executerListener = listener.newInstance();
+        }
+        return this;
     }
 
     private TaskResponseFilterBox bulidResponseFilters() throws IllegalAccessException, InstantiationException {
