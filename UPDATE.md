@@ -6,6 +6,7 @@
 * task 增加了 deep 参数
 * 换掉 ArrayBlockingQueue 使用可以定义优先级的 PriorityBlockingQueue，并结合 task 的 deep 参数实现任务的优先级
 * 增加了response filter
+* 增加了execiterslistener 监听任务开始与完成。初衷是为了有一个方法能表示出程序是否已经执行完毕，主要作用类似于：将所有爬取内容最后打包统一发邮件。
 
 ## 2018-01-19
 

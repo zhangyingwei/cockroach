@@ -8,6 +8,11 @@ import com.zhangyingwei.cockroach.annotation.ThreadConfig;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by zhangyw on 2017/12/12.
@@ -21,5 +26,10 @@ public class FileUtilsTest {
         CockroachQueue queue = TaskQueue.of();
         queue.push(new Task("http://mov.bn.netease.com/open-movie/nos/flv/2013/09/11/S97IU0TJ3_sd.flv"));
         CockroachApplication.run(FileUtilsTest.class,queue);
+    }
+
+    @Test
+    public void getOrCreateTest() throws IOException {
+        File file = FileUtils.openOrCreate("D://a/b", "hello.txt");
     }
 }

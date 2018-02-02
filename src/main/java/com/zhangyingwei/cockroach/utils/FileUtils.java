@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -14,6 +16,8 @@ import java.util.UUID;
  * 操作文件的工具类
  */
 public class FileUtils {
+
+    private static Map<String, Writer> writerCache = new HashMap<String, Writer>();
 
     /**
      * save bytes into file
@@ -92,5 +96,61 @@ public class FileUtils {
             name = nameGenerator.name(response);
         }
         return name;
+    }
+
+    /**
+     * 打开或者创建
+     * 如果存在就打开，如果不存在就创建
+     * @param path
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    public static File openOrCreate(String path,String fileName) throws IOException {
+        Path filePath = Paths.get(path, fileName);
+        File file = filePath.toFile();
+        if (file.exists()) {
+            if (file.isFile()) {
+                return file;
+            }
+            throw new FileNotFoundException(path+" is discroty");
+        }else {
+            mkirDirs(filePath.getParent());
+            file.createNewFile();
+            return file;
+        }
+    }
+
+    /**
+     * 文件中追加内容
+     * @param file
+     * @param content
+     * @throws IOException
+     */
+    public synchronized static void append(File file,String content) throws IOException {
+        Writer writer = writerCache.getOrDefault(file.getPath(), new FileWriter(file));
+        writer.append(content);
+        writerCache.put(file.getPath(), writer);
+    }
+
+    public synchronized static void closeWriters() {
+        writerCache.values().forEach(writer -> {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void closeWriter(String filePath) {
+        Writer writer = writerCache.get(filePath);
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
