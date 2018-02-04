@@ -129,10 +129,14 @@ public class FileUtils {
      */
     public synchronized static void append(File file,String content) throws IOException {
         Writer writer = writerCache.getOrDefault(file.getPath(), new FileWriter(file));
-        writer.append(content);
+        writer.write(content);
+        writer.flush();
         writerCache.put(file.getPath(), writer);
     }
 
+    /**
+     * 关闭所有 writer
+     */
     public synchronized static void closeWriters() {
         writerCache.values().forEach(writer -> {
             try {
@@ -143,6 +147,10 @@ public class FileUtils {
         });
     }
 
+    /**
+     * 关闭相应 file 的 writer
+     * @param filePath
+     */
     public static void closeWriter(String filePath) {
         Writer writer = writerCache.get(filePath);
         if (writer != null) {
