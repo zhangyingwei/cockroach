@@ -13,15 +13,23 @@ public class CockroachCache implements ICache {
     private Logger logger = Logger.getLogger(CockroachCache.class);
     private List<CacheItem> cacheItems;
     private List<String> keys;
+    private Thread thread;
 
-    public CockroachCache() {
+    static class CockroachCacheHandler {
+        static CockroachCache ins = new CockroachCache();
+    }
+
+    public static CockroachCache getInstance() {
+        return CockroachCacheHandler.ins;
+    }
+
+    private CockroachCache() {
         this.init();
     }
 
     private void init() {
         this.keys = new ArrayList<String>();
         this.cacheItems = new ArrayList<CacheItem>();
-        new Thread(new Cleaner()).start();
     }
 
     @Override
@@ -55,6 +63,7 @@ public class CockroachCache implements ICache {
             this.keys.add(key);
             this.cacheItems.add(new CacheItem(key, value, ttl));
         }
+        new Thread(new Cleaner());
     }
 
     @Override
@@ -71,7 +80,7 @@ public class CockroachCache implements ICache {
 
     @Override
     public boolean exeits(String key) {
-        return this.keys.contains(key);
+        return this.keys.indexOf(key) != -1;
     }
 
     @Override
@@ -83,22 +92,19 @@ public class CockroachCache implements ICache {
     class Cleaner implements Runnable {
         @Override
         public void run() {
-            while (true) {
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                    Iterator<CacheItem> it = cacheItems.iterator();
-                    while (it.hasNext()) {
-                        CacheItem item = it.next();
-                        if (item.getTtl() != -1) {
-                            if (item.isTimeOut()) {
-                                keys.remove(item.getKey());
-                                it.remove();
-                                logger.info("gc remove key:" + item.getKey());
-                            }
+            int length = keys.size();
+            int size = length/100;
+            Random random = new Random();
+            if (length > 100) {
+                for (int i = 0; i < length; i++) {
+                    int j = random.nextInt(length);
+                    CacheItem item = cacheItems.get(j);
+                    if (item.getTtl() != -1) {
+                        if (item.isTimeOut()) {
+                            remove(item.getKey());
+                            logger.info("gc remove key:" + item.getKey());
                         }
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
         }

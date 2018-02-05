@@ -16,7 +16,7 @@ public class CockroachCacheTest {
 
     @Before
     public void before() throws Exception {
-        cache = new CockroachCache();
+        cache = CockroachCache.getInstance();
         this.put();
     }
 
@@ -28,7 +28,11 @@ public class CockroachCacheTest {
         System.out.println((String) this.cache.get("key200"));
         System.out.println(this.cache.size());
         while (true) {
-
+            if (!this.cache.exeits("key210")) {
+                System.out.println((String) this.cache.get("key210"));
+                System.out.println("haha");
+                break;
+            }
         }
     }
 

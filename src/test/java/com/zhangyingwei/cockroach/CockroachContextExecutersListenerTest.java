@@ -9,6 +9,8 @@ import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.PrintTestStore;
 
+import java.util.Random;
+
 /**
  * @author: zhangyw
  * @date: 2018/2/1
@@ -23,7 +25,9 @@ import com.zhangyingwei.cockroach.store.PrintTestStore;
 public class CockroachContextExecutersListenerTest {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of();
-        queue.push(new Task("http://baidu.com/"));
+        for (int i = 0; i < 10; i++) {
+            queue.push(new Task("http://baidu.com/?"+i));
+        }
         CockroachApplication.run(CockroachContextExecutersListenerTest.class, queue);
     }
 }
