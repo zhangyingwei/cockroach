@@ -23,9 +23,7 @@ import com.zhangyingwei.cockroach.store.PrintTestStore;
 public class CockroachContextExecutersListenerTest {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of();
-        for (int i = 0; i < 100; i++) {
-            queue.push(new Task("http://baidu.com/" + i));
-        }
+        queue.push(new Task("http://baidu.com/"));
         CockroachApplication.run(CockroachContextExecutersListenerTest.class, queue);
     }
 }

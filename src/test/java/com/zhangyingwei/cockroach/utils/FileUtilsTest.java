@@ -30,6 +30,12 @@ public class FileUtilsTest {
 
     @Test
     public void getOrCreateTest() throws IOException {
-        File file = FileUtils.openOrCreate("D://a/b", "hello.txt");
+        File file = FileUtils.openOrCreate("D://", "hello.txt");
+        FileUtils.clearFile(file);
+        for (int i = 0; i < 10; i++) {
+            FileUtils.append(file,i+"\n");
+        }
+        FileUtils.closeWriters();
+        FileUtils.delete(file);
     }
 }

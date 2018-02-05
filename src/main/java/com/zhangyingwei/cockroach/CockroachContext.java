@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach;
 
 import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.ExecuterManager;
+import com.zhangyingwei.cockroach.executer.listener.BootstrapExecutersListener;
 import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import org.apache.log4j.Logger;
@@ -32,7 +33,7 @@ public class CockroachContext {
             logger.info("starting...");
             config.print();
             try {
-                this.executerManager.bindListener(this.config.getExecutersListener()).start(queue);
+                this.executerManager.bindListener(BootstrapExecutersListener.class).bindListener(this.config.getExecutersListener()).start(queue);
             } catch (Exception e) {
                 logger.info("start faild");
                 logger.debug(e.getMessage());

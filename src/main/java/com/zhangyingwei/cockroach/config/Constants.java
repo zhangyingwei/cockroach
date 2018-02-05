@@ -4,6 +4,8 @@ import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.NoCookieGenerator;
 import com.zhangyingwei.cockroach.common.generators.NoHeaderGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
+import com.zhangyingwei.cockroach.executer.listener.DefaultExecutersListener;
+import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
@@ -42,4 +44,5 @@ public class Constants {
     public static final Integer DEFAULT_TASK_DEEP = 0;
 
     public static final Integer DEFAULT_QUEUE_CALACITY = 11;
+    public static final Class<? extends IExecutersListener> DEFAULT_EXECUTERSLISTENER = DefaultExecutersListener.class;
 }

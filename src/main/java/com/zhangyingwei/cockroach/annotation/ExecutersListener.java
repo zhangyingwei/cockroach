@@ -1,5 +1,7 @@
 package com.zhangyingwei.cockroach.annotation;
 
+import com.zhangyingwei.cockroach.executer.listener.DefaultExecutersListener;
+
 import java.lang.annotation.*;
 
 /**
@@ -13,5 +15,5 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExecutersListener {
-    Class value();
+    Class value() default DefaultExecutersListener.class;
 }

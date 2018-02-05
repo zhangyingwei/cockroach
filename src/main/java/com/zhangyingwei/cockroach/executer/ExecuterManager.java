@@ -14,6 +14,8 @@ import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -32,16 +34,22 @@ public class ExecuterManager {
     private ExecutorService service = Executors.newCachedThreadPool();
     private CockroachConfig config;
     private Logger logger = Logger.getLogger(ExecuterManager.class);
-    private IExecutersListener executerListener = new DefaultExecutersListener();
+    private List<IExecutersListener> executerListeners;
 
     public ExecuterManager(CockroachConfig config) {
         this.config = config;
+        executerListeners = new ArrayList<IExecutersListener>();
     }
 
+    /**
+     * 发车
+     * @param queue
+     * @throws Exception
+     */
     public void start(CockroachQueue queue) throws Exception {
         this.thread = config.getThread();
         TaskResponseFilterBox filterBox = this.bulidResponseFilters();
-        this.executerListener.onStart();
+        this.executerListeners.forEach(IExecutersListener::onStart);
         for (int i = 0; i < thread; i++) {
             TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getTaskErrorHandler().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose(),filterBox);
             logger.info("new thread:" + executer.getId());
@@ -62,7 +70,7 @@ public class ExecuterManager {
                 break;
             }
         }
-        this.executerListener.onEnd();
+        this.executerListeners.forEach(IExecutersListener::onEnd);
     }
 
     /**
@@ -72,7 +80,7 @@ public class ExecuterManager {
      */
     public ExecuterManager bindListener(Class<? extends IExecutersListener> listener) throws IllegalAccessException, InstantiationException {
         if (listener != null) {
-            this.executerListener = listener.newInstance();
+            this.executerListeners.add(listener.newInstance());
         }
         return this;
     }

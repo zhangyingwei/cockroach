@@ -37,7 +37,7 @@ public class CockroachConfig {
     private boolean autoClose = false;
     private Class<? extends ITaskErrorHandler> taskErrorHandler;
     private Set<Class<? extends ITaskResponseFilter>> responseFilters = new HashSet<Class<? extends ITaskResponseFilter>>();
-    private Class<? extends IExecutersListener> executersListener;
+    private Class<? extends IExecutersListener> executersListener = Constants.DEFAULT_EXECUTERSLISTENER;
 
     /**
      * 如果找不到 log4j 的配置，就使用默认配置

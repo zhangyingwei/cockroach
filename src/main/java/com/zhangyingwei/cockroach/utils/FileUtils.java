@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.utils;
 
 import com.zhangyingwei.cockroach.common.generators.NameGenerator;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -17,6 +18,7 @@ import java.util.UUID;
  */
 public class FileUtils {
 
+    private static Logger logger = Logger.getLogger(FileUtils.class);
     private static Map<String, Writer> writerCache = new HashMap<String, Writer>();
 
     /**
@@ -128,7 +130,7 @@ public class FileUtils {
      * @throws IOException
      */
     public synchronized static void append(File file,String content) throws IOException {
-        Writer writer = writerCache.getOrDefault(file.getPath(), new FileWriter(file));
+        Writer writer = writerCache.getOrDefault(file.getPath(), new FileWriter(file,true));
         writer.write(content);
         writer.flush();
         writerCache.put(file.getPath(), writer);
@@ -145,6 +147,7 @@ public class FileUtils {
                 e.printStackTrace();
             }
         });
+        writerCache.clear();
     }
 
     /**
@@ -160,5 +163,30 @@ public class FileUtils {
                 e.printStackTrace();
             }
         }
+        writerCache.remove(writer);
+    }
+
+    /**
+     * 清空文件内容
+     * @param file
+     * @throws IOException
+     */
+    public static void clearFile(File file) throws IOException {
+        write(new byte[0],file);
+    }
+
+    /**
+     * delete file
+     * @param file
+     */
+    public static boolean delete(File file) {
+        boolean result = false;
+        if (file.exists()) {
+            result = file.delete();
+            if (!result) {
+                logger.info("delete " + file.getName() + " error");
+            }
+        }
+        return result;
     }
 }
