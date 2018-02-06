@@ -1,5 +1,6 @@
 # cockroach 爬虫：又一个 java 爬虫实现
 
+[![travis][travis-image]][travis-url]
 [![](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
 [![](https://img.shields.io/badge/language-java-orange.svg)]()
 [![](https://img.shields.io/badge/jdk-1.8-green.svg)]()
