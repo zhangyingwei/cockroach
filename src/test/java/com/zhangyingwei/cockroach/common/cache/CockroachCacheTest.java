@@ -1,5 +1,6 @@
 package com.zhangyingwei.cockroach.common.cache;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,13 +28,6 @@ public class CockroachCacheTest {
         System.out.println(this.cache.size());
         System.out.println((String) this.cache.get("key200"));
         System.out.println(this.cache.size());
-        while (true) {
-            if (!this.cache.exeits("key210")) {
-                System.out.println((String) this.cache.get("key210"));
-                System.out.println("haha");
-                break;
-            }
-        }
     }
 
     @Test
