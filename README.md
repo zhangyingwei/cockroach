@@ -6,7 +6,7 @@
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 
-![](http://util.zhangyingwei.com//cockroach/carbon.png)
+![](http://util.zhangyingwei.com//cockroach/1/carbon.png)
 
 ## 简介
 
