@@ -1,6 +1,6 @@
 # cockroach 爬虫：又一个 java 爬虫实现
 
-[![](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)]()
+[![](https://travis-ci.org/zhangyingwei/cockroach.svg?branch=master)](https://travis-ci.org/zhangyingwei/cockroach)
 [![](https://img.shields.io/badge/language-java-orange.svg)]()
 [![](https://img.shields.io/badge/jdk-1.8-green.svg)]()
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
