@@ -6,6 +6,8 @@
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 
+![](http://util.zhangyingwei.com//cockroach/carbon.png)
+
 ## 简介
 
 cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记，导致编码的过程中因为单词的拼写问题耽误了好长时间。
