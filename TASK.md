@@ -12,3 +12,5 @@
 * queue 持久化
 * 支持 POST 请求
 * 添加 watcher 支持监控
+* 失败重试还是太low
+* httpclient 这里需要重构
