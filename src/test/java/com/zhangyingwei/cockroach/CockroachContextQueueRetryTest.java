@@ -14,7 +14,7 @@ import com.zhangyingwei.cockroach.queue.TaskQueue;
 @EnableAutoConfiguration
 @AppName("test spider")
 @ThreadConfig(num = 1,sleep = 1000)
-@AutoClose(false)
+@AutoClose(true)
 public class CockroachContextQueueRetryTest {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of();

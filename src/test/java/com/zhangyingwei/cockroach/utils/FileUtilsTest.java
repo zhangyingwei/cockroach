@@ -24,7 +24,8 @@ import java.io.IOException;
 public class FileUtilsTest {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of();
-        queue.push(new Task("http://mov.bn.netease.com/open-movie/nos/flv/2013/09/11/S97IU0TJ3_sd.flv"));
+        queue.push(new Task("http://util.zhangyingwei.com//cockroach/1/carbon.png"));
+        queue.push(new Task("http://img.dmc.csdn.net/B3DF79B6065EC826F2EC278369F31F6E.jpg"));
         CockroachApplication.run(FileUtilsTest.class,queue);
     }
 

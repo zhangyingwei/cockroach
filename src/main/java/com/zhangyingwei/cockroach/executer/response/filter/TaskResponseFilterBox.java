@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer.response.filter;
 
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
+import com.zhangyingwei.cockroach.utils.interfaces.IBox;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.Set;
  * @time: 下午3:24
  * @desc:
  */
-public class TaskResponseFilterBox implements ITaskResponseFilter {
+public class TaskResponseFilterBox implements ITaskResponseFilter,IBox<ITaskResponseFilter> {
     private Set<ITaskResponseFilter> responseFilters;
     private Logger logger = Logger.getLogger(TaskResponseFilterBox.class);
     public TaskResponseFilterBox() {
@@ -30,7 +31,9 @@ public class TaskResponseFilterBox implements ITaskResponseFilter {
         return true;
     }
 
-    public void addFilter(ITaskResponseFilter responseFilter) {
-        this.responseFilters.add(responseFilter);
+    @Override
+    public ITaskResponseFilter add(ITaskResponseFilter model) {
+        this.responseFilters.add(model);
+        return this;
     }
 }

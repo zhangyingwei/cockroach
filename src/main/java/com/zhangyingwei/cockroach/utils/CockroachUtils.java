@@ -13,4 +13,8 @@ public class CockroachUtils {
     public static String exceptionMessage(int code,String message){
         return String.format("code:%d - message:%s",code,message);
     }
+
+    public static boolean validHttpCode(int code) {
+        return code == 200 || code == 304;
+    }
 }

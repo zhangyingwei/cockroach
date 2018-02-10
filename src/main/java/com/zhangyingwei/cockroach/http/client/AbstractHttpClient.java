@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by zhangyw on 2017/8/10.
  */
-public abstract class AbstractHttpClient implements HttpClient{
+public abstract class AbstractHttpClient implements IHttpClient {
     protected HttpProxy proxy;
     protected ProxyTuple proxyTuple;
     protected String cookie;
@@ -20,7 +20,7 @@ public abstract class AbstractHttpClient implements HttpClient{
     protected ITaskErrorHandler taskErrorHandler;
 
     @Override
-    public HttpClient setProxy(HttpProxy proxy) throws Exception {
+    public IHttpClient setProxy(HttpProxy proxy) throws Exception {
         this.proxy = proxy;
         return this;
     }
@@ -29,16 +29,16 @@ public abstract class AbstractHttpClient implements HttpClient{
     public abstract TaskResponse doGet(Task task) throws Exception;
 
     @Override
-    public abstract HttpClient proxy() throws Exception;
+    public abstract IHttpClient proxy() throws Exception;
 
     @Override
     public abstract TaskResponse doPost(Task task) throws Exception;
 
     @Override
-    public abstract HttpClient setCookie(String cookie) throws Exception;
+    public abstract IHttpClient setCookie(String cookie) throws Exception;
 
     @Override
-    public HttpClient setHttpHeader(Map<String, String> httpHeader) throws Exception {
+    public IHttpClient setHttpHeader(Map<String, String> httpHeader) throws Exception {
         this.httpHeader = httpHeader;
         return this;
     }
@@ -46,5 +46,12 @@ public abstract class AbstractHttpClient implements HttpClient{
     @Override
     public ProxyTuple getCurrentProxyTuple() throws Exception {
         return proxyTuple;
+    }
+
+    protected boolean randomProxy(){
+        if(this.proxy != null && !this.proxy.isEmpty()) {
+            this.proxyTuple = this.proxy.randomProxy();
+        }
+        return this.proxyTuple != null;
     }
 }

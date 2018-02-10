@@ -91,7 +91,7 @@ public class TaskQueue implements CockroachQueue {
     @Override
     public synchronized void falied(Task task) throws InterruptedException {
         if (task.getRetry() > 0) {
-            this.faildQueue.put(task);
+            this.faildQueue.put(task.retry());
             logger.info(Thread.currentThread().getName() + " push failed task " + task);
         }
     }
