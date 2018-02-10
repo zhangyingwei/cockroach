@@ -1,10 +1,8 @@
 package com.zhangyingwei.cockroach.executer.response.filter;
 
-import com.zhangyingwei.cockroach.common.cache.CockroachCache;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 

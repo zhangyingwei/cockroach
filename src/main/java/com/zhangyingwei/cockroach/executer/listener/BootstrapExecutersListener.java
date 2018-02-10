@@ -1,6 +1,5 @@
 package com.zhangyingwei.cockroach.executer.listener;
 
-import com.zhangyingwei.cockroach.common.cache.CockroachCache;
 import org.apache.log4j.Logger;
 
 /**
@@ -12,7 +11,6 @@ public class BootstrapExecutersListener implements IExecutersListener {
     @Override
     public void onStart() {
         logger.info("BootstrapExecutersListener.onStart");
-        CockroachCache.getInstance();
     }
 
     @Override
