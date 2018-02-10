@@ -54,7 +54,7 @@ public class HttpClientProxy implements IHttpClient {
             }
             logger.error(task + " - " + message);
         }
-        return new TaskResponse(message).setTask(task).falied();
+        return new TaskResponse().setTask(task).falied(message);
     }
 
     /**
@@ -93,7 +93,7 @@ public class HttpClientProxy implements IHttpClient {
             return this.client.doPost(task);
         } catch (Exception e) {
             e.printStackTrace();
-            return new TaskResponse(e.getMessage()).setTask(task);
+            return new TaskResponse().setTask(task).falied(e.getMessage());
         }
     }
 

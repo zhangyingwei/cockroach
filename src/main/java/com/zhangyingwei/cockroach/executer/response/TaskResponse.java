@@ -38,9 +38,7 @@ public class TaskResponse implements ICockroachResponse {
         }
     }
 
-    public TaskResponse(String errorMessage) {
-        this.content = errorMessage;
-    }
+    public TaskResponse() {}
 
     @Override
     public String getContent() throws IOException {
@@ -145,8 +143,9 @@ public class TaskResponse implements ICockroachResponse {
         return this.failed;
     }
 
-    public TaskResponse falied() {
+    public TaskResponse falied(String message) {
         this.failed = true;
+        this.content = message;
         return this;
     }
 }
