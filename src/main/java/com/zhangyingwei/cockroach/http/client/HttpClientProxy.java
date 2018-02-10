@@ -47,7 +47,12 @@ public class HttpClientProxy implements IHttpClient {
             return this.client.doGet(task);
         } catch (Exception e) {
             message = e.getMessage();
-            if (message != null && (message.toLowerCase().contains("timeout") || message.toLowerCase().contains("time out"))) {
+            if (message != null &&
+                    (
+                            message.toLowerCase().contains("timeout")
+                                    || message.toLowerCase().contains("time out")
+                                    || message.toLowerCase().contains("connect: 403")
+                    )) {
                 if (this.proxy != null && !this.proxy.isEmpty()) {
                     this.proxy.disable(this.getCurrentProxyTuple());
                 }
