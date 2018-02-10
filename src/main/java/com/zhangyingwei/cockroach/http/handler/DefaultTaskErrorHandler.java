@@ -14,7 +14,7 @@ public class DefaultTaskErrorHandler implements ITaskErrorHandler {
     @Override
     public void error(TaskErrorResponse response) {
         try {
-            response.getQueue().falied(response.getTask().retry());
+            response.getQueue().falied(response.getTask());
             logger.info("task error: "+ response.getContent());
         } catch (IOException e) {
             e.printStackTrace();

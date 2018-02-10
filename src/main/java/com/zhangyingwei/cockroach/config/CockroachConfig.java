@@ -4,7 +4,7 @@ import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
-import com.zhangyingwei.cockroach.http.client.HttpClient;
+import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.store.IStore;
@@ -27,7 +27,7 @@ public class CockroachConfig {
     private String proxys = null;
     private int thread = 1;
     private int threadSleep = 0;
-    private Class<? extends HttpClient> httpClient = Constants.HTTP_CLIENT;
+    private Class<? extends IHttpClient> httpClient = Constants.HTTP_CLIENT;
     private Boolean showHttpClientProgress = Constants.HTTP_SHOWHTTPCLIENTPROGRESS;
     private Class<? extends IStore> store = Constants.STORE;
     private String cookie;
@@ -104,12 +104,12 @@ public class CockroachConfig {
         return threadSleep;
     }
 
-    public Class<? extends HttpClient> getHttpClient() {
+    public Class<? extends IHttpClient> getHttpClient() {
         return httpClient;
     }
 
     @SuppressWarnings("not supported")
-    public CockroachConfig setHttpClient(Class<? extends HttpClient> httpClient) {
+    public CockroachConfig setHttpClient(Class<? extends IHttpClient> httpClient) {
         CockroachUtils.addSystemPropertie(Constants.APP_HTTPCLIENT_KEY,httpClient);
         this.httpClient = httpClient;
         return this;
@@ -205,7 +205,7 @@ public class CockroachConfig {
         logger.info("Proxys: "+this.getProxys());
         logger.info("Threads: "+this.getThread());
         logger.info("ThreadSleep: "+this.getThreadSleep());
-        logger.info("HttpClient: "+this.getHttpClient());
+        logger.info("IHttpClient: "+this.getHttpClient());
         logger.info("HttpClientProgress: "+this.getShowHttpClientProgress());
         logger.info("Store: "+this.getStore());
         logger.info("Cookie: "+this.getCookie());

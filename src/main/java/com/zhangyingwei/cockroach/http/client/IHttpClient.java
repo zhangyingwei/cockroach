@@ -10,20 +10,18 @@ import java.util.Map;
 /**
  * Created by zhangyw on 2017/8/10.
  */
-public interface HttpClient {
-    HttpClient setProxy(HttpProxy proxy) throws Exception;
+public interface IHttpClient {
+    IHttpClient setProxy(HttpProxy proxy) throws Exception;
 
     TaskResponse doGet(Task task) throws Exception;
 
-    HttpClient proxy() throws Exception;
+    IHttpClient proxy() throws Exception;
 
     TaskResponse doPost(Task task) throws Exception;
 
-    HttpClient setCookie(String cookie) throws Exception;
+    IHttpClient setCookie(String cookie) throws Exception;
 
-    HttpClient setHttpHeader(Map<String, String> httpHeader) throws Exception;
+    IHttpClient setHttpHeader(Map<String, String> httpHeader) throws Exception;
 
     ProxyTuple getCurrentProxyTuple() throws Exception;
-
-    HttpClient showProgress(Boolean show);
 }

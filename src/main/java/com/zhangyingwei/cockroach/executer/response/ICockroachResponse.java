@@ -4,6 +4,7 @@ import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author: zhangyw
@@ -19,4 +20,5 @@ public interface ICockroachResponse {
     boolean isGroupEndWith(String end);
     boolean isGroupContains(String str);
     CockroachQueue getQueue();
+    List<String> header(String key);
 }

@@ -33,6 +33,9 @@ public class HttpProxy implements IHttpProxy{
     @Override
     public ProxyTuple randomProxy(){
         synchronized (this.proxys){
+            if (this.proxys.size() == 0) {
+                return null;
+            }
             Map.Entry<String,Integer> entity = this.proxys.entrySet().stream().collect(Collectors.toList()).get(random.nextInt(proxys.size()));
             return new ProxyTuple(entity.getKey(), entity.getValue());
         }

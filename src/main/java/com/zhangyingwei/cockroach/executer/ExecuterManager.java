@@ -3,20 +3,19 @@ package com.zhangyingwei.cockroach.executer;
 import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.config.CockroachConfig;
-import com.zhangyingwei.cockroach.executer.listener.DefaultExecutersListener;
 import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
 import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
 import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
 import com.zhangyingwei.cockroach.http.HttpProxy;
-import com.zhangyingwei.cockroach.http.client.HttpClient;
+import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
+import com.zhangyingwei.cockroach.http.handler.TaskErrorHandlerBox;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,7 +50,15 @@ public class ExecuterManager {
         TaskResponseFilterBox filterBox = this.bulidResponseFilters();
         this.executerListeners.forEach(IExecutersListener::onStart);
         for (int i = 0; i < thread; i++) {
-            TaskExecuter executer = new TaskExecuter(queue, this.bulidHttpClient(), this.config.getStore().newInstance(), this.config.getTaskErrorHandler().newInstance(), this.config.getThreadSleep(), this.config.isAutoClose(),filterBox);
+            TaskExecuter executer = new TaskExecuter(
+                    queue,
+                    this.bulidHttpClient(),
+                    this.config.getStore().newInstance(),
+                    new TaskErrorHandlerBox().add(this.config.getTaskErrorHandler().newInstance()),
+                    this.config.getThreadSleep(),
+                    this.config.isAutoClose(),
+                    filterBox
+            );
             logger.info("new thread:" + executer.getId());
             service.execute(executer);
         }
@@ -90,17 +97,17 @@ public class ExecuterManager {
         TaskResponseFilterBox filterBox = new TaskResponseFilterBox();
         Set<Class<? extends ITaskResponseFilter>> filters = this.config.getResponseFilters();
         for (Class<? extends ITaskResponseFilter> filter : filters) {
-            filterBox.addFilter(filter.newInstance());
+            filterBox.add(filter.newInstance());
         }
         return filterBox;
     }
 
-    private HttpClient bulidHttpClient() throws Exception {
+    private IHttpClient bulidHttpClient() throws Exception {
         logger.info("bulid httpclient");
         if(this.config.getProxys() != null && this.proxy ==null){
             this.proxy = new HttpProxy(this.config.getProxys());
         }
-        HttpClient client  = this.config.getHttpClient().newInstance();
+        IHttpClient client  = this.config.getHttpClient().newInstance();
 
         StringGenerator cookieGenerator = null;
         if (this.config.getCookieGenerator() != null) {
@@ -117,7 +124,6 @@ public class ExecuterManager {
                 .setHeaderGenerator(headerGenerator)
                 .setProxy(this.proxy)
                 .setCookie(this.config.getCookie())
-                .setHttpHeader(this.config.getHttpHeader())
-                .showProgress(this.config.getShowHttpClientProgress());
+                .setHttpHeader(this.config.getHttpHeader());
     }
 }

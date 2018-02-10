@@ -13,7 +13,7 @@ public class ImageStore implements IStore {
         String name = FileUtils.getFileName(response);
         System.out.println(name);
         String name2 = FileUtils.getFileNameOrUuid(response);
-        System.out.println(name2);
+//        System.out.println(name2);
         String name3 = FileUtils.getFileNameOr(response, new NameGenerator() {
             @Override
             public String name(TaskResponse response) {
@@ -22,11 +22,11 @@ public class ImageStore implements IStore {
                 return "generator";
             }
         });
-        System.out.println(name3);
+//        System.out.println(name3);
 
-        System.out.println("use:"+name2);
-
-        FileUtils.save(response.getContentBytes(),"/Users/zhangyw/IdeaProjects/zhangyw/Projects/java/cockroach/src/main/resources",name2+".flv");
-        System.out.println("end");
+//        System.out.println("use:"+name2);
+//
+//        FileUtils.save(response.getContentBytes(),"/Users/zhangyw/IdeaProjects/zhangyw/Projects/java/cockroach/src/main/resources",name2+".flv");
+//        System.out.println("end");
     }
 }

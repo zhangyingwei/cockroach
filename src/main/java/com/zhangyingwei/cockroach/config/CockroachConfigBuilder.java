@@ -3,8 +3,6 @@ package com.zhangyingwei.cockroach.config;
 import com.zhangyingwei.cockroach.annotation.*;
 import com.zhangyingwei.cockroach.executer.listener.IExecutersListener;
 import com.zhangyingwei.cockroach.executer.response.filter.ITaskResponseFilter;
-import com.zhangyingwei.cockroach.utils.AnnotationUtils;
-
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +20,7 @@ public class CockroachConfigBuilder {
     }
 
     public CockroachConfig bulid() throws Exception {
-        if(AnnotationUtils.isAutoConfiguration(this.annotations)){
+        if(this.isAutoConfiguration()){
             this.autoConfig();
         }
         for (Annotation annotation : annotations) {
@@ -71,6 +69,19 @@ public class CockroachConfigBuilder {
             }
         }
         return this.config;
+    }
+
+    /**
+     * 判断是否配置 autoconfiguration
+     * @return
+     */
+    private boolean isAutoConfiguration() {
+        for (Annotation annotation : this.annotations) {
+            if (annotation instanceof EnableAutoConfiguration) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void autoConfig() {

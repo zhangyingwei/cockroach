@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Created by zhangyw on 2017/8/10.
  * 爬虫任务描述类
  */
-public class Task {
+public class Task implements Comparable<Task> {
     private Logger logger = Logger.getLogger(Task.class);
     //每一个任务都会生成一个编号，编号是一个递增的连续序列
     private String id = NameUtils.name(Task.class);
@@ -180,5 +180,10 @@ public class Task {
     public Task nextDeepBy(Task task) {
         this.deep = task.getDeep() + 1;
         return this;
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        return task.getDeep() - this.getDeep();
     }
 }

@@ -8,9 +8,8 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhangyw on 2017/10/18/018.
@@ -64,13 +63,16 @@ public class FileUtils {
      * @return
      */
     public static String getFileName(TaskResponse response){
-        String name = response.getResponse().header("content-disposition");
+        List<String> name = response.header("content-disposition");
+        System.out.println(name);
         if (null != name) {
-            String[] names = name.split("' '");
-            name = names[1];
-            name = URLDecoder.decode(name);
+            return Arrays.stream(name.get(0).split("; ")).filter(item -> {
+                return item.trim().startsWith("filename=\"");
+            }).map(filename -> {
+                return filename.replaceAll("filename=","").replaceAll("\"","");
+            }).limit(1).collect(Collectors.toList()).get(0);
         }
-        return name;
+        return null;
     }
 
     /**

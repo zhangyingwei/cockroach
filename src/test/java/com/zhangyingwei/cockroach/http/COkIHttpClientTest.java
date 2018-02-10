@@ -9,11 +9,11 @@ import org.junit.Test;
 /**
  * Created by zhangyw on 2017/8/10.
  */
-public class COkHttpClientTest {
+public class COkIHttpClientTest {
     @Test
     public void doGet() throws Exception {
         COkHttpClient client = new COkHttpClient();
-        TaskResponse resp = client.doGet(new Task("https://luolei.org").addSelect("a"));
-        Assert.assertNotNull(resp.select());
+        TaskResponse resp = client.doGet(new Task("https://luolei.org"));
+        Assert.assertNotNull(resp.select("a"));
     }
 }

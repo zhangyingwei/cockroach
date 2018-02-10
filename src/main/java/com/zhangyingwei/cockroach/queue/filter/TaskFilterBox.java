@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.queue.filter;
 
 import com.zhangyingwei.cockroach.executer.task.Task;
+import com.zhangyingwei.cockroach.utils.interfaces.IBox;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.Set;
  * @time: 下午2:58
  * @desc:
  */
-public class TaskFilterBox implements IQueueTaskFilter {
+public class TaskFilterBox implements IQueueTaskFilter,IBox<IQueueTaskFilter> {
     private static Logger logger = Logger.getLogger(TaskFilterBox.class);
     private Set<IQueueTaskFilter> filters;
 
@@ -40,7 +41,9 @@ public class TaskFilterBox implements IQueueTaskFilter {
         return true;
     }
 
-    public void add(IQueueTaskFilter filter) {
+    @Override
+    public IQueueTaskFilter add(IQueueTaskFilter filter) {
         this.filters.add(filter);
+        return this;
     }
 }

@@ -15,7 +15,6 @@ public class CockroachContextZhihuTest {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
                 .setThread(1)
-                .setHttpClient(COkHttpClient.class)
                 .setCookie(cockie)
                 .setAutoClose(true)
                 .addHttpHeader("Host","www.zhihu.com")
