@@ -15,15 +15,7 @@ public class CockroachCache implements ICache {
     private List<String> keys;
     private Thread thread;
 
-    static class CockroachCacheHandler {
-        static CockroachCache ins = new CockroachCache();
-    }
-
-    public static CockroachCache getInstance() {
-        return CockroachCacheHandler.ins;
-    }
-
-    private CockroachCache() {
+    public CockroachCache() {
         this.init();
     }
 
