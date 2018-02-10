@@ -8,6 +8,7 @@ import com.zhangyingwei.cockroach.annotation.ThreadConfig;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -31,12 +32,12 @@ public class FileUtilsTest {
 
     @Test
     public void getOrCreateTest() throws IOException {
-        File file = FileUtils.openOrCreate("D://", "hello.txt");
+        File file = FileUtils.openOrCreate("./", "hello.txt");
         FileUtils.clearFile(file);
         for (int i = 0; i < 10; i++) {
             FileUtils.append(file,i+"\n");
         }
         FileUtils.closeWriters();
-        FileUtils.delete(file);
+        Assert.assertTrue(FileUtils.delete(file));
     }
 }
