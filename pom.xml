@@ -13,7 +13,7 @@
 
     <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
-    <version>1.0.5.03-Alpha</version>
+    <version>1.0.5.03-Beta</version>
     <packaging>jar</packaging>
 
     <licenses>
