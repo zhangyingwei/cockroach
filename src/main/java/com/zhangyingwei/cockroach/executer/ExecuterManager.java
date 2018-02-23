@@ -102,7 +102,7 @@ public class ExecuterManager {
         return filterBox;
     }
 
-    private IHttpClient bulidHttpClient() throws Exception {
+    private HttpClientProxy bulidHttpClient() throws Exception {
         logger.info("bulid httpclient");
         if(this.config.getProxys() != null && this.proxy ==null){
             this.proxy = new HttpProxy(this.config.getProxys());
@@ -120,9 +120,9 @@ public class ExecuterManager {
         }
 
         return new HttpClientProxy(client)
+                .setProxy(this.proxy)
                 .setCookieGenerator(cookieGenerator)
                 .setHeaderGenerator(headerGenerator)
-                .setProxy(this.proxy)
                 .setCookie(this.config.getCookie())
                 .setHttpHeader(this.config.getHttpHeader());
     }

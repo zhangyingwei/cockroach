@@ -566,6 +566,22 @@ public class MeteosurfcanariasStore implements IStore {
 }
 ```
 
+## 任务失败重试机制
+
+通过 task 中定义的 retry 字段来控制任务失败重试次数
+
+```java
+public class CockroachContextQueueRetryTest {
+    public static void main(String[] args) throws Exception {
+        CockroachQueue queue = TaskQueue.of();
+        for (int i = 0; i < 5; i++) {
+            queue.push(new Task("http://hello.com"+i).retry(5));
+        }
+        CockroachApplication.run(CockroachContextQueueRetryTest.class,queue);
+    }
+}
+```
+
 ## scala & kotlin
 
 作为目前使用的 jvm 系语言几大巨头，scala 与 kotlin 这里基本上对跟 java 的互调做的很好，但是这里还是给几个 demo。

@@ -11,11 +11,9 @@ import java.util.Map;
  * Created by zhangyw on 2017/8/10.
  */
 public interface IHttpClient {
-    IHttpClient setProxy(HttpProxy proxy) throws Exception;
-
     TaskResponse doGet(Task task) throws Exception;
 
-    IHttpClient proxy() throws Exception;
+    IHttpClient proxy(ProxyTuple proxy) throws Exception;
 
     TaskResponse doPost(Task task) throws Exception;
 

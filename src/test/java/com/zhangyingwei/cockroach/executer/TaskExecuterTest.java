@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach.executer;
 import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.executer.task.TaskExecuter;
+import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
 import com.zhangyingwei.cockroach.http.client.okhttp.COkHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
@@ -21,7 +22,9 @@ public class TaskExecuterTest {
     public void test() throws InterruptedException {
         TaskQueue queue = TaskQueue.of();
         queue.push(new Task("http://zhangyingwei.com"));
-        ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(new TaskExecuter(queue,new COkHttpClient(),new DescribeStore(),new DefaultTaskErrorHandler(),0,true, new TaskResponseFilterBox()));
+//        ExecutorService service = Executors.newCachedThreadPool();
+//        service.execute(new TaskExecuter(queue, new HttpClientProxy(new COkHttpClient()),new DescribeStore(),new DefaultTaskErrorHandler(),1000,false, new TaskResponseFilterBox()));
+        TaskExecuter executer = new TaskExecuter(queue, new HttpClientProxy(new COkHttpClient()), new DescribeStore(), new DefaultTaskErrorHandler(), 1000, true, new TaskResponseFilterBox());
+        executer.run();
     }
 }
