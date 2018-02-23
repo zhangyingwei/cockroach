@@ -3,6 +3,9 @@ package com.zhangyingwei.cockroach.executer.task;
 import com.zhangyingwei.cockroach.executer.response.TaskErrorResponse;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.executer.response.filter.TaskResponseFilterBox;
+import com.zhangyingwei.cockroach.http.HttpProxy;
+import com.zhangyingwei.cockroach.http.ProxyTuple;
+import com.zhangyingwei.cockroach.http.client.HttpClientProxy;
 import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
@@ -20,13 +23,13 @@ public class TaskExecuter implements Runnable {
     private final TaskResponseFilterBox filterBox;
     private Logger logger = Logger.getLogger(TaskExecuter.class);
     private CockroachQueue queue;
-    private IHttpClient httpClient;
+    private HttpClientProxy httpClient;
     private IStore store;
     private String id;
     private boolean autoClose;
     private int sleep;
 
-    public TaskExecuter(CockroachQueue queue, IHttpClient httpClient, IStore store, ITaskErrorHandler errorHandlerBox, int sleep, boolean autoClose, TaskResponseFilterBox filterBox) {
+    public TaskExecuter(CockroachQueue queue, HttpClientProxy httpClient, IStore store, ITaskErrorHandler errorHandlerBox, int sleep, boolean autoClose, TaskResponseFilterBox filterBox) {
         this.queue = queue;
         this.httpClient = httpClient;
         this.store = store;
@@ -55,7 +58,7 @@ public class TaskExecuter implements Runnable {
                 }
                 TimeUnit.MILLISECONDS.sleep(sleep);
                 logger.info(this.getId()+" GET - "+task);
-                response = this.httpClient.proxy().doGet(task);
+                response = this.httpClient.doGet(task);
                 response.setQueue(this.queue);
                 if(response.isFalied()){
                     this.errorHandlerBox.error(new TaskErrorResponse(response));

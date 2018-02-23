@@ -20,23 +20,12 @@ import java.util.Map;
 public class HttpClientProxy implements IHttpClient {
     private Logger logger = Logger.getLogger(HttpClientProxy.class);
     private IHttpClient client;
-    private HttpProxy proxy;
     private StringGenerator cookieGenerator;
     private MapGenerator headerGenerator;
+    private HttpProxy proxy;
 
     public HttpClientProxy(IHttpClient client) {
         this.client = client;
-    }
-
-    @Override
-    public IHttpClient setProxy(HttpProxy proxy) {
-        this.proxy = proxy;
-        try {
-            this.client.setProxy(proxy);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-        return this;
     }
 
     @Override
@@ -44,7 +33,7 @@ public class HttpClientProxy implements IHttpClient {
         this.makeGenerators(task);
         String message = "";
         try {
-            return this.client.doGet(task);
+            return this.client.proxy(this.randomProxy()).doGet(task);
         } catch (Exception e) {
             message = e.getMessage();
             if (message != null &&
@@ -60,6 +49,34 @@ public class HttpClientProxy implements IHttpClient {
             logger.error(task + " - " + message);
         }
         return new TaskResponse().setTask(task).falied(message);
+    }
+
+    public HttpClientProxy setProxy(HttpProxy proxy) {
+        this.proxy = proxy;
+        return this;
+    }
+
+    /**
+     * 这个方法暂时用不到，没用
+     * @param proxy
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public HttpClientProxy proxy(ProxyTuple proxy) throws Exception {
+        this.client.proxy(proxy);
+        return this;
+    }
+
+    /**
+     * 随机一个代理
+     * @return
+     */
+    private ProxyTuple randomProxy() {
+        if(this.proxy != null && !this.proxy.isEmpty()) {
+            return this.proxy.randomProxy();
+        }
+        return null;
     }
 
     /**
@@ -81,18 +98,6 @@ public class HttpClientProxy implements IHttpClient {
     }
 
     @Override
-    public IHttpClient proxy() {
-        if(this.proxy != null && !this.proxy.isEmpty()){
-            try {
-                this.client.proxy();
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-        }
-        return this;
-    }
-
-    @Override
     public TaskResponse doPost(Task task) {
         try {
             return this.client.doPost(task);
@@ -103,7 +108,7 @@ public class HttpClientProxy implements IHttpClient {
     }
 
     @Override
-    public IHttpClient setCookie(String cookie) {
+    public HttpClientProxy setCookie(String cookie) {
         try {
             this.client.setCookie(cookie);
         } catch (Exception e) {
@@ -113,7 +118,7 @@ public class HttpClientProxy implements IHttpClient {
     }
 
     @Override
-    public IHttpClient setHttpHeader(Map<String, String> httpHeader) {
+    public HttpClientProxy setHttpHeader(Map<String, String> httpHeader) {
         try {
             this.client.setHttpHeader(httpHeader);
         } catch (Exception e) {

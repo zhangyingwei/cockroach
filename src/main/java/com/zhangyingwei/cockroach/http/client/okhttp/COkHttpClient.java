@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach.http.client.okhttp;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpParams;
+import com.zhangyingwei.cockroach.http.ProxyTuple;
 import com.zhangyingwei.cockroach.http.client.AbstractHttpClient;
 import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import net.sf.json.JSONObject;
@@ -45,17 +46,18 @@ public class COkHttpClient extends AbstractHttpClient {
     }
 
     @Override
-    public IHttpClient proxy() {
-        if (super.randomProxy()) {
+    public IHttpClient proxy(ProxyTuple proxy) {
+        super.currentProxy = proxy;
+        if (proxy != null) {
             this.clientBuilder = this.clientBuilder
                     .cookieJar(new CookieManager(this.cookie))
                     .proxy(
                             new Proxy(
                                     Proxy.Type.HTTP,
-                                    new InetSocketAddress(super.proxyTuple.ip(),super.proxyTuple.port())
+                                    new InetSocketAddress(super.currentProxy.ip(), super.currentProxy.port())
                             )
                     );
-            logger.info("代理:"+this.proxyTuple);
+            logger.info("代理:" + super.currentProxy);
         }
         return this;
     }
