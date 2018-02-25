@@ -7,7 +7,7 @@ import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.store.IStore;
-import com.zhangyingwei.cockroach.utils.NameUtils;
+import com.zhangyingwei.cockroach.common.utils.NameUtils;
 import org.apache.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 

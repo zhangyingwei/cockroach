@@ -2,10 +2,10 @@ package com.zhangyingwei.cockroach.executer.response;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
+import com.zhangyingwei.cockroach.exception.HttpException;
 import com.zhangyingwei.cockroach.executer.task.Task;
-import com.zhangyingwei.cockroach.http.exception.HttpException;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
-import com.zhangyingwei.cockroach.utils.CockroachUtils;
+import com.zhangyingwei.cockroach.common.utils.CockroachUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

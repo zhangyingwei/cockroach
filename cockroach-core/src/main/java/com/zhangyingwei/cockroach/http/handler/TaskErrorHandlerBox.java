@@ -1,7 +1,7 @@
 package com.zhangyingwei.cockroach.http.handler;
 
 import com.zhangyingwei.cockroach.executer.response.TaskErrorResponse;
-import com.zhangyingwei.cockroach.utils.interfaces.IBox;
+import com.zhangyingwei.cockroach.common.interfaces.IBox;
 
 import java.util.ArrayList;
 import java.util.List;

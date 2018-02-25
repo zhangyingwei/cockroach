@@ -2,7 +2,7 @@ package com.zhangyingwei.cockroach.executer.task;
 
 
 import com.zhangyingwei.cockroach.config.Constants;
-import com.zhangyingwei.cockroach.utils.NameUtils;
+import com.zhangyingwei.cockroach.common.utils.NameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 

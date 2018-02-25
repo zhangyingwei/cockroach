@@ -1,7 +1,7 @@
 package com.zhangyingwei.cockroach.executer.response.filter;
 
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
-import com.zhangyingwei.cockroach.utils.interfaces.IBox;
+import com.zhangyingwei.cockroach.common.interfaces.IBox;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;

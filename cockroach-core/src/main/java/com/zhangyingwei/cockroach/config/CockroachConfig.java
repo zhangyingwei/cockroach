@@ -8,7 +8,7 @@ import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.http.handler.DefaultTaskErrorHandler;
 import com.zhangyingwei.cockroach.http.handler.ITaskErrorHandler;
 import com.zhangyingwei.cockroach.store.IStore;
-import com.zhangyingwei.cockroach.utils.CockroachUtils;
+import com.zhangyingwei.cockroach.common.utils.CockroachUtils;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
