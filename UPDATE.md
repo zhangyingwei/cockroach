@@ -1,5 +1,6 @@
 # cockroach 爬虫 更新日志
 
+* 需改为模块
 * 修改了 httpclient 实现
 
 # 2018-02-10
