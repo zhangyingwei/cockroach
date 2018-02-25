@@ -3,6 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>cockroach-core</module>
+    </modules>
 
     <!-- push to maven rep -->
     <parent>
@@ -14,7 +17,7 @@
     <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
     <version>1.0.5.03-Beta</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <licenses>
         <license>
