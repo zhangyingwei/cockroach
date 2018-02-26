@@ -19,7 +19,7 @@
 
     <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
-    <version>1.0.5.03-Beta</version>
+    <version>1.0.5.04-Beta</version>
     <packaging>pom</packaging>
 
     <licenses>

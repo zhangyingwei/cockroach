@@ -17,5 +17,5 @@
 /.idea
 /target
 cockroach.iml
-*.imi
 
+*.iml
