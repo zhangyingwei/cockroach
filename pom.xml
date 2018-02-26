@@ -6,8 +6,8 @@
     <modules>
         <module>cockroach-core</module>
         <module>cockroach-annotation</module>
-        <module>cockroach-test</module>
-        <module>cockroach-samples</module>
+        <!--<module>cockroach-test</module>-->
+        <!--<module>cockroach-samples</module>-->
     </modules>
 
     <!-- push to maven rep -->
@@ -30,6 +30,10 @@
         </license>
     </licenses>
 
+    <description>
+        a spider by java!
+    </description>
+
     <scm>
         <url>https://github.com/zhangyingwei/cockroach</url>
         <connection>https://github.com/zhangyingwei/cockroach.git</connection>
@@ -38,7 +42,7 @@
 
     <developers>
         <developer>
-            <name>cockroach</name>
+            <name>zhangyw</name>
             <email>zhangyw001@gmail.com</email>
             <url>https://www.zhangyingwei.com</url>
         </developer>
@@ -101,7 +105,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
+                <version>2.10.4</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <doctitle>Cockroach</doctitle>
+                    <locale>en_US</locale>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

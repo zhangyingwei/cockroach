@@ -32,7 +32,7 @@ public class MeiZhiStore implements IStore {
             });
         } else {
             File file = new File("D://meizitu/"+UUID.randomUUID()+".png");
-            byte[] bytes = response.getContentBytes();
+            byte[] bytes = response.getContent().bytes();
             DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
             outputStream.write(bytes);
             outputStream.close();

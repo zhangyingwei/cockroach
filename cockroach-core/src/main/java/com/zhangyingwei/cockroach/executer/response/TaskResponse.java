@@ -61,6 +61,11 @@ public class TaskResponse implements ICockroachResponse {
         return this;
     }
 
+    public TaskResponse charset(String charset) {
+        this.content.charset(charset);
+        return this;
+    }
+
     public Elements select(String cssSelect) throws IOException {
         return this.content.toDocument().select(cssSelect);
     }

@@ -13,7 +13,7 @@ public class DescribeStore implements IStore {
         logger.info("==================desc=================");
         logger.info(String.format("task id: %s",response.getTask().getId()));
         logger.info(String.format("thread name: %s",Thread.currentThread().getName()));
-        logger.info(String.format("bytes: %d",response.getContentBytes().length));
+        logger.info(String.format("bytes: %d",response.getContent().bytes().length));
         logger.info("=======================================");
     }
 }

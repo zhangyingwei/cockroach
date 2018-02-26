@@ -22,7 +22,7 @@ public class TaskErrorResponse implements ICockroachResponse {
     }
 
     @Override
-    public String getContent() throws IOException {
+    public ResponseContent getContent() throws IOException {
         return this.response.getContent();
     }
 
