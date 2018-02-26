@@ -36,11 +36,6 @@
             <artifactId>JsoupXpath</artifactId>
             <version>0.3.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.zhangyingwei</groupId>
-            <artifactId>cockroach-common</artifactId>
-            <version>1.0.5.03-Beta</version>
-        </dependency>
     </dependencies>
 
 </project>

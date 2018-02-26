@@ -7,7 +7,7 @@
         <module>cockroach-core</module>
         <module>cockroach-annotation</module>
         <module>cockroach-test</module>
-        <module>cockroach-common</module>
+        <module>cockroach-samples</module>
     </modules>
 
     <!-- push to maven rep -->

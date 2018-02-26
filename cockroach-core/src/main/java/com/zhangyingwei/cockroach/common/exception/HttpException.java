@@ -1,4 +1,4 @@
-package com.zhangyingwei.cockroach.exception;
+package com.zhangyingwei.cockroach.common.exception;
 
 import com.zhangyingwei.cockroach.common.utils.CockroachUtils;
 
