@@ -21,56 +21,31 @@ import java.util.stream.Collectors;
 public class TaskResponse implements ICockroachResponse {
     private Map<String, List<String>> headers;
     private Task task;
-    private Document document;
     private JXDocument xdocument;
     private CockroachQueue queue;
-    private String content;
-    private byte[] contentBytes;
-    private String charset;
+    private ResponseContent content;
     private boolean failed = false;
 
     public TaskResponse(byte[] contentBytes, Map<String, List<String>> headers, int code, Task task) throws IOException, HttpException {
-        this.contentBytes = contentBytes;
+        this.content = new ResponseContent();
+        this.content.setContentBytes(contentBytes);
         this.task = task;
         this.headers = headers;
         if (!CockroachUtils.validHttpCode(code)) {
-            throw new HttpException(this.getContent(),code);
+            throw new HttpException(this.getContent().string(),code);
         }
     }
 
     public TaskResponse() {}
 
     @Override
-    public String getContent() throws IOException {
-        if (null == this.content) {
-            if (null != this.charset) {
-                this.content = new String(this.contentBytes, this.charset);
-            } else {
-                this.content = new String(this.contentBytes);
-            }
-        }
+    public ResponseContent getContent() throws IOException {
         return this.content;
-    }
-
-    public byte[] getContentBytes() throws IOException {
-        return this.contentBytes;
-    }
-
-    public Document getDocument() throws IOException {
-        this.document = this.parseDocument();
-        return document;
-    }
-
-    private Document parseDocument() throws IOException {
-        if(this.document == null){
-            this.document = Jsoup.parse(Optional.ofNullable(this.getContent()).orElse(""));
-        }
-        return this.document;
     }
 
     private JXDocument parseJXDocument() throws IOException {
         if (this.xdocument == null) {
-            Document doc = this.parseDocument();
+            Document doc = this.content.toDocument();
             this.xdocument = new JXDocument(doc);
         }
         return this.xdocument;
@@ -81,18 +56,13 @@ public class TaskResponse implements ICockroachResponse {
         return task;
     }
 
-    public TaskResponse charset(String charset) {
-        this.charset = charset;
-        return this;
-    }
-
     public TaskResponse setTask(Task task) {
         this.task = task;
         return this;
     }
 
     public Elements select(String cssSelect) throws IOException {
-        return this.parseDocument().select(cssSelect);
+        return this.content.toDocument().select(cssSelect);
     }
 
     public Elements xpath(String xpath) throws IOException, XpathSyntaxErrorException {
@@ -145,7 +115,7 @@ public class TaskResponse implements ICockroachResponse {
 
     public TaskResponse falied(String message) {
         this.failed = true;
-        this.content = message;
+        this.content.setContentBytes(message.getBytes());
         return this;
     }
 }

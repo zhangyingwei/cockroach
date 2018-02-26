@@ -13,7 +13,7 @@ import java.util.List;
  * @desc:
  */
 public interface ICockroachResponse {
-    String getContent() throws IOException;
+    ResponseContent getContent() throws IOException;
     Task getTask();
     boolean isGroup(String group);
     boolean isGroupStartWith(String groupPrefix);

@@ -15,12 +15,12 @@
         <dependency>
             <groupId>com.github.zhangyingwei</groupId>
             <artifactId>cockroach-core</artifactId>
-            <version>1.0.5.03-Beta</version>
+            <version>1.0.5.04-Beta</version>
         </dependency>
         <dependency>
             <groupId>com.github.zhangyingwei</groupId>
             <artifactId>cockroach-annotation</artifactId>
-            <version>1.0.5.03-Beta</version>
+            <version>1.0.5.04-Beta</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
