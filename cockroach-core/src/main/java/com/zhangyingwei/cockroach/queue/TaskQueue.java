@@ -15,13 +15,11 @@ import java.util.concurrent.PriorityBlockingQueue;
  * Created by zhangyw on 2017/8/10.
  * 消息队列
  */
-public class TaskQueue implements CockroachQueue {
+public class TaskQueue extends AbstractCockroachQueue {
     private Logger logger = Logger.getLogger(TaskQueue.class);
 
     private BlockingQueue<Task> queue;
     private BlockingQueue<Task> faildQueue;
-
-    private TaskFilterBox filterBox;
 
     public static TaskQueue of(){
         return TaskQueue.of(Constants.DEFAULT_QUEUE_CALACITY);
@@ -34,7 +32,6 @@ public class TaskQueue implements CockroachQueue {
     public TaskQueue(Integer calacity) {
         this.queue = new PriorityBlockingQueue<Task>(calacity,new TaskCompatator());
         this.faildQueue = new PriorityBlockingQueue<Task>();
-        this.filterBox = new TaskFilterBox();
         logger.info("create queue whith calacity " + calacity);
     }
 
@@ -73,18 +70,18 @@ public class TaskQueue implements CockroachQueue {
 
     @Override
     public void push(Task task) throws InterruptedException {
-        this.push(task, true);
+        this.queue.put(task);
+        logger.info(Thread.currentThread().getName() + " push task " + task);
     }
 
     @Override
     public void push(Task task, Boolean withFilter) throws InterruptedException {
         Boolean allow = true;
         if (withFilter) {
-            allow = filterBox.accept(task);
+            allow = super.filterBox.accept(task);
         }
         if (allow) {
-            this.queue.put(task);
-            logger.info(Thread.currentThread().getName() + " push task " + task);
+            this.push(task);
         }
     }
 
@@ -118,12 +115,6 @@ public class TaskQueue implements CockroachQueue {
     public void clear(){
         this.queue.clear();
         logger.info(Thread.currentThread().getName() + " clear queue");
-    }
-
-    @Override
-    public CockroachQueue filter(IQueueTaskFilter filter) throws Exception {
-        this.filterBox.add(filter);
-        return this;
     }
 
     @Override

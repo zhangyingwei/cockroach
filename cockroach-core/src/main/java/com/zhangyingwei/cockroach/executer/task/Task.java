@@ -20,7 +20,7 @@ public class Task implements Comparable<Task> {
     //每一个任务都会有一个分组，如果没有设置，默认为 default
     private String group = Constants.APP_TASK_GROUP_DEFAULT;
     private String url;
-    private Map<String, Object> params;
+    private Map<String, Object> params = new HashMap<String, Object>();;
     private List<String> selects;
     private Object extr;
     private Integer retry = Constants.DEFAULT_TASK_RETRY;
@@ -46,22 +46,23 @@ public class Task implements Comparable<Task> {
         this.params = params;
     }
 
+    public Task() {
+    }
+
     public String getGroup() {
         return group;
     }
 
-    public Task setGroup(String group) {
+    public void setGroup(String group) {
         this.group = group;
-        return this;
     }
 
     public String getId() {
         return id;
     }
 
-    public Task setId(String id) {
+    public void setId(String id) {
         this.id = id;
-        return this;
     }
 
     public String getUrl() {
@@ -79,9 +80,6 @@ public class Task implements Comparable<Task> {
     }
 
     public Map<String, Object> getParams() {
-        if (this.params == null) {
-            this.params = new HashMap<String, Object>();
-        }
         return params;
     }
 
@@ -103,9 +101,8 @@ public class Task implements Comparable<Task> {
         return extr;
     }
 
-    public Task setExtr(Object extr) {
+    public void setExtr(Object extr) {
         this.extr = extr;
-        return this;
     }
 
     @Override
@@ -185,5 +182,17 @@ public class Task implements Comparable<Task> {
     @Override
     public int compareTo(Task task) {
         return task.getDeep() - this.getDeep();
+    }
+
+    public void setSelects(List<String> selects) {
+        this.selects = selects;
+    }
+
+    public void setRetry(Integer retry) {
+        this.retry = retry;
+    }
+
+    public void setDeep(Integer deep) {
+        this.deep = deep;
     }
 }

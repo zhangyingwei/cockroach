@@ -10,6 +10,6 @@ import java.io.IOException;
 public class PrintStore implements IStore {
     @Override
     public void store(TaskResponse response) throws IOException {
-        System.out.println(response.getContent());
+        System.out.println(response.getContent().string());
     }
 }
