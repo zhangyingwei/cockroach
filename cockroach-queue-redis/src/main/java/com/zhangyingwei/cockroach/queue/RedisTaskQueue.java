@@ -27,14 +27,14 @@ public class RedisTaskQueue extends AbstractCockroachQueue {
 
     @Override
     public synchronized Task poll() throws Exception {
-        String json = this.jedis.rpop(this.key);
+        String json = this.jedis.lpop(this.key);
         JSONObject jsonObject = JSONObject.fromObject(json);
         return (Task) JSONObject.toBean(jsonObject, Task.class);
     }
 
     @Override
     public synchronized Task take() throws Exception {
-        List<String> json = this.jedis.brpop(Integer.MAX_VALUE,this.key);
+        List<String> json = this.jedis.blpop(Integer.MAX_VALUE,this.key);
         JSONObject jsonObject = JSONObject.fromObject(json.get(1));
         return (Task) JSONObject.toBean(jsonObject, Task.class);
     }
