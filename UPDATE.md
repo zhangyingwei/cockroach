@@ -1,5 +1,6 @@
 # cockroach 爬虫 更新日志
 
+* 增加了 queue-redis 模块
 * 需改为模块
 * 修改了 httpclient 实现
 
