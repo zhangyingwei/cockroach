@@ -388,10 +388,10 @@ public class DefaultQueueTaskFilterTest {
 日志：
 
 ```text
-[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] create queue whith calacity 2147483647
-[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-1', group='default', url='null'} is not accepted by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
-[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-2', group='default', url='http://baidu.com'}
-[INFO ][2018/01/19 15:33:00 ][com.zhangyingwei.cockroach.queue.TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accepted by class com.zhangyingwei.cockroach.queue.TestQueueTaskFilter
+[INFO ][2018/01/19 15:33:00 ][TaskQueue] create queue whith calacity 2147483647
+[INFO ][2018/01/19 15:33:00 ][TaskQueue] main Task{id='Task-1', group='default', url='null'} is not accepted by class TestQueueTaskFilter
+[INFO ][2018/01/19 15:33:00 ][TaskQueue] main push task Task{id='Task-2', group='default', url='http://baidu.com'}
+[INFO ][2018/01/19 15:33:00 ][TaskQueue] main Task{id='Task-3', group='default', url='https://google.com'} is not accepted by class TestQueueTaskFilter
 ```
 
 ## 结果过滤器
@@ -522,20 +522,20 @@ public class DefaultQueueTaskDeepTest {
 日志:
 
 ```text
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-1', group='default', url='1', params={}, selects=null, extr=null, retry=0, deep=1}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-2', group='default', url='2', params={}, selects=null, extr=null, retry=0, deep=3}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-3', group='default', url='3', params={}, selects=null, extr=null, retry=0, deep=5}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-4', group='default', url='4', params={}, selects=null, extr=null, retry=0, deep=2}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-5', group='default', url='5', params={}, selects=null, extr=null, retry=0, deep=4}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-6', group='default', url='6', params={}, selects=null, extr=null, retry=0, deep=1}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main push task Task{id='Task-7', group='default', url='7', params={}, selects=null, extr=null, retry=0, deep=1}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-3', group='default', url='3', params={}, selects=null, extr=null, retry=0, deep=5}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-5', group='default', url='5', params={}, selects=null, extr=null, retry=0, deep=4}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-2', group='default', url='2', params={}, selects=null, extr=null, retry=0, deep=3}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-4', group='default', url='4', params={}, selects=null, extr=null, retry=0, deep=2}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-1', group='default', url='1', params={}, selects=null, extr=null, retry=0, deep=1}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-6', group='default', url='6', params={}, selects=null, extr=null, retry=0, deep=1}
-[INFO ][2018/01/23 15:37:14 ][com.zhangyingwei.cockroach.queue.TaskQueue] main take task Task{id='Task-7', group='default', url='7', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-1', group='default', url='1', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-2', group='default', url='2', params={}, selects=null, extr=null, retry=0, deep=3}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-3', group='default', url='3', params={}, selects=null, extr=null, retry=0, deep=5}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-4', group='default', url='4', params={}, selects=null, extr=null, retry=0, deep=2}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-5', group='default', url='5', params={}, selects=null, extr=null, retry=0, deep=4}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-6', group='default', url='6', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main push task Task{id='Task-7', group='default', url='7', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-3', group='default', url='3', params={}, selects=null, extr=null, retry=0, deep=5}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-5', group='default', url='5', params={}, selects=null, extr=null, retry=0, deep=4}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-2', group='default', url='2', params={}, selects=null, extr=null, retry=0, deep=3}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-4', group='default', url='4', params={}, selects=null, extr=null, retry=0, deep=2}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-1', group='default', url='1', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-6', group='default', url='6', params={}, selects=null, extr=null, retry=0, deep=1}
+[INFO ][2018/01/23 15:37:14 ][TaskQueue] main take task Task{id='Task-7', group='default', url='7', params={}, selects=null, extr=null, retry=0, deep=1}
 ```
 
 通过实例可以看到，通过 addDeep(int deep) 方法可以控制 task 的优先级， deep 值越大优先级越高。但是在实际操作中设置 addDeep(int deep) 中的 deep 值通常是比较烦的，因为免不了会忘记上一个 deep 到底是多少。

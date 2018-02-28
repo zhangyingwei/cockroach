@@ -1,6 +1,11 @@
 # cockroach 爬虫 更新日志
 
+<<<<<<< HEAD
 * 新年快乐
+=======
+* 增加了 queue-redis 模块
+* 需改为模块
+>>>>>>> dev-modules
 * 修改了 httpclient 实现
 
 # 2018-02-10
