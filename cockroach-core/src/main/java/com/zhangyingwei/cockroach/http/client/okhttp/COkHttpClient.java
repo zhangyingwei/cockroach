@@ -29,7 +29,7 @@ public class COkHttpClient extends AbstractHttpClient {
     @Override
     public TaskResponse doGet(Task task) throws Exception {
         Request request = new Request.Builder()
-                .url(task.getUrl())
+                .url(task.realUrl())
                 .headers(Headers.of(HttpParams.headers(this.httpHeader)))
                 .get()
                 .build();

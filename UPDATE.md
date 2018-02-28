@@ -1,5 +1,7 @@
 # cockroach 爬虫 更新日志
 
+*修改了task 中 get url 编译 url 的 bug
+
 # 2018-02-28
 * 增加了 queue-redis 模块
 * 新年快乐

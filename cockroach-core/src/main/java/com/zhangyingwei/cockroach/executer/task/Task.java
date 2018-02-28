@@ -66,13 +66,7 @@ public class Task implements Comparable<Task> {
     }
 
     public String getUrl() {
-        if (this.getParams().isEmpty()) {
-            return url;
-        } else {
-            List<String> paramsList = this.getParams().entrySet().stream().map(entity -> String.format("%s=%s", entity.getKey(), entity.getValue())).collect(Collectors.toList());
-            String param = StringUtils.join(paramsList.toArray(), "&");
-            return String.format("%s?%s", url, param);
-        }
+        return this.url;
     }
 
     public void setUrl(String url) {
@@ -194,5 +188,15 @@ public class Task implements Comparable<Task> {
 
     public void setDeep(Integer deep) {
         this.deep = deep;
+    }
+
+    public String realUrl() {
+        if (this.getParams().isEmpty()) {
+            return url;
+        } else {
+            List<String> paramsList = this.getParams().entrySet().stream().map(entity -> String.format("%s=%s", entity.getKey(), entity.getValue())).collect(Collectors.toList());
+            String param = StringUtils.join(paramsList.toArray(), "&");
+            return String.format("%s?%s", url, param);
+        }
     }
 }
