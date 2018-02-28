@@ -1,10 +1,7 @@
 package com.zhangyingwei.cockroach.samples.douban.movie;
 
 import com.zhangyingwei.cockroach.CockroachApplication;
-import com.zhangyingwei.cockroach.annotation.AppName;
-import com.zhangyingwei.cockroach.annotation.EnableAutoConfiguration;
-import com.zhangyingwei.cockroach.annotation.Store;
-import com.zhangyingwei.cockroach.annotation.ThreadConfig;
+import com.zhangyingwei.cockroach.annotation.*;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
@@ -18,17 +15,18 @@ import java.util.Map;
  */
 @EnableAutoConfiguration
 @AppName("豆瓣电影")
-@ThreadConfig(num = 1,sleep = 500)
+@ThreadConfig(num = 1,sleep = 100)
 @Store(DMovieStore.class)
+@AutoClose(false)
 public class DMovieApplication {
     public static void main(String[] args) throws Exception {
         CockroachQueue queue = TaskQueue.of();
         Map<String, Object> params = new HashMap<String,Object>();
-        params.put("type", "movie");
-        params.put("tag", "热门");
-        params.put("page_limit", 50);
-        params.put("page_start", 0);
-        Task task = new Task("https://movie.douban.com/j/search_subjects", "douban.movie", params);
+        params.put("sort", "T");
+        params.put("range", "0,20");
+        params.put("tag", "");
+        params.put("start", 0);
+        Task task = new Task("https://movie.douban.com/j/new_search_subjects", "douban.movie", params);
         queue.push(task);
         CockroachApplication.run(DMovieApplication.class, queue);
     }

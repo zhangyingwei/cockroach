@@ -17,7 +17,7 @@ public class DMovieStore implements IStore {
     public void store(TaskResponse response) throws Exception {
         if (response.isGroup("douban.movie")) {
             JSONObject resJson = response.getContent().toJsonObject();
-            JSONArray subjects = resJson.getJSONArray("subjects");
+            JSONArray subjects = resJson.getJSONArray("data");
             for (Object subject : subjects) {
                 JSONObject movie = JSONObject.fromObject(subject);
                 Movie movieObj = new Movie();
@@ -25,6 +25,8 @@ public class DMovieStore implements IStore {
                 movieObj.setTitle(movie.getString("title"));
                 movieObj.setRate(movie.getString("rate"));
                 movieObj.setUrl(movie.getString("url"));
+                movieObj.setDirectors(movie.getJSONArray("directors"));
+                movieObj.setCasts(movie.getJSONArray("casts"));
                 System.out.println(movieObj);
             }
             if (subjects.size() > 0) {
@@ -32,8 +34,8 @@ public class DMovieStore implements IStore {
                 task.setUrl(response.getTask().getUrl());
                 task.setGroup(response.getTask().getGroup());
                 Map<String, Object> params = response.getTask().getParams();
-                Integer page_start = (Integer) params.get("page_start");
-                params.put("page_start", page_start + 50);
+                Integer page_start = (Integer) params.get("start");
+                params.put("start", page_start + 20);
                 task.setParams(params);
                 response.getQueue().push(task);
             }
