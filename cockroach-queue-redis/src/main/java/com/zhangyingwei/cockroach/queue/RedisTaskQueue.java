@@ -1,7 +1,6 @@
 package com.zhangyingwei.cockroach.queue;
 
 import com.zhangyingwei.cockroach.executer.task.Task;
-import com.zhangyingwei.cockroach.queue.filter.IQueueTaskFilter;
 import net.sf.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -13,16 +12,40 @@ import java.util.stream.Collectors;
  */
 public class RedisTaskQueue extends AbstractCockroachQueue {
     private String key;
-    private String faildKey;
+    private String failedKey;
     private Jedis jedis;
 
-    public RedisTaskQueue(String host, Integer port,String key) {
+    public RedisTaskQueue(String host, Integer port,String key,String failedKey) {
         this.key = key;
+        this.failedKey = failedKey;
         this.jedis = new Jedis(host, port);
     }
 
-    public static RedisTaskQueue of(String host, Integer port,String key){
-        return new RedisTaskQueue(host,port,key);
+    public RedisTaskQueue(String host, Integer port, String auth, String key,String failedKey) {
+        this.key = key;
+        this.failedKey = failedKey;
+        this.jedis = new Jedis(host, port);
+        this.jedis.auth(auth);
+    }
+
+    public RedisTaskQueue(String host, Integer port, String auth, Integer index, String key,String failedKey) {
+        this.key = key;
+        this.failedKey = failedKey;
+        this.jedis = new Jedis(host, port);
+        this.jedis.auth(auth);
+        this.jedis.select(index);
+    }
+
+    public static RedisTaskQueue of(String host, Integer port,String key,String failedKey){
+        return new RedisTaskQueue(host,port,key,failedKey);
+    }
+
+    public static RedisTaskQueue of(String host, Integer port,String auth,String key,String failedKey){
+        return new RedisTaskQueue(host, port, auth, key, failedKey);
+    }
+
+    public static RedisTaskQueue of(String host, Integer port,String auth,Integer index,String key,String failedKey){
+        return new RedisTaskQueue(host, port, auth, index, key, failedKey);
     }
 
     @Override
@@ -60,7 +83,7 @@ public class RedisTaskQueue extends AbstractCockroachQueue {
     @Override
     public void falied(Task task) throws Exception {
         JSONObject json = JSONObject.fromObject(task);
-        this.jedis.lpush(this.faildKey, json.toString());
+        this.jedis.lpush(this.failedKey, json.toString());
     }
 
     @Override
@@ -81,13 +104,13 @@ public class RedisTaskQueue extends AbstractCockroachQueue {
     @Override
     public void clear() throws Exception {
         this.jedis.del(this.key);
-        this.jedis.del(this.faildKey);
+        this.jedis.del(this.failedKey);
     }
 
     @Override
     public Boolean isEmpty() {
         long size = this.jedis.llen(this.key);
-        long faildSize = this.jedis.llen(this.faildKey);
+        long faildSize = this.jedis.llen(this.failedKey);
         return size + faildSize == 0;
     }
 }

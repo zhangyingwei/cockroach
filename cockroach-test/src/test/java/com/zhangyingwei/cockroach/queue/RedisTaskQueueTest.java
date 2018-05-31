@@ -18,18 +18,18 @@ import org.junit.Test;
 @AutoClose(false)
 @Store(DescribeStore.class)
 public class RedisTaskQueueTest {
-    private static CockroachQueue queue = RedisTaskQueue.of("172.30.154.75", 6379, "cockroach");
+    private static CockroachQueue queue = RedisTaskQueue.of("172.30.154.75", 6379, "cockroach","cockroach-error");
 
     public static void main(String[] args) throws Exception {
         CockroachApplication.run(RedisTaskQueueTest.class,queue);
     }
 
-//    @Test
+    @Test
     public void take() throws Exception {
         System.out.println(queue.take());
     }
 
-//    @Test
+    @Test
     public void push() throws Exception {
         queue.filter(new IQueueTaskFilter() {
             @Override

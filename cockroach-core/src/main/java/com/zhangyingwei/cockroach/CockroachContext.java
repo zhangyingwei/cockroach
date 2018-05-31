@@ -44,4 +44,13 @@ public class CockroachContext {
             logger.warn("the cockroach has already started");
         }
     }
+
+    /**
+     * 停止执行爬虫程序
+     * 但是队列中的任务不会丢，除非整个程序停止了
+     */
+    public void stop() {
+        this.executerManager.stop();
+        this.started = false;
+    }
 }

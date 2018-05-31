@@ -34,6 +34,7 @@ public class ExecuterManager {
     private CockroachConfig config;
     private Logger logger = Logger.getLogger(ExecuterManager.class);
     private List<IExecutersListener> executerListeners;
+    private List<TaskExecuter> executerList = new ArrayList<TaskExecuter>();
 
     public ExecuterManager(CockroachConfig config) {
         this.config = config;
@@ -61,6 +62,7 @@ public class ExecuterManager {
             );
             logger.info("new thread:" + executer.getId());
             service.execute(executer);
+            executerList.add(executer);
         }
         /**
          * 不可以再继续 提交新的任务 已经提交的任务不影响
@@ -78,6 +80,15 @@ public class ExecuterManager {
             }
         }
         this.executerListeners.forEach(IExecutersListener::onEnd);
+    }
+
+    /**
+     * 停车，我要下车
+     */
+    public void stop() {
+        this.executerList.forEach(executer -> {
+            executer.stop();
+        });
     }
 
     /**

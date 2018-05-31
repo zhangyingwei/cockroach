@@ -28,6 +28,7 @@ public class TaskExecuter implements Runnable {
     private String id;
     private boolean autoClose;
     private int sleep;
+    private boolean flag = true;
 
     public TaskExecuter(CockroachQueue queue, HttpClientProxy httpClient, IStore store, ITaskErrorHandler errorHandlerBox, int sleep, boolean autoClose, TaskResponseFilterBox filterBox) {
         this.queue = queue;
@@ -42,7 +43,6 @@ public class TaskExecuter implements Runnable {
 
     @Override
     public void run() {
-        boolean flag = true;
         loop:while (flag) {
             TaskResponse response = null;
             try {
@@ -72,6 +72,10 @@ public class TaskExecuter implements Runnable {
             }
         }
         logger.info(id+" : over");
+    }
+
+    public void stop() {
+        this.flag = false;
     }
 
     public String getId() {
