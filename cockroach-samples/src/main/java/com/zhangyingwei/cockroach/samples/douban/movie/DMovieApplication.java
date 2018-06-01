@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @EnableAutoConfiguration
 @AppName("豆瓣电影")
-@ThreadConfig(num = 1,sleep = 100)
+@ThreadConfig(num = 8,sleep = 100)
 @Store(DMovieStore.class)
 @AutoClose(false)
 public class DMovieApplication {

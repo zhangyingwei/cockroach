@@ -24,12 +24,12 @@ public class RedisTaskQueueTest {
         CockroachApplication.run(RedisTaskQueueTest.class,queue);
     }
 
-    @Test
+//    @Test
     public void take() throws Exception {
         System.out.println(queue.take());
     }
 
-    @Test
+//    @Test
     public void push() throws Exception {
         queue.filter(new IQueueTaskFilter() {
             @Override
@@ -44,7 +44,7 @@ public class RedisTaskQueueTest {
         queue.push(new Task("http://baidu.com"));
     }
 
-    @Test
+//    @Test
     public void test(){
         Task task = new Task("http://baidu.com");
         System.out.println(task);
