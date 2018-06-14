@@ -23,9 +23,9 @@ public class OsChinaStore implements IStore {
                 }
             });
         } else if (response.isGroup("oschina.blog.item")) {
-            Elements content = response.select(".blog-content");
-            String title = content.select(".title").text().replace("原 荐 ","");
-            String autor = content.select(".name").text();
+            Elements content = response.select(".article-detail");
+            String title = content.select(".header").text().replace("顶 原 荐","");
+            String autor = content.select("blog-meta > div:nth-child(1) > a").text();
             System.out.println(String.format("文章标题: %s  作者: %s",title,autor));
         }
     }
