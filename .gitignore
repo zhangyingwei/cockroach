@@ -13,6 +13,7 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
 
 /.idea
 /target

@@ -18,33 +18,33 @@ import org.junit.Test;
 @AutoClose(false)
 @Store(DescribeStore.class)
 public class RedisTaskQueueTest {
-    private static CockroachQueue queue = RedisTaskQueue.of("172.30.154.75", 6379, "cockroach","cockroach-error");
+//    private static CockroachQueue queue = RedisTaskQueue.of("172.30.154.75", 6379,"cockroach","cockroach-error");
 
     public static void main(String[] args) throws Exception {
-        CockroachApplication.run(RedisTaskQueueTest.class,queue);
+//        CockroachApplication.run(RedisTaskQueueTest.class,queue);
     }
 
 //    @Test
     public void take() throws Exception {
-        System.out.println(queue.take());
+//        System.out.println(queue.take());
     }
 
 //    @Test
     public void push() throws Exception {
-        queue.filter(new IQueueTaskFilter() {
-            @Override
-            public boolean accept(Task task) {
-                return task.getUrl().contains("zhangyingwei");
-            }
-        });
-        for (int i = 0; i < 100; i++) {
-            Task task = new Task("http://blog.zhangyingwei.com","zhangyingwei").retry(10).addDeep(20);
-            queue.push(task);
-        }
-        queue.push(new Task("http://baidu.com"));
+//        queue.filter(new IQueueTaskFilter() {
+//            @Override
+//            public boolean accept(Task task) {
+//                return task.getUrl().contains("zhangyingwei");
+//            }
+//        });
+//        for (int i = 0; i < 100; i++) {
+//            Task task = new Task("http://blog.zhangyingwei.com","zhangyingwei").retry(10).addDeep(20);
+//            queue.push(task);
+//        }
+//        queue.push(new Task("http://baidu.com"));
     }
 
-//    @Test
+    @Test
     public void test(){
         Task task = new Task("http://baidu.com");
         System.out.println(task);

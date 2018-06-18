@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cockroach</artifactId>
         <groupId>com.github.zhangyingwei</groupId>
-        <version>1.0.5.04-Beta</version>
+        <version>${global.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.github.zhangyingwei</groupId>
             <artifactId>cockroach-core</artifactId>
-            <version>1.0.5.04-Beta</version>
+            <version>1.0.6-Beta</version>
         </dependency>
     </dependencies>
 

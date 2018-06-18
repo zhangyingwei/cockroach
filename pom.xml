@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+
     <modules>
         <module>cockroach-core</module>
         <module>cockroach-annotation</module>
@@ -18,10 +18,14 @@
         <version>7</version>
     </parent>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
-    <version>1.0.5.04-Beta</version>
+    <version>${global.version}</version>
     <packaging>pom</packaging>
+    <name>cockroach</name>
+    <url>https://github.com/zhangyingwei/cockroach</url>
+    <description>又一个 java 爬虫</description>
 
     <licenses>
         <license>
@@ -33,13 +37,13 @@
 
     <scm>
         <url>https://github.com/zhangyingwei/cockroach</url>
-        <connection>https://github.com/zhangyingwei/cockroach.git</connection>
-        <developerConnection>https://www.zhangyingwei.com</developerConnection>
+        <connection>scm:git:https://github.com/zhangyingwei/cockroach.git</connection>
+        <developerConnection>scm:git:https://github.com/zhangyingwei/cockroach.git</developerConnection>
     </scm>
 
     <developers>
         <developer>
-            <name>cockroach</name>
+            <name>zhangyingwei</name>
             <email>zhangyw001@gmail.com</email>
             <url>https://www.zhangyingwei.com</url>
         </developer>
@@ -58,6 +62,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <additionalparam>-Xdoclint:none</additionalparam>
+        <global.version>1.0.7-Beta</global.version>
     </properties>
 
     <distributionManagement>
@@ -78,6 +83,7 @@
 
     <build>
         <plugins>
+            <!-- compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -86,6 +92,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!-- source -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -99,10 +106,15 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- docs -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9</version>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -111,6 +123,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
             </plugin>
         </plugins>
     </build>
