@@ -38,7 +38,7 @@ public class App {
 }
 ```
 
-这段代码的意思就是创建一个任务队列，然后在队列中加入一个任务，任务的内容是爬取网站`http:zhangyingwei.com`的首页内容 。
+这段代码的意思就是创建一个任务队列，然后在队列中加入一个任务，任务的内容是爬取网站`http://zhangyingwei.com`的首页内容 。
 
 直接 `run` 这个类，我们就可以得到爬取结果。对结果的处理在程序中是通过 [Store](/annotations?id=store) 类来处理的，如果不加以配置的话，就会使用默认的 `PrintStore` 来做最简单的打印处理。
 
