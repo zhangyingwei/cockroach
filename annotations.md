@@ -41,6 +41,7 @@ public class App{
 所以为了解决这个问题，产生了这个注解。这个注解在使用的过程中有两种使用方法：
 
 1. 直接将 `Cookie` 值配置在注解中。
+
 ```annotation
 @CookieConfig("这里是cookie的值")
 public class App{
@@ -50,14 +51,73 @@ public class App{
 这种情况下，所配置的 `Cookie` 的值会应用在所有的请求中。
 
 2. 使用 `Cookie` 生成器动态生成 `Cookie`
+
 很多时候我们在一个程序中爬取不同的任务，而这些任务不一定在同一个网站中，所以我们需要针对不同的地址匹配不同的 `Cookie`.所以就产生了 `Cookie` 生成器。
 `Cookie` 生成器在框架中叫 `CookieGenerator`，具体的介绍请看这里 [CookieGenerator]()
+```annotation
+@CookieConfig(cookieGenerator = MyCookieGenerator.class)
+public class App{
+  ...
+}
+```
+这么做有什么好处呢？ 就是我们可以应对不同的网址使用不同的 `Cookie` ，具体的实例可以看 [CookieGenerator]() 这一小节。
 
 ## EnableAutoConfiguration
 
+很多时候，我们非常懒。懒到几个注解都觉得烦。于是便有了这个注解。当我们应用这个注解的时候，程序会加载一些默认设置，会在一定程度上减轻我们的配置工作。
+
+尤其是对新手来说，往往不知道都需要配置什么。这个时候，使用这个注解就对了。
+
+实际上这个注解主要帮我么添加了四个基本配置
+
+* [AppName](/annotations?id=appname)
+* [AutoClose](/annotations?id=autoclose)
+* [TaskErrorHandlerConfig](/annotations?id=taskerrorhandlerconfig)
+* [ThreadConfig](/annotations?id=threadconfig)
+
 ## ExecutersListener
 
+有些时候，我们需要在程序启动或者结束的时候做一些事情。在应对这种情况的时候前辈们的经验告诉我，这个工种的名字一般叫 `Listener`。
+
+使用方法：
+
+```annotation
+@ExecutersListener(MyExecutersListener.class)
+public class App{
+  ...
+}
+```
+
+在 `Listener` 里边，我们提供了 `onStart` 与 `onEnd` 两个方法，具体的介绍请看 [ExecutersListener]() 小节
+
 ## HttpHeaderConfig
+
+跟 `Cookie` 类似，有些时候，在我们的请求中，需要对 Http 请求的请求头做一些个性化的配置，最常见的配置就是 `Referer` 与 `User-Agent`。
+
+同样我们也提供了两种配置方式。
+
+1. 直接将 `Header` 的值配置在注解中
+
+```annotation
+@HttpHeaderConfig({
+        "Referer=http://baidu.com",
+        "User-Agent=Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+})
+public class App{
+  ...
+}
+```
+
+2. 使用 `Header` 生成器
+
+```annotation
+@HttpHeaderConfig(headerGenerator = MyHeaderGenerator.class)
+public class App{
+  ...
+}
+```
+
+具体实例可以看 [HeaderGenerator]() 这一小节
 
 ## ProxyConfig
 
