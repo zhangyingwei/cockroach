@@ -108,18 +108,18 @@ public class App {
 
 在准备工作都完成之后，需要三步进行打包。
 
-1. 将项目克隆到本地
+* 将项目克隆到本地
 
 ```git
 git clone https://github.com/zhangyingwei/cockroach.git
 ``` 
-2. 切换目录到cockroach
+* 切换目录到cockroach
 
 ```shell
 cd cockroach
 ```
 
-3. 编译打包
+* 编译打包
 
 ```maven
 mvn clean install
