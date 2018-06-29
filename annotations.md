@@ -40,7 +40,7 @@ public class App{
 
 所以为了解决这个问题，产生了这个注解。这个注解在使用的过程中有两种使用方法：
 
-1. 直接将 `Cookie` 值配置在注解中。
+* 直接将 `Cookie` 值配置在注解中。
 
 ```annotation
 @CookieConfig("这里是cookie的值")
@@ -50,7 +50,7 @@ public class App{
 ```
 这种情况下，所配置的 `Cookie` 的值会应用在所有的请求中。
 
-2. 使用 `Cookie` 生成器动态生成 `Cookie`
+* 使用 `Cookie` 生成器动态生成 `Cookie`
 
 很多时候我们在一个程序中爬取不同的任务，而这些任务不一定在同一个网站中，所以我们需要针对不同的地址匹配不同的 `Cookie`.所以就产生了 `Cookie` 生成器。
 `Cookie` 生成器在框架中叫 `CookieGenerator`，具体的介绍请看这里 [CookieGenerator]()
@@ -96,7 +96,7 @@ public class App{
 
 同样我们也提供了两种配置方式。
 
-1. 直接将 `Header` 的值配置在注解中
+* 直接将 `Header` 的值配置在注解中
 
 ```annotation
 @HttpHeaderConfig({
@@ -108,7 +108,7 @@ public class App{
 }
 ```
 
-2. 使用 `Header` 生成器
+* 使用 `Header` 生成器
 
 ```annotation
 @HttpHeaderConfig(headerGenerator = MyHeaderGenerator.class)
