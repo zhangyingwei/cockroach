@@ -19,17 +19,42 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 ## 环境
 
-* java8 程序中用到了一些 java8 的新特性
+* java8
 * maven
+
+如果哪天我忘了更新文档了，一定要记住使用最新的版本，最新的版本，新的版本，版本，本。
+
+当然，如果我不是很懒的话，maven 中央仓库里会保持更新，但是不排除因为我懒或者推送到中央仓库的时候出了什么问题（当然，后者的可能性更大一些）。 那么你就需要自己打包代码。
+
+进行以下操作需要有几个，前提，我都默认为你已经搞定了。
+* 安装 jdk 并配置好了环境变量
+* 安装 git
+* 下载 maven 并配置好了环境变量
+好了既然你什么都准备好了，就可以执行以下几个步骤了。
+
+```text
+git clone https://github.com/zhangyingwei/cockroach.git
+cd cockroach
+mvn clean install
+```
+
+好了就是这么简答。
+
+然后再你的 pom.xml 文件中引入如下依赖。
 
 ```xml
 <dependency>
   <groupId>com.github.zhangyingwei</groupId>
-  <artifactId>cockroach</artifactId>
-  <version>LATEST</version>
+  <artifactId>cockroach-core</artifactId>
+  <version>1.0.6-Beta</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.zhangyingwei/cockroach-annotation -->
+<dependency>
+    <groupId>com.github.zhangyingwei</groupId>
+    <artifactId>cockroach-annotation</artifactId>
+    <version>1.0.6-Beta</version>
 </dependency>
 ```
-如果哪天我忘了更新文档了，一定要记住使用最新的版本，最新的版本，新的版本，版本，本。
 
 ---
 
@@ -39,7 +64,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 小巧主要体现在两个方面
 
-* 体积小 （打包之后整个 jar 包只有 70k 多一点，所以完全担得起小巧两个字）
+* 体积小 （打包之后整个核心jar 包只有 60k 多一点，所以完全担得起小巧两个字）
 * 开发代码量小（基于本框架开发一个爬虫需要的工作量可以说是非常小。这个在下边的文档中会有体现）
 
 ### 实例
