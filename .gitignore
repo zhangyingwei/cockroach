@@ -1,0 +1,6 @@
+/.history
+/.idea
+*.iml
+/target
+log4j.properties
+*.class
