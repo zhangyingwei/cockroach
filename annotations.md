@@ -128,10 +128,77 @@ public class App{
 
 ## ProxyConfig
 
+常见的反爬虫手段中，`IP封锁` 是最常见最有效的方式。而应对 `IP封锁` 无外乎两种办法，一种是采用分布式爬虫，另外一种就是采用`代理IP`。只要`代理IP池`足够大足够好，就可以很大程度的应对`IP封锁`。
+
+这里就是配置代理IP的地方。具体使用方法如下
+
+```annotation
+@ProxyConfig("100.100.100.100:8888,101.101.101.101:8000")
+public class App{
+  ...
+}
+```
+
+具体的代理策略请看 [HttpProxy]() 小节
+
 ## Store
+
+在整个框架中，`Store` 这部分可以说是最重要的几部分之一。主要是负责什么工作呢？ 这么说吧，`Store` 主要负责把爬取到的东西送给开发者。
+
+所以这个注解的主要作用是标注我们使用的结果处理类。使用方式如下
+
+```annotation
+@Store(MyStore.class)
+public class App{
+  ...
+}
+```
+
+具体结果处理示例详见 [Store](/config?id=store) 小节
+
 
 ## TaskErrorHandlerConfig
 
+在世界上，对成功的处理大部分是一个 200 状态码，但是对于错误的结果却往往千变万化。
+
+所以框架中专门提出一个单元来处理执行错误的任务。
+
+```annotation
+@TaskErrorHandlerConfig(MyTaskErrorHandler.class)
+public class App{
+  ...
+}
+```
+
+具体错误处理方式详看 [TaskErrorHandler]() 小节
+
 ## TaskResponseFiltersConfig
 
+Google 有一种很出门的算法叫 `Simhash`算法，其主要功能就是网页去重。
+
+在爬虫中，对结果去重是一项很重要的功能，这里我们使用 `filter` 来实现。这个注解就是为程序中注入 `filter` 而存在的。
+
+使用方法
+
+```annotation
+@TaskResponseFiltersConfig({
+  TaskResponseFilter1.class,
+  TaskResponseFilter2.class
+})
+public class App{
+  ...
+}
+```
+
 ## ThreadConfig
+
+在爬虫程序中，多线程工作是非常重要的一个功能。这个注解的主要功能是配置程序中的线程参数，主要包含工作的线程数、线程的睡眠时间.
+
+```annotation
+@ThreadConfig(num=10,sleep=2)
+public class App{
+  ...
+}
+```
+
+以上配置的意思为，创建10个工作线程，每个线程在任务完成之后睡眠 2 秒再进行下一项工作。

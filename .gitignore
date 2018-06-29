@@ -1,6 +1,6 @@
 /.history
 /.idea
 *.iml
-/target
+\target
 log4j.properties
 *.class
