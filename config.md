@@ -115,4 +115,4 @@ public class MyTaskResponseFilter implements ITaskResponseFilter {
 }
 ```
 
-这里 accept 方法返回值是一个 Boolean 类型，如果返回 true 则代表合法结果，如果返回 false 则代表非法结果。
+这里 `accept` 方法返回值是一个 `Boolean` 类型，如果返回 `true` 则代表合法结果，如果返回 `false` 则代表非法结果。
