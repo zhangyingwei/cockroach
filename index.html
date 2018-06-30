@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cockroach [ 又一个 java 爬虫 ]</title>
-    <link rel="icon" href="img/icon.png">
+    <link rel="icon" href="img/icon_32_32.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="description" content="Description">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -12,17 +12,24 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app">正在玩命加载中...</div>
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('sw.js')
+        }
+    </script>
     <script>
         window.$docsify = {
-            loadNavbar: true,
+            coverpage: true,
             loadSidebar: true,
-            subMaxLevel: 2,
-            name: 'cockroach',
+            auto2top: true,
+            subMaxLevel: 3,
+            name: 'Cockroach',
+            // logo: 'img/icon_100_100.png',
             repo: 'https://github.com/zhangyingwei/cockroach'
         }
     </script>
     <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 </body>
 
-</html
+</html>

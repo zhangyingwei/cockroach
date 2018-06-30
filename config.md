@@ -67,7 +67,9 @@ public class NoHeaderGenerator implements MapGenerator {
 
 同样，这里的 `task` 也是为了为不同的任务匹配不同的 `header` 而存在的。具体方法参考上边     `MyCookieGenerator`。
 
-## ExecutersListener
+## Listener
+
+### ExecutersListener
 
 很多程序中都存在生命周期的说法，这里有点类似生命周期。 `Listener` 定义了 `onStart` 与 `onEnd` 两个方法，分别在程序启动之前与程序停止之后执行。
 
@@ -85,7 +87,9 @@ public class MyExecutersListener implements IExecutersListener {
 }
 ```
 
-## TaskErrorHandler
+## Handler
+
+### TaskErrorHandler
 
 每一个执行失败的任务都需要给用户一个交代，所以我们创造了 `TaskErrorHandler` 来收集每一个执行失败的任务。
 
@@ -101,7 +105,9 @@ public class MyTaskErrorHandler implements ITaskErrorHandler {
 
 在这里我们可以选择对执行失败的任务重新提交或者做其他处理。以上代码就是对失败任务重新提交。
 
-## TaskResponseFilter
+## Filter
+
+### TaskResponseFilter
 
 Google 有一种很出门的算法叫 `Simhash`算法，其主要功能就是网页去重。这个接口就是为了对爬取结果进行去重。
 

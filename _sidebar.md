@@ -2,4 +2,5 @@
 * [快速开始](quickstart.md)
 * [注解介绍](annotations.md)
 * [配置介绍](config.md)
+* [关键类介绍](classes.md)
 * [如果不使用注解](noannotations.md)
