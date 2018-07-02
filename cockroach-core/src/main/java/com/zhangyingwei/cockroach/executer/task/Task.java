@@ -91,8 +91,8 @@ public class Task implements Comparable<Task> {
         return this;
     }
 
-    public Object getExtr() {
-        return extr;
+    public <T> T getExtr() {
+        return (T) extr;
     }
 
     public void setExtr(Object extr) {
