@@ -24,6 +24,8 @@
 
 ## 编写代码
 
+### 使用注解
+
 引入依赖之后，在项目中新建一个类，这里以 App.java 举例。
 
 ```App.java
@@ -39,6 +41,26 @@ public class App {
 ```
 
 这段代码的意思就是创建一个任务队列，然后在队列中加入一个任务，任务的内容是爬取网站`http://zhangyingwei.com`的首页内容 。
+
+### 不使用注解
+
+如果不想使用注解声明一个爬虫，或者现实情况不允许使用注解，那么请看：
+
+```java
+public class App {
+    public static void main(String[] args) throws Exception {
+        CockroachQueue queue = TaskQueue.of();
+        queue.push(new Task("http:zhangyingwei.com","group1").retry(100));
+        CockroachConfig config = new CockroachConfig().setAppName("一个最简单的爬虫");
+        CockroachContext context = new CockroachContext(config);
+        context.start(queue);
+    }
+}
+```
+
+实际上上边这段代码等价于 [使用注解](/quickstart?#使用注解) 声明一个爬虫，不过其优势在于我们的爬虫可以不强依赖 `main` 方法，而可以定义在程序中的任何一个地方。
+
+### 执行代码
 
 直接 `run` 这个类，我们就可以得到爬取结果。对结果的处理在程序中是通过 [Store](/annotations?id=store) 类来处理的，如果不加以配置的话，就会使用默认的 `PrintStore` 来做最简单的打印处理。
 
