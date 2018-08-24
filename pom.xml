@@ -62,7 +62,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <additionalparam>-Xdoclint:none</additionalparam>
-        <global.version>1.0.7-Beta</global.version>
+        <global.version>1.0.6-Beta</global.version>
     </properties>
 
     <distributionManagement>
