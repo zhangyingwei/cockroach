@@ -17,5 +17,7 @@
 
 /.idea
 /target
+\target
 cockroach.iml
 
+cockroach-annotation/target/apidocs/allclasses-frame.html
