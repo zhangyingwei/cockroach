@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.zhangyingwei</groupId>
     <artifactId>cockroach</artifactId>
-    <version>${global.version}</version>
+    <version>1.0.6-Beta</version>
     <packaging>pom</packaging>
     <name>cockroach</name>
     <url>https://github.com/zhangyingwei/cockroach</url>
@@ -62,7 +62,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <additionalparam>-Xdoclint:none</additionalparam>
-        <global.version>1.0.6-Beta</global.version>
     </properties>
 
     <distributionManagement>

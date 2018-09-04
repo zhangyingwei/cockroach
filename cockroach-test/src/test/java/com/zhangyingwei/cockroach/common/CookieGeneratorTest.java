@@ -2,6 +2,7 @@ package com.zhangyingwei.cockroach.common;
 
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
 import com.zhangyingwei.cockroach.executer.task.Task;
+import org.junit.Test;
 
 import java.util.UUID;
 
@@ -16,4 +17,7 @@ public class CookieGeneratorTest implements StringGenerator {
         System.out.println(cookie);
         return cookie;
     }
+
+    @Test
+    public void test() {}
 }

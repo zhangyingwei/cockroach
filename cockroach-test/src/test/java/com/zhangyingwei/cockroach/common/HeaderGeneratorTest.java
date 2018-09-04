@@ -3,6 +3,7 @@ package com.zhangyingwei.cockroach.common;
 
 import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.executer.task.Task;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,4 +23,6 @@ public class HeaderGeneratorTest implements MapGenerator {
             return headers;
         }
     }
+    @Test
+    public void test() {}
 }

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cockroach</artifactId>
         <groupId>com.github.zhangyingwei</groupId>
-        <version>${global.version}</version>
+        <version>1.0.6-Beta</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
