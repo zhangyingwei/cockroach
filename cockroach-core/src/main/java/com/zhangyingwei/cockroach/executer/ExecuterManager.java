@@ -72,14 +72,20 @@ public class ExecuterManager {
         /**
          * 每 5 秒检测是否全部线程执行完毕
          */
-        while (true) {
-            TimeUnit.SECONDS.sleep(5);
-            if (service.isTerminated()) {
-                logger.info("任务已经全部执行完毕");
-                break;
+        new Thread(() -> {
+            try {
+                while (true) {
+                    TimeUnit.SECONDS.sleep(5);
+                    if (service.isTerminated()) {
+                        logger.info("任务已经全部执行完毕");
+                        this.executerListeners.forEach(IExecutersListener::onEnd);
+                        break;
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-        this.executerListeners.forEach(IExecutersListener::onEnd);
+        }).start();
     }
 
     /**

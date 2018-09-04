@@ -1,8 +1,10 @@
 package com.zhangyingwei.cockroach;
 
+import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
+import com.zhangyingwei.cockroach.store.PrintStore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -17,7 +19,15 @@ public class CockroachContextGithubIssueTest {
     @Test
     public void test(){}
     public static final CockroachQueue queue = TaskQueue.of();
+
     public static void main(String[] args) throws Exception {
+        CockroachConfig cockroachConfig = new CockroachConfig()
+                .setAppName("豆瓣电影")
+                .setAutoClose(false)
+                .setThread(3, 2)
+                .setStore(PrintStore.class);
+        CockroachContext cockroachContext = new CockroachContext(cockroachConfig);
+        cockroachContext.start(queue);
         System.err.println("1111111111111");//下面的代码都不执行
         Map<String, Object> params = new HashMap<String,Object>();
         params.put("sort", "T");
