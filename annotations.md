@@ -53,14 +53,14 @@ public class App{
 * 使用 `Cookie` 生成器动态生成 `Cookie`
 
 很多时候我们在一个程序中爬取不同的任务，而这些任务不一定在同一个网站中，所以我们需要针对不同的地址匹配不同的 `Cookie`.所以就产生了 `Cookie` 生成器。
-`Cookie` 生成器在框架中叫 `CookieGenerator`，具体的介绍请看这里 [CookieGenerator]()
+`Cookie` 生成器在框架中叫 `CookieGenerator`，具体的介绍请看这里 [CookieGenerator](classes?id=cookie-生成器)
 ```annotation
 @CookieConfig(cookieGenerator = MyCookieGenerator.class)
 public class App{
   ...
 }
 ```
-这么做有什么好处呢？ 就是我们可以应对不同的网址使用不同的 `Cookie` ，具体的实例可以看 [CookieGenerator]() 这一小节。
+这么做有什么好处呢？ 就是我们可以应对不同的网址使用不同的 `Cookie` ，具体的实例可以看 [CookieGenerator](classes?id=cookie-生成器) 这一小节。
 
 ## EnableAutoConfiguration
 

@@ -182,3 +182,74 @@ public class MyStore implements IStore {
 ```
 
 可以看到在 `TaskResponse` 中提供了 `isGroup` 方法来判断本次所执行的任务的类别。同时程序中还提供了 `isGroupStartWith(String prefix)` 方法来判断本地所执行任务的类别。
+
+## 生成器
+
+俗话说的好：
+
+> 道高一尺魔高一丈，上有政策下有对策。
+
+有些程序为了防止爬虫，特意在 cookie 与 header 中做了手脚。我们需要在请求中构造相应的 cookie 与 header 内容并携带，才能绕过这类反扒手段。
+
+在程序中我们可以定义生成器来应对这类场景。
+
+### Cookie 生成器
+
+```java
+@EnableAutoConfiguration
+@AppName("hello spider")
+@Store(TestStore.class)
+@CookieConfig(cookieGenerator = CookieGeneratorTest.class)
+public class GeneratorTest {
+    public static void main(String[] args) throws Exception {
+        CockroachQueue queue = TaskQueue.of();
+        queue.push(new Task("url"));
+        CockroachApplication.run(GeneratorTest.class,queue);
+    }
+}
+```
+
+> CookieGeneratorTest.java
+
+```java
+public class CookieGeneratorTest implements StringGenerator {
+    @Override
+    public String get(Task task) {
+        // 这里可以通过 task 中的 group 对不同的网站返回不同的 cookie
+        String cookie = "v="+ UUID.randomUUID().toString();
+        return cookie;
+    }
+}
+```
+
+
+### Header 生成器
+
+```java
+@EnableAutoConfiguration
+@AppName("hello spider")
+@Store(TestStore.class)
+@HttpHeaderConfig(headerGenerator = HeaderGeneratorTest.class)
+public class GeneratorTest {
+    public static void main(String[] args) throws Exception {
+        CockroachQueue queue = TaskQueue.of();
+        queue.push(new Task("url"));
+        CockroachApplication.run(GeneratorTest.class,queue);
+    }
+}
+```
+
+> HeaderGeneratorTest.java
+
+```java
+public class HeaderGeneratorTest implements MapGenerator {
+    private Map headers = new HashMap();
+    @Override
+    public Map get(Task task) {
+        headers.clear();
+        // 这里可以通过 task 中的 group 对不同的网站返回不同的 header
+        headers.put("content-type", "text/json; charset=utf-8");
+        return headers;
+    }
+}
+```
