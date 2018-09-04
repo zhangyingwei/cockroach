@@ -4,11 +4,14 @@ import com.zhangyingwei.cockroach.config.CockroachConfig;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.queue.TaskQueue;
 import com.zhangyingwei.cockroach.store.SelecterTestStore;
+import org.junit.Test;
 
 /**
  * Created by zhangyw on 2017/8/10.
  */
 public class CockroachContextTest {
+    @Test
+    public void test() {}
     public static void main(String[] args) throws Exception {
         CockroachConfig config = new CockroachConfig()
                 .setAppName("haha")
