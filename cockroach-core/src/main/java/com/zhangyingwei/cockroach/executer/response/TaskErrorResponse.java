@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer.response;
 
 import com.zhangyingwei.cockroach.executer.task.Task;
+import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class TaskErrorResponse implements ICockroachResponse {
     private CockroachQueue queue;
     private String charset;
     private TaskResponse response;
+    private IHttpClient httpClient;
 
     public TaskErrorResponse(TaskResponse response) throws IOException {
         this.response = response;
@@ -59,5 +61,9 @@ public class TaskErrorResponse implements ICockroachResponse {
     @Override
     public List<String> header(String key) {
         return this.response.header(key);
+    }
+
+    public TaskResponse response(){
+        return this.response;
     }
 }

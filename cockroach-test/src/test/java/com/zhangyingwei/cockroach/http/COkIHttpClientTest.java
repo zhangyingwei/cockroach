@@ -13,7 +13,7 @@ public class COkIHttpClientTest {
     @Test
     public void doGet() throws Exception {
         COkHttpClient client = new COkHttpClient();
-        TaskResponse resp = client.doGet(new Task("https://luolei.org"));
+        TaskResponse resp = (TaskResponse) client.doGet(new Task("https://luolei.org"));
         Assert.assertNotNull(resp.select("a"));
     }
 }

@@ -12,6 +12,8 @@ import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.store.IStore;
 import com.zhangyingwei.cockroach.common.utils.NameUtils;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,17 +60,20 @@ public class TaskExecuter implements Runnable {
                 }
                 TimeUnit.MILLISECONDS.sleep(sleep);
                 logger.info(this.getId()+" GET - "+task);
-                response = this.httpClient.doGet(task);
+                response = (TaskResponse) this.httpClient.doGet(task);
                 response.setQueue(this.queue);
-                if(response.isFalied()){
-                    this.errorHandlerBox.error(new TaskErrorResponse(response));
-                }else{
-                    if (this.filterBox.accept(response)) {
-                        this.store.store(response);
-                    }
-                }
             } catch (Exception e) {
                 logger.error(this.getId()+" - "+ e.getLocalizedMessage());
+            }finally {
+                try {
+                    if(response.isFalied()){
+                        this.errorHandlerBox.error(new TaskErrorResponse(response));
+                    }else{
+                        if (this.filterBox.accept(response)) {
+                            this.store.store(response);
+                        }
+                    }
+                } catch (Exception e) {}
             }
         }
         logger.info(id+" : over");

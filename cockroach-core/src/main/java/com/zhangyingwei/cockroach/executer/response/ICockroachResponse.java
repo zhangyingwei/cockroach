@@ -1,6 +1,7 @@
 package com.zhangyingwei.cockroach.executer.response;
 
 import com.zhangyingwei.cockroach.executer.task.Task;
+import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 
 import java.io.IOException;

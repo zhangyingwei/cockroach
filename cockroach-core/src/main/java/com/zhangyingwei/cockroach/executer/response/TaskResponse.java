@@ -4,9 +4,9 @@ import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
 import com.zhangyingwei.cockroach.common.exception.HttpException;
 import com.zhangyingwei.cockroach.executer.task.Task;
+import com.zhangyingwei.cockroach.http.client.IHttpClient;
 import com.zhangyingwei.cockroach.queue.CockroachQueue;
 import com.zhangyingwei.cockroach.common.utils.CockroachUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,6 +25,7 @@ public class TaskResponse implements ICockroachResponse {
     private CockroachQueue queue;
     private ResponseContent content;
     private boolean failed = false;
+    private IHttpClient httpClient;
 
     public TaskResponse(byte[] contentBytes, Map<String, List<String>> headers, int code, Task task) throws IOException, HttpException {
         this.content = new ResponseContent();
@@ -36,7 +37,9 @@ public class TaskResponse implements ICockroachResponse {
         }
     }
 
-    public TaskResponse() {}
+    public TaskResponse() {
+        this.content = new ResponseContent();
+    }
 
     @Override
     public ResponseContent getContent() throws IOException {
@@ -121,6 +124,15 @@ public class TaskResponse implements ICockroachResponse {
     public TaskResponse falied(String message) {
         this.failed = true;
         this.content.setContentBytes(message.getBytes());
+        return this;
+    }
+
+    public IHttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    public TaskResponse setHttpClient(IHttpClient httpClient) {
+        this.httpClient = httpClient;
         return this;
     }
 }

@@ -4,6 +4,7 @@ import com.zhangyingwei.cockroach.common.generators.MapGenerator;
 import com.zhangyingwei.cockroach.common.generators.NoCookieGenerator;
 import com.zhangyingwei.cockroach.common.generators.NoHeaderGenerator;
 import com.zhangyingwei.cockroach.common.generators.StringGenerator;
+import com.zhangyingwei.cockroach.executer.response.ICockroachResponse;
 import com.zhangyingwei.cockroach.executer.task.Task;
 import com.zhangyingwei.cockroach.executer.response.TaskResponse;
 import com.zhangyingwei.cockroach.http.HttpProxy;
@@ -32,28 +33,24 @@ public class HttpClientProxy implements IHttpClient {
     public TaskResponse doGet(Task task) {
         this.makeGenerators(task);
         String message = "";
+        TaskResponse response = null;
         try {
-            return this.client.proxy(this.randomProxy()).doGet(task);
+            response = this.client.proxy(this.randomProxy()).doGet(task);
         } catch (Exception e) {
             message = e.getMessage();
-            if (message != null &&
-                    (
-                            message.toLowerCase().contains("timeout")
-                                    || message.toLowerCase().contains("time out")
-                                    || message.toLowerCase().contains("connect: 403")
-                    )) {
-                if (this.proxy != null && !this.proxy.isEmpty()) {
-                    this.proxy.disable(this.getCurrentProxyTuple());
-                }
-            }
             logger.error(task + " - " + message);
+            response = new TaskResponse().setTask(task).falied(message);
         }
-        return new TaskResponse().setTask(task).falied(message);
+        return response.setHttpClient(this);
     }
 
     public HttpClientProxy setProxy(HttpProxy proxy) {
         this.proxy = proxy;
         return this;
+    }
+
+    public HttpProxy getProxy(){
+        return this.proxy;
     }
 
     /**
