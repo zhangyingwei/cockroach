@@ -7,6 +7,9 @@
 
 ![](http://util.zhangyingwei.com//cockroach/1/carbon.png)
 
+重构了
+[cockroach2](https://github.com/zhangyingwei/cockroach2)
+
 ## 简介
 
 cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记，导致编码的过程中因为单词的拼写问题耽误了好长时间。
