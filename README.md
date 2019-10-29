@@ -18,7 +18,7 @@ cockroach[小强] 当时不知道为啥选了这么个名字，又长又难记�
 
 一个小巧、灵活、健壮的爬虫框架，暂且叫做框架吧。
 
-简单到什么程度呢，几句话就可以创建一个爬虫。
+简单到什么程度呢，几句话就可以创建一个内容（pa）获取（chong）程序。
 
 ### 依赖部分
 
@@ -48,8 +48,8 @@ public class CockroachApplicationTest {
     }
 }
 ```
-没错，就是这么简单。这个爬虫就是爬取 `http://blog.zhangyingwei.com` 这个页面的内容并将结果打印出来。
-在爬虫结果处理这个问题上，程序中默认使用 PringStore 这个类将所有结果打印出来。
+没错，就是这么简单。这个内容（pa）获取（chong）程序就是获（pa）取 `http://blog.zhangyingwei.com` 这个页面的内容并将结果打印出来。
+在结果处理这个问题上，程序中默认使用 PringStore 这个类将所有结果打印出来。
 
 ## scala & kotlin
 
